@@ -27,19 +27,27 @@ func (c *mockHTTPClient) Do(request *http.Request) (*http.Response, error) {
 }
 
 func TestRequestHasCorrectHeaders(t *testing.T) {
-	client := NewClient("project-id", "api-key")
+	client := NewClient("project-id", "api-key", "test-application/0.0.1")
 
 	request, err := client.newRequest(context.Background(), "GET", "/", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "application/json", request.Header.Get("Content-Type"), "header Content-Type is correct")
-	assert.Equal(t, "glesys-go/1.0.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
+	assert.Equal(t, "test-application/0.0.1 glesys-go/2.0.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
 
 	assert.NotEmpty(t, request.Header.Get("Authorization"), "header Authorization is not empty")
 }
 
+func TestEmptyUserAgent(t *testing.T) {
+	client := NewClient("project-id", "api-key", "")
+
+	request, err := client.newRequest(context.Background(), "GET", "/", nil)
+	assert.NoError(t, err)
+	assert.Equal(t, "glesys-go/2.0.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
+}
+
 func TestGetResponseErrorMessage(t *testing.T) {
-	client := NewClient("project-id", "api-key")
+	client := NewClient("project-id", "api-key", "test-application/0.0.1")
 
 	json := `{ "response": {"status": { "code": 400, "text": "Unauthorized" } } }`
 	response := http.Response{

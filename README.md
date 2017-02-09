@@ -24,7 +24,7 @@ up visit https://customer.glesys.com to create an API key for your Project.
 #### Set up a Client
 
 ```go
-client := glesys.NewClient("CL12345", "your-api-key")
+client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 ```
 
 #### Create a Server
@@ -40,6 +40,12 @@ server, err := client.Servers.Create(context.Background(), glesys.CreateServerPa
 // List all Servers
 servers, err := client.Servers.List(context.Background())
 ```
+
+#### User agent
+
+To be able to monitor usage and help track down issues, we encourage you to
+provide a user agent string identifying your application or library. Recommended
+syntax is `my-library/version` or `www.example.com`.
 
 #### Context
 
@@ -59,7 +65,7 @@ https://godoc.org/github.com/glesys/glesys-go.
 1. Fork the repo.
 2. Make sure to run the tests to verify that you're starting with a clean slate.
 3. Add a test for your change, make sure it fails. Refactoring existing code or
-   improving documenation does not require new tests.
+   improving documentation does not require new tests.
 4. Make the changes and ensure the test pass.
 5. Commit your changes, push to your fork and submit a Pull Request.
 
