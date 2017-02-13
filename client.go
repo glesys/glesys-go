@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+const version = "2.0.0"
+
 type httpClientInterface interface {
 	Do(*http.Request) (*http.Response, error)
 }
@@ -26,15 +28,15 @@ type Client struct {
 	baseURL    *url.URL
 	httpClient httpClientInterface
 	project    string
+	userAgent  string
 
 	IPs     *IPService
 	Servers *ServerService
-	Version string
 }
 
 // NewClient creates a new Client for interacting with the GleSYS API. This is
 // the main entrypoint for API interactions.
-func NewClient(project, apiKey string) *Client {
+func NewClient(project, apiKey, userAgent string) *Client {
 	baseURL, _ := url.Parse("https://api.glesys.com")
 
 	c := &Client{
@@ -42,7 +44,7 @@ func NewClient(project, apiKey string) *Client {
 		baseURL:    baseURL,
 		httpClient: http.DefaultClient,
 		project:    project,
-		Version:    "1.0.0",
+		userAgent:  userAgent,
 	}
 
 	c.IPs = &IPService{client: c}
@@ -91,9 +93,11 @@ func (c *Client) newRequest(ctx context.Context, method, path string, params int
 		return nil, err
 	}
 
+	userAgent := strings.TrimSpace(fmt.Sprintf("%s glesys-go/%s", c.userAgent, version))
+
 	request = request.WithContext(ctx)
 	request.Header.Set("Content-Type", "application/json")
-	request.Header.Set("User-Agent", fmt.Sprintf("glesys-go/%s", c.Version))
+	request.Header.Set("User-Agent", userAgent)
 	request.SetBasicAuth(c.project, c.apiKey)
 
 	return request, nil

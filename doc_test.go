@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleIPService_Available() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	ips, _ := client.IPs.Available(context.Background(), glesys.AvailableIPsParams{
 		DataCenter: "Falkenberg",
@@ -22,13 +22,13 @@ func ExampleIPService_Available() {
 }
 
 func ExampleIPService_Release() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	client.IPs.Release(context.Background(), "1.2.3.4")
 }
 
 func ExampleIPService_Reserve() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	ip, _ := client.IPs.Reserve(context.Background(), "1.2.3.4")
 
@@ -36,7 +36,7 @@ func ExampleIPService_Reserve() {
 }
 
 func ExampleIPService_Reserved() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	ips, _ := client.IPs.Reserved(context.Background())
 
@@ -46,7 +46,7 @@ func ExampleIPService_Reserved() {
 }
 
 func ExampleServerService_Create() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	server, _ := client.Servers.Create(context.Background(), glesys.CreateServerParams{
 		Bandwidth:    100,
@@ -78,7 +78,7 @@ func ExampleServerService_Create() {
 }
 
 func ExampleServerService_Destroy() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	client.Servers.Destroy(context.Background(), "vz12345", glesys.DestroyServerParams{
 		KeepIP: true, // KeepIP defaults to false
@@ -86,7 +86,7 @@ func ExampleServerService_Destroy() {
 }
 
 func ExampleServerService_Details() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	server, _ := client.Servers.Details(context.Background(), "vz12345")
 
@@ -94,7 +94,7 @@ func ExampleServerService_Details() {
 }
 
 func ExampleServerService_List() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	servers, _ := client.Servers.List(context.Background())
 
@@ -104,13 +104,13 @@ func ExampleServerService_List() {
 }
 
 func ExampleServerService_Start() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	client.Servers.Start(context.Background(), "vz12345")
 }
 
 func ExampleServerService_Stop() {
-	client := glesys.NewClient("CL12345", "your-api-key")
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	client.Servers.Stop(context.Background(), "vz12345", glesys.StopServerParams{
 		Type: "reboot", // Type "soft", "hard" and "reboot" available
