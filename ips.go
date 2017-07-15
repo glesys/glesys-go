@@ -10,6 +10,7 @@ type IPService struct {
 // IP represents an IP address
 type IP struct {
 	Address string `json:"ipaddress"`
+	Version int    `json:"version"`
 }
 
 // AvailableIPsParams is used to filter results when listing available IP addresses

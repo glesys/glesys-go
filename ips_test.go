@@ -19,7 +19,8 @@ func TestIPsAvailable(t *testing.T) {
 }
 
 func TestIPsReserved(t *testing.T) {
-	c := &mockClient{body: `{ "response": { "iplist": [{ "ipaddress": "127.0.0.1" }] } }`}
+	c := &mockClient{body: `{ "response": { "iplist": [{ "ipaddress": "127.0.0.1", "version": 4 },
+		{ "ipaddress": "2001:db8::1", "version": 6 }] } }`}
 	s := IPService{client: c}
 
 	ips, _ := s.Reserved(context.Background())
@@ -27,6 +28,9 @@ func TestIPsReserved(t *testing.T) {
 	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
 	assert.Equal(t, "ip/listown", c.lastPath, "path used is correct")
 	assert.Equal(t, "127.0.0.1", (*ips)[0].Address, "one ip was returned")
+	assert.Equal(t, 4, (*ips)[0].Version, "IPv4 address")
+	assert.Equal(t, "2001:db8::1", (*ips)[1].Address, "one ip was returned")
+	assert.Equal(t, 6, (*ips)[1].Version, "IPv6 address")
 }
 
 func TestIPsReserve(t *testing.T) {
