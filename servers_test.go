@@ -80,7 +80,11 @@ func TestServersDestroy(t *testing.T) {
 }
 
 func TestServersDetails(t *testing.T) {
-	c := &mockClient{body: `{ "response": { "server": { "hostname": "my-server-123" } } }`}
+	c := &mockClient{body: `{ "response": { "server": { "hostname": "my-server-123",
+		"bandwidth": 100,
+		"description": "MyServer",
+		"templatename": "Debian 8 64-bit"
+		} } }`}
 	s := ServerService{client: c}
 
 	server, _ := s.Details(context.Background(), "vz123456")
@@ -88,6 +92,9 @@ func TestServersDetails(t *testing.T) {
 	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/details/serverid/vz123456/includestate/yes", c.lastPath, "path used is correct")
 	assert.Equal(t, "my-server-123", server.Hostname, "server Hostname is correct")
+	assert.Equal(t, 100, server.Bandwidth, "server bandwidth is correct")
+	assert.Equal(t, "MyServer", server.Description, "server Description is correct")
+	assert.Equal(t, "Debian 8 64-bit", server.Template, "server Template is correct")
 }
 
 func TestServersList(t *testing.T) {
