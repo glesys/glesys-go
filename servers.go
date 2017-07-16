@@ -68,6 +68,15 @@ type CreateServerParams struct {
 	Template     string `json:"templatename"`
 }
 
+type EditServerParams struct {
+	Bandwidth   int    `json:"bandwidth,omitempty"`
+	CPU         int    `json:"cpucores,omitempty"`
+	Description string `json:"description,omitempty"`
+	Hostname    string `json:"hostname,omitempty"`
+	Memory      int    `json:"memorysize,omitempty"`
+	Storage     int    `json:"disksize,omitempty"`
+}
+
 // WithDefaults populates the parameters with default values. Existing
 // parameters will not be overwritten.
 func (p CreateServerParams) WithDefaults() CreateServerParams {
@@ -125,6 +134,20 @@ func (s *ServerService) Details(context context.Context, serverID string) (*Serv
 		}
 	}{}
 	err := s.client.get(context, fmt.Sprintf("server/details/serverid/%s/includestate/yes", serverID), &data)
+	return &data.Response.Server, err
+}
+
+// Edit modifies a server
+func (s *ServerService) Edit(context context.Context, serverID string, params EditServerParams) (*ServerDetails, error) {
+	data := struct {
+		Response struct {
+			Server ServerDetails
+		}
+	}{}
+	err := s.client.post(context, "server/edit", &data, struct {
+		EditServerParams
+		ServerID string `json:"serverid"`
+	}{params, serverID})
 	return &data.Response.Server, err
 }
 

@@ -97,6 +97,16 @@ func TestServersDetails(t *testing.T) {
 	assert.Equal(t, "Debian 8 64-bit", server.Template, "server Template is correct")
 }
 
+func TestServersEdit(t *testing.T) {
+	c := &mockClient{}
+	s := ServerService{client: c}
+
+	s.Edit(context.Background(), "vz123456", EditServerParams{})
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "server/edit", c.lastPath, "path used is correct")
+}
+
 func TestServersList(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "servers": [{ "serverid": "vz12345" }] } }`}
 	s := ServerService{client: c}
