@@ -13,7 +13,7 @@ func TestNetworksCreate(t *testing.T) {
 	n := NetworkService{client: c}
 
 	params := CreateNetworkParams{
-		Datacenter:  "Falkenberg",
+		DataCenter:  "Falkenberg",
 		Description: "mynetwork",
 	}
 
@@ -22,7 +22,7 @@ func TestNetworksCreate(t *testing.T) {
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "network/create", c.lastPath, "path used is correct")
 	assert.Equal(t, "vl123456", network.ID, "network ID is correct")
-	assert.Equal(t, "Falkenberg", network.Datacenter, "network Datacenter is correct")
+	assert.Equal(t, "Falkenberg", network.DataCenter, "network DataCenter is correct")
 	assert.Equal(t, "mynetwork", network.Description, "network Description is correct")
 
 }
@@ -51,7 +51,7 @@ func TestNetworksEdit(t *testing.T) {
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "network/edit", c.lastPath, "path used is correct")
 	assert.Equal(t, "vl123456", network.ID, "network ID is correct")
-	assert.Equal(t, "Falkenberg", network.Datacenter, "network Datacenter is correct")
+	assert.Equal(t, "Falkenberg", network.DataCenter, "network DataCenter is correct")
 	assert.Equal(t, "mynewnetwork", network.Description, "network Description is correct")
 }
 
@@ -64,7 +64,7 @@ func TestNetworksList(t *testing.T) {
 
 	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
 	assert.Equal(t, "network/list", c.lastPath, "path used is correct")
-	assert.Equal(t, "Falkenberg", (*networks)[0].Datacenter, "network Datacenter is correct")
+	assert.Equal(t, "Falkenberg", (*networks)[0].DataCenter, "network DataCenter is correct")
 	assert.Equal(t, "yes", (*networks)[0].Public, "network is public")
 	assert.Equal(t, "Internet", (*networks)[0].Description, "network Description is correct")
 	assert.Equal(t, "internet-fbg", (*networks)[0].ID, "network ID is correct")

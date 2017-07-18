@@ -8,15 +8,15 @@ type NetworkService struct {
 }
 
 // Network represents a network
-type NetworkDetails struct {
-	Datacenter  string `json:"datacenter"`
+type Network struct {
+	DataCenter  string `json:"datacenter"`
 	Description string `json:"description"`
 	ID          string `json:"networkid"`
 	Public      string `json:"public"`
 }
 
 type CreateNetworkParams struct {
-	Datacenter  string `json:"datacenter"`
+	DataCenter  string `json:"datacenter"`
 	Description string `json:"description"`
 }
 
@@ -25,10 +25,10 @@ type EditNetworkParams struct {
 }
 
 // Create creates a new network
-func (s *NetworkService) Create(context context.Context, params CreateNetworkParams) (*NetworkDetails, error) {
+func (s *NetworkService) Create(context context.Context, params CreateNetworkParams) (*Network, error) {
 	data := struct {
 		Response struct {
-			Network NetworkDetails
+			Network Network
 		}
 	}{}
 	err := s.client.post(context, "network/create", &data, params)
@@ -36,10 +36,10 @@ func (s *NetworkService) Create(context context.Context, params CreateNetworkPar
 }
 
 // Details returns detailed information about one network
-func (s *NetworkService) Details(context context.Context, networkID string) (*NetworkDetails, error) {
+func (s *NetworkService) Details(context context.Context, networkID string) (*Network, error) {
 	data := struct {
 		Response struct {
-			Network NetworkDetails
+			Network Network
 		}
 	}{}
 	err := s.client.post(context, "network/details", &data, struct {
@@ -56,10 +56,10 @@ func (s *NetworkService) Destroy(context context.Context, networkID string) erro
 }
 
 // Edit modifies a network
-func (s *NetworkService) Edit(context context.Context, networkID string, params EditNetworkParams) (*NetworkDetails, error) {
+func (s *NetworkService) Edit(context context.Context, networkID string, params EditNetworkParams) (*Network, error) {
 	data := struct {
 		Response struct {
-			Network NetworkDetails
+			Network Network
 		}
 	}{}
 	err := s.client.post(context, "network/edit", &data, struct {
@@ -70,10 +70,10 @@ func (s *NetworkService) Edit(context context.Context, networkID string, params 
 }
 
 // List returns a list of Networks available under your account
-func (s *NetworkService) List(context context.Context) (*[]NetworkDetails, error) {
+func (s *NetworkService) List(context context.Context) (*[]Network, error) {
 	data := struct {
 		Response struct {
-			Networks []NetworkDetails
+			Networks []Network
 		}
 	}{}
 
