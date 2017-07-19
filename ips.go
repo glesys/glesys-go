@@ -1,6 +1,10 @@
 package glesys
 
-import "context"
+import (
+	"context"
+	"net"
+	"strings"
+)
 
 // IPService provides functions to interact with IP addresses
 type IPService struct {
@@ -10,7 +14,6 @@ type IPService struct {
 // IP represents an IP address
 type IP struct {
 	Address string `json:"ipaddress"`
-	Version int    `json:"version"`
 }
 
 // AvailableIPsParams is used to filter results when listing available IP addresses
@@ -41,6 +44,18 @@ func (s *IPService) Available(context context.Context, params AvailableIPsParams
 		ips = append(ips, IP{Address: address})
 	}
 	return &ips, nil
+}
+
+// IsIPv4 verify that ip is IPv4
+func (ip *IP) IsIPv4() bool {
+	netAddr := net.ParseIP(ip.Address)
+	return netAddr != nil && strings.Contains(ip.Address, ".")
+}
+
+// IsIPv6 verify that ip is IPv6
+func (ip *IP) IsIPv6() bool {
+	netAddr := net.ParseIP(ip.Address)
+	return netAddr != nil && strings.Contains(ip.Address, ":")
 }
 
 // Release releases a reserved IP address
