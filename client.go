@@ -30,9 +30,10 @@ type Client struct {
 	project    string
 	userAgent  string
 
-	IPs      *IPService
-	Servers  *ServerService
-	Networks *NetworkService
+	IPs             *IPService
+	Servers         *ServerService
+	Networks        *NetworkService
+	NetworkAdapters *NetworkAdapterService
 }
 
 // NewClient creates a new Client for interacting with the GleSYS API. This is
@@ -51,6 +52,7 @@ func NewClient(project, apiKey, userAgent string) *Client {
 	c.IPs = &IPService{client: c}
 	c.Servers = &ServerService{client: c}
 	c.Networks = &NetworkService{client: c}
+	c.NetworkAdapters = &NetworkAdapterService{client: c}
 
 	return c
 }
