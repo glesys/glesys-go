@@ -1,6 +1,9 @@
 package glesys
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
 
 // NetworkAdapterService provides functions to interact with Networks
 type NetworkAdapterService struct {
@@ -18,7 +21,17 @@ type NetworkAdapter struct {
 	State       string `json:"state"`
 }
 
-// Parameters to use when creating a NetworkAdapter
+// IsLocked returns true if the network adapter is currently locked, false otherwise
+func (na *NetworkAdapter) IsLocked() bool {
+	return na.State == "locked"
+}
+
+// IsReady returns true if the network adapter is currently ready, false otherwise
+func (na *NetworkAdapter) IsReady() bool {
+	return na.State == "ready"
+}
+
+// CreateNetworkAdapterParams is used when creating a new network adapter
 type CreateNetworkAdapterParams struct {
 	AdapterType string `json:"adaptertype,omitempty"`
 	Bandwidth   int    `json:"bandwidth,omitempty"`
@@ -26,7 +39,7 @@ type CreateNetworkAdapterParams struct {
 	ServerID    string `json:"serverid"`
 }
 
-// Parameters to use when modifying a NetworkAdapter
+// EditNetworkAdapterParams is used when editing an existing network adapter
 type EditNetworkAdapterParams struct {
 	Bandwidth int    `json:"bandwidth,omitempty"`
 	NetworkID string `json:"networkid,omitempty"`
@@ -44,27 +57,25 @@ func (s *NetworkAdapterService) Create(context context.Context, params CreateNet
 }
 
 // Details returns detailed information about a NetworkAdapter
-func (s *NetworkAdapterService) Details(context context.Context, NetworkAdapterID string) (*NetworkAdapter, error) {
+func (s *NetworkAdapterService) Details(context context.Context, networkAdapterID string) (*NetworkAdapter, error) {
 	data := struct {
 		Response struct {
 			NetworkAdapter NetworkAdapter
 		}
 	}{}
-	err := s.client.post(context, "networkadapter/details", &data, struct {
-		NetworkAdapterID string `json:"networkadapterid"`
-	}{NetworkAdapterID})
+	err := s.client.get(context, fmt.Sprintf("networkadapter/details/networkadapterid/%s", networkAdapterID), &data)
 	return &data.Response.NetworkAdapter, err
 }
 
 // Destroy deletes a NetworkAdapter
-func (s *NetworkAdapterService) Destroy(context context.Context, NetworkAdapterID string) error {
+func (s *NetworkAdapterService) Destroy(context context.Context, networkAdapterID string) error {
 	return s.client.post(context, "networkadapter/delete", nil, struct {
 		NetworkAdapterID string `json:"networkadapterid"`
-	}{NetworkAdapterID})
+	}{networkAdapterID})
 }
 
 // Edit modifies a NetworkAdapter
-func (s *NetworkAdapterService) Edit(context context.Context, NetworkAdapterID string, params EditNetworkAdapterParams) (*NetworkAdapter, error) {
+func (s *NetworkAdapterService) Edit(context context.Context, networkAdapterID string, params EditNetworkAdapterParams) (*NetworkAdapter, error) {
 	data := struct {
 		Response struct {
 			NetworkAdapter NetworkAdapter
@@ -73,16 +84,6 @@ func (s *NetworkAdapterService) Edit(context context.Context, NetworkAdapterID s
 	err := s.client.post(context, "networkadapter/edit", &data, struct {
 		EditNetworkAdapterParams
 		NetworkAdapterID string `json:"networkadapterid"`
-	}{params, NetworkAdapterID})
+	}{params, networkAdapterID})
 	return &data.Response.NetworkAdapter, err
-}
-
-// IsLocked returns true if the networkadapter is currently locked, false otherwise
-func (na *NetworkAdapter) IsLocked() bool {
-	return na.State == "locked"
-}
-
-// IsReady returns true if the networkadapter is currently ready, false otherwise
-func (na *NetworkAdapter) IsReady() bool {
-	return na.State == "ready"
 }

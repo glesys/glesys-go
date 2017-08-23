@@ -68,6 +68,7 @@ type CreateServerParams struct {
 	Template     string `json:"templatename"`
 }
 
+// EditServerParams is used when editing an existing server
 type EditServerParams struct {
 	Bandwidth   int    `json:"bandwidth,omitempty"`
 	CPU         int    `json:"cpucores,omitempty"`

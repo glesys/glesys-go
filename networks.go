@@ -1,6 +1,9 @@
 package glesys
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
 
 // NetworkService provides functions to interact with Networks
 type NetworkService struct {
@@ -15,11 +18,13 @@ type Network struct {
 	Public      string `json:"public"`
 }
 
+// CreateNetworkParams is used when creating a new network
 type CreateNetworkParams struct {
 	DataCenter  string `json:"datacenter"`
 	Description string `json:"description"`
 }
 
+// EditNetworkParams is used when editing an existing network
 type EditNetworkParams struct {
 	Description string `json:"description"`
 }
@@ -42,9 +47,7 @@ func (s *NetworkService) Details(context context.Context, networkID string) (*Ne
 			Network Network
 		}
 	}{}
-	err := s.client.post(context, "network/details", &data, struct {
-		NetworkID string `json:"networkid"`
-	}{networkID})
+	err := s.client.get(context, fmt.Sprintf("network/details/networkid/%s", networkID), &data)
 	return &data.Response.Network, err
 }
 
