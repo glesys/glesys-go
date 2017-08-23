@@ -5,9 +5,9 @@
 //
 // Getting Started
 //
-// To get started you need to signup for an account to GleSYS Cloud and create
-// an API key. Signup is available at https://glesys.com/signup and API keys can
-// be created at https://customer.glesys.com.
+// To get started you need to signup for a GleSYS Cloud account and create an
+// API key. Signup is available at https://glesys.com/signup and API keys can be
+// created at https://customer.glesys.com.
 //
 //     client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 //
@@ -21,6 +21,8 @@
 // For example:
 //
 //     client.IPs.List(...)
+//     client.NetworkAdapters.Create(...)
+//     client.Networks.Create(...)
 //     client.Servers.Create(...)
 //
 // More examples provided below.
