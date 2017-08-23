@@ -7,7 +7,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNetworkAdapterCreate(t *testing.T) {
+func TestNetworkAdapterIsLocked(t *testing.T) {
+	networkadapter := NetworkAdapter{}
+
+	assert.Equal(t, false, networkadapter.IsLocked(), "should not be locked")
+
+	networkadapter.State = "locked"
+	assert.Equal(t, true, networkadapter.IsLocked(), "should be locked")
+}
+
+func TestNetworkAdapterIsReady(t *testing.T) {
+	networkadapter := NetworkAdapter{}
+
+	assert.Equal(t, false, networkadapter.IsReady(), "should not be ready")
+
+	networkadapter.State = "ready"
+	assert.Equal(t, true, networkadapter.IsReady(), "should be ready")
+}
+
+func TestNetworkAdaptersCreate(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "networkadapter":
 	{ "adaptertype": "E1000", "bandwidth": 10, "name": "Network Adapter 2", "networkid": "mynetwork",
 	"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789", "serverid": "vz123456" }}}`}
@@ -26,10 +44,9 @@ func TestNetworkAdapterCreate(t *testing.T) {
 	assert.Equal(t, "vz123456", networkadapter.ServerID, "networkadapter ServerID is correct")
 	assert.Equal(t, "Network Adapter 2", networkadapter.Name, "networkadapter Name is correct")
 	assert.Equal(t, "mynetwork", networkadapter.NetworkID, "networkadapter Description is correct")
-
 }
 
-func TestNetworkAdapterDestroy(t *testing.T) {
+func TestNetworkAdaptersDestroy(t *testing.T) {
 	c := &mockClient{}
 	n := NetworkAdapterService{client: c}
 
@@ -39,7 +56,32 @@ func TestNetworkAdapterDestroy(t *testing.T) {
 	assert.Equal(t, "networkadapter/delete", c.lastPath, "path used is correct")
 }
 
-func TestNetworkAdapterEdit(t *testing.T) {
+func TestNetworkAdaptersDetails(t *testing.T) {
+	c := &mockClient{body: `{ "response": { "networkadapter": {
+		"networkadapterid": "9ac61694-eb4d-4011-9d10-c395ba5f7269",
+		"bandwidth": 100,
+		"name": "My Network Adapter",
+		"adaptertype": "VMXNET 3",
+		"state": "ready",
+		"serverid": "vz123456",
+		"networkid": "internet-fbg"
+		} } }`}
+	s := NetworkAdapterService{client: c}
+
+	networkAdapter, _ := s.Details(context.Background(), "9ac61694-eb4d-4011-9d10-c395ba5f7269")
+
+	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
+	assert.Equal(t, "networkadapter/details/networkadapterid/9ac61694-eb4d-4011-9d10-c395ba5f7269", c.lastPath, "path used is correct")
+	assert.Equal(t, "VMXNET 3", networkAdapter.AdapterType, "network adapter Bandwidth is correct")
+	assert.Equal(t, 100, networkAdapter.Bandwidth, "network adapter Bandwidth is correct")
+	assert.Equal(t, "9ac61694-eb4d-4011-9d10-c395ba5f7269", networkAdapter.ID, "network adapter Bandwidth is correct")
+	assert.Equal(t, "My Network Adapter", networkAdapter.Name, "network adapter Bandwidth is correct")
+	assert.Equal(t, "internet-fbg", networkAdapter.NetworkID, "network adapter Bandwidth is correct")
+	assert.Equal(t, "vz123456", networkAdapter.ServerID, "network adapter Bandwidth is correct")
+	assert.Equal(t, "ready", networkAdapter.State, "network adapter Bandwidth is correct")
+}
+
+func TestNetworkAdaptersEdit(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "networkadapter":
 	{ "adaptertype": "E1000", "bandwidth": 100, "name": "Network Adapter 2", "networkid": "mynewnetwork",
 	"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789", "serverid": "vz123456" }}}`}
@@ -57,22 +99,4 @@ func TestNetworkAdapterEdit(t *testing.T) {
 	assert.Equal(t, "ab12cd34-dcba-0123-abcd-abc123456789", networkadapter.ID, "networkadapter ID is correct")
 	assert.Equal(t, "mynewnetwork", networkadapter.NetworkID, "networkadapter network ID is correct")
 	assert.Equal(t, 100, networkadapter.Bandwidth, "networkadapter Bandwidth is correct")
-}
-
-func TestNetworkAdapterIsLocked(t *testing.T) {
-	networkadapter := NetworkAdapter{}
-
-	assert.Equal(t, false, networkadapter.IsLocked(), "should not be locked")
-
-	networkadapter.State = "locked"
-	assert.Equal(t, true, networkadapter.IsLocked(), "should be locked")
-}
-
-func TestNetworkAdapterIsReady(t *testing.T) {
-	networkadapter := NetworkAdapter{}
-
-	assert.Equal(t, false, networkadapter.IsReady(), "should not be ready")
-
-	networkadapter.State = "ready"
-	assert.Equal(t, true, networkadapter.IsReady(), "should be ready")
 }
