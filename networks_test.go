@@ -24,7 +24,6 @@ func TestNetworksCreate(t *testing.T) {
 	assert.Equal(t, "vl123456", network.ID, "network ID is correct")
 	assert.Equal(t, "Falkenberg", network.DataCenter, "network DataCenter is correct")
 	assert.Equal(t, "mynetwork", network.Description, "network Description is correct")
-
 }
 
 func TestNetworksDestroy(t *testing.T) {
@@ -35,6 +34,25 @@ func TestNetworksDestroy(t *testing.T) {
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "network/delete", c.lastPath, "path used is correct")
+}
+
+func TestNetworksDetails(t *testing.T) {
+	c := &mockClient{body: `{ "response": { "network": {
+		"networkid": "vl123456",
+		"description": "My Network",
+		"datacenter": "Falkenberg",
+		"public": "no"
+		} } }`}
+	s := NetworkService{client: c}
+
+	network, _ := s.Details(context.Background(), "vl123456")
+
+	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
+	assert.Equal(t, "network/details/networkid/vl123456", c.lastPath, "path used is correct")
+	assert.Equal(t, "Falkenberg", network.DataCenter, "network DataCenter is correct")
+	assert.Equal(t, "My Network", network.Description, "network Description is correct")
+	assert.Equal(t, "vl123456", network.ID, "network ID is correct")
+	assert.Equal(t, "no", network.Public, "network Public is correct")
 }
 
 func TestNetworksEdit(t *testing.T) {
@@ -68,5 +86,4 @@ func TestNetworksList(t *testing.T) {
 	assert.Equal(t, "yes", (*networks)[0].Public, "network is public")
 	assert.Equal(t, "Internet", (*networks)[0].Description, "network Description is correct")
 	assert.Equal(t, "internet-fbg", (*networks)[0].ID, "network ID is correct")
-
 }
