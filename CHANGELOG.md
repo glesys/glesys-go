@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [2.1.0] - 2017-07-23
+## [2.1.0] - 2017-08-23
 ### Added
 - `NetworkService` and `NetworkAdapterService` are now available with support
   for creating, editing and destroying networks and network adapters. Big thanks
