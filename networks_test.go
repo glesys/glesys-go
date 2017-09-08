@@ -73,6 +73,14 @@ func TestNetworksEdit(t *testing.T) {
 	assert.Equal(t, "mynewnetwork", network.Description, "network Description is correct")
 }
 
+func TestNetworksIsPublic(t *testing.T) {
+	network := Network{Public: "yes"}
+	assert.Equal(t, true, network.IsPublic(), "should be public")
+
+	network.Public = "no"
+	assert.Equal(t, false, network.IsPublic(), "should not be public")
+}
+
 func TestNetworksList(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "networks":
 	[{ "datacenter": "Falkenberg", "description": "Internet", "networkid": "internet-fbg", "public": "yes"}] } }`}

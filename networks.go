@@ -72,6 +72,11 @@ func (s *NetworkService) Edit(context context.Context, networkID string, params 
 	return &data.Response.Network, err
 }
 
+// IsPublic return true if network is public
+func (s *Network) IsPublic() bool {
+	return s.Public == "yes"
+}
+
 // List returns a list of Networks available under your account
 func (s *NetworkService) List(context context.Context) (*[]Network, error) {
 	data := struct {
