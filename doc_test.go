@@ -45,6 +45,135 @@ func ExampleIPService_Reserved() {
 	}
 }
 
+func ExampleLoadBalancerService_Create() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	loadbalancer, _ := client.LoadBalancers.Create(context.Background(),
+		glesys.CreateLoadBalancerParams{
+			DataCenter: "Falkenberg",
+			Name:       "mylb-1",
+		})
+
+	fmt.Println(loadbalancer.ID)
+}
+
+func ExampleLoadBalancerService_Destroy() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	client.LoadBalancers.Destroy(context.Background(), "lb123456")
+}
+
+func ExampleLoadBalancerService_Details() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	loadbalancer, _ := client.LoadBalancers.Details(context.Background(), "lb123456")
+
+	fmt.Println(loadbalancer.Name)
+}
+
+func ExampleLoadBalancer_AddBackend() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	loadbalancer, _ := client.LoadBalancers.AddBackend(context.Background(), "lb123456",
+		glesys.AddBackendParams{
+			Name: "mywebbackend",
+			Mode: "http",
+		})
+
+	// print the name of all backends for the LoadBalancer
+	for i := range (*loadbalancer).BackendsList {
+		be := (*loadbalancer).BackendsList[i]
+		fmt.Println("Name:", be.Name)
+	}
+}
+
+func ExampleLoadBalancer_AddTarget() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	loadbalancer, _ := client.LoadBalancers.AddTarget(context.Background(), "lb123456",
+		glesys.AddTargetParams{
+			Backend:  "mywebbackend",
+			Name:     "web01",
+			Port:     8080,
+			TargetIP: "172.17.0.10",
+			Weight:   5,
+		})
+
+	for i := range (*loadbalancer).BackendsList {
+		be := (*loadbalancer).BackendsList[i]
+		for k := range be.Targets {
+			fmt.Printf("Backend: %s, Target: %s\n", be.Name, be.Targets[k].Name)
+		}
+	}
+}
+
+func ExampleLoadBalancer_DisableTarget() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	loadbalancer, _ := client.LoadBalancers.DisableTarget(context.Background(), "lb123456",
+		glesys.ToggleTargetParams{
+			Backend: "mywebbackend",
+			Name:    "web01",
+		})
+
+	for i := range (*loadbalancer).BackendsList {
+		be := (*loadbalancer).BackendsList[i]
+		for k := range be.Targets {
+			fmt.Printf("Backend: %s, Target: %s, Status: %s\n", be.Name, be.Targets[k].Name, be.Targets[k].Status)
+		}
+	}
+}
+
+func ExampleLoadBalancer_AddFrontend() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	loadbalancer, _ := client.LoadBalancers.AddFrontend(context.Background(), "lb123456",
+		glesys.AddFrontendParams{
+			Name:           "mywebfrontend",
+			Backend:        "mywebbackend",
+			Port:           80,
+			ClientTimeout:  4000,
+			MaxConnections: 1000,
+		})
+
+	// print the name of all frontends for the LoadBalancer
+	for i := range (*loadbalancer).FrontendsList {
+		fe := (*loadbalancer).FrontendsList[i]
+		fmt.Println("Name:", fe.Name)
+	}
+}
+
+func ExampleLoadBalancer_AddCertificate() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	mybase64pem := "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCm15Y2VydAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLQpteWtleQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg=="
+
+	client.LoadBalancers.AddCertificate(context.Background(), "lb123456", glesys.AddCertificateParams{
+		Name:        "mycert",
+		Certificate: mybase64pem,
+	})
+}
+
+func ExampleLoadBalancer_ListCertificate() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	certlist, _ := client.LoadBalancers.ListCertificates(context.Background(), "lb123456")
+
+	for _, cert := range *certlist {
+		fmt.Println("Certificate:", cert)
+	}
+}
+
+func ExampleLoadBalancer_RemoveCertificate() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.LoadBalancers.RemoveCertificate(context.Background(), "lb123456", "mycert")
+
+	if err != nil {
+		fmt.Printf("Error removing certificate: %s\n", err)
+	}
+}
+
 func ExampleNetworkAdapterService_Create() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
