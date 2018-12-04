@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.2.0] - 2018-11-04
+### Added
+- `Network.IsPublic()` helper. Thanks to @norrland.
+
 ## [2.1.0] - 2017-08-23
 ### Added
 - `NetworkService` and `NetworkAdapterService` are now available with support
