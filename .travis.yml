@@ -1,3 +1,7 @@
-  language: go
-  go:
-    - 1.x
+language: go
+go:
+- 1.x
+notifications:
+  slack:
+    rooms:
+      secure: Og782hQIjIGH82q/nTq43N0yIneOe70waf9eqpXd8OPHaQvkYin1bDi28Ovfa2WgmAJRmKHEnXrKNYf2F7UZg+oZ4Stj30FabuT07E1+AQwBx8Vaj+8b0NlelsPH3eAUBw8vvy9KXTJt9nq9yPdxtpG0nC8yPDJyTdx50ZZ4HHKq5W3iU2gjEbWjnpTSfw+3OWPbqaAzX+tlqL8TmKAz+NhJ88BtUyd3KXwWg5dRgnob2HmYF2UJiAzcC33t7vPAXCbGg/dweEJVKoKXlczCWTL7r58XWJr/xMvZYA4iCDnGRhbFlgMfYzdoM/w0EWaQZ3n2Y1JvTqKEc/XbYkmDFKRrKd9FG+sHjuun70hDYe1GZ8eA+vYc7WZy7c5HffVP+trtjPj1fKpfoOjZMR9Z4mIJyXZeOLMf8m8QbpxdUCfjTVnrly3zv7pq6iuhEiN8OdgMFevP/mMpAICnwf1D4f5Nkc9af/XN59B3pnpOrDWNeRhsIMkLZzFjITHZ7LcCmX2yoXok90hlesW6ZJBhWDwLhq1BI1VfOBRo7PxGk9+PA9YA4rA3W0hOXAGuOGUV7tRoFQQKwvghY6XiUmgUYOpo4UabDHUp2Vp0jlUbbyBv/0BqCxbmVAicQ7zepBcBP8FZSag2cXud38h/dZ9Vz7OOLsUZiVkBMcGPgI45wK4=
