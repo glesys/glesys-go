@@ -18,13 +18,13 @@ type LoadBalancer struct {
 }
 
 type LoadBalancerDetails struct {
-	BackendsList  []LBBackend      `json:"backends"`
-	Blacklists    []string         `json:"blacklist"`
-	DataCenter    string           `json:"datacenter"`
-	FrontendsList []LBFrontend     `json:"frontends"`
-	ID            string           `json:"loadbalancerid"`
-	IPList        []LoadBalancerIP `json:"ipaddress"`
-	Name          string           `json:"name"`
+	BackendsList  []LoadBalancerBackend  `json:"backends"`
+	Blacklists    []string               `json:"blacklist"`
+	DataCenter    string                 `json:"datacenter"`
+	FrontendsList []LoadBalancerFrontend `json:"frontends"`
+	ID            string                 `json:"loadbalancerid"`
+	IPList        []LoadBalancerIP       `json:"ipaddress"`
+	Name          string                 `json:"name"`
 }
 
 type LoadBalancerIP struct {
@@ -52,8 +52,8 @@ type EditLoadBalancerParams struct {
 	Name string `json:"name"`
 }
 
-// LBBackend represents a LoadBalancer Backend
-type LBBackend struct {
+// LoadBalancerBackend represents a LoadBalancer Backend
+type LoadBalancerBackend struct {
 	ConnectTimeout int      `json:"connecttimeout"`
 	Mode           string   `json:"mode"`
 	Name           string   `json:"name"`
@@ -89,8 +89,8 @@ type AddCertificateParams struct {
 	Certificate string `json:"certificate"`
 }
 
-// LBFrontend represents a LoadBalancer Frontend
-type LBFrontend struct {
+// LoadBalancerFrontend represents a LoadBalancer Frontend
+type LoadBalancerFrontend struct {
 	Backend        string `json:"backend"`
 	ClientTimeout  int    `json:"clienttimeout"`
 	MaxConnections int    `json:"maxconnections"`
