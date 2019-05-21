@@ -308,7 +308,7 @@ func (lb *LoadBalancerService) AddCertificate(context context.Context, loadbalan
 	}{params, loadbalancerID})
 }
 
-// ListCertificate
+// ListCertificate list certificates for the LoadBalancer
 func (lb *LoadBalancerService) ListCertificate(context context.Context, loadbalancerID string) (*[]string, error) {
 	data := struct {
 		Response struct {
@@ -344,7 +344,7 @@ func (lb *LoadBalancerService) AddTarget(context context.Context, loadbalancerID
 	return &data.Response.LoadBalancer, err
 }
 
-// EditTarget edits a target
+// EditTarget edits a target for the specified backend
 func (lb *LoadBalancerService) EditTarget(context context.Context, loadbalancerID string, params EditTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
@@ -358,7 +358,7 @@ func (lb *LoadBalancerService) EditTarget(context context.Context, loadbalancerI
 	return &data.Response.LoadBalancer, err
 }
 
-// Enable a target
+// EnableTarget enables a target for the specified LoadBalancerBackend
 func (lb *LoadBalancerService) EnableTarget(context context.Context, loadbalancerID string, params ToggleTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
@@ -372,7 +372,7 @@ func (lb *LoadBalancerService) EnableTarget(context context.Context, loadbalance
 	return &data.Response.LoadBalancer, err
 }
 
-// Disable a target
+// DisableTarget disables the specified target for the LoadBalancerBackend
 func (lb *LoadBalancerService) DisableTarget(context context.Context, loadbalancerID string, params ToggleTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
@@ -386,7 +386,7 @@ func (lb *LoadBalancerService) DisableTarget(context context.Context, loadbalanc
 	return &data.Response.LoadBalancer, err
 }
 
-// RemoveTarget deletes a target
+// RemoveTarget deletes a target from the specified LoadBalancerBackend
 func (lb *LoadBalancerService) RemoveTarget(context context.Context, loadbalancerID string, params RemoveTargetParams) error {
 	return lb.client.post(context, "loadbalancer/removetarget", nil, struct {
 		RemoveTargetParams
