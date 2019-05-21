@@ -394,8 +394,8 @@ func (lb *LoadBalancerService) RemoveTarget(context context.Context, loadbalance
 	}{params, loadbalancerID})
 }
 
-// Addtoblacklist adds a prefix to loadbalancer blacklist
-func (lb *LoadBalancerService) Addtoblacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
+// AddToBlacklist adds a prefix to loadbalancer blacklist
+func (lb *LoadBalancerService) AddToBlacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
 			LoadBalancer LoadBalancerDetails
@@ -408,8 +408,8 @@ func (lb *LoadBalancerService) Addtoblacklist(context context.Context, loadbalan
 	return &data.Response.LoadBalancer, err
 }
 
-// Removefromblacklist deletes a prefix from loadbalancer blacklist
-func (lb *LoadBalancerService) Removefromblacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
+// RemoveFromBlacklist deletes a prefix from the LoadBalancer blacklist
+func (lb *LoadBalancerService) RemoveFromBlacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
 			LoadBalancer LoadBalancerDetails

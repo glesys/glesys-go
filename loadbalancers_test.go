@@ -287,7 +287,7 @@ func TestLoadBalancersRemoveTarget(t *testing.T) {
 	assert.Equal(t, "loadbalancer/removetarget", c.lastPath, "path used is correct")
 }
 
-func TestLoadBalancersAddtoblacklist(t *testing.T) {
+func TestLoadBalancersAddToBlacklist(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
 	{ "backends": [], "blacklist": ["10.0.0.10/32"], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
@@ -299,7 +299,7 @@ func TestLoadBalancersAddtoblacklist(t *testing.T) {
 		Prefix: "10.0.0.10/32",
 	}
 
-	lbd, _ := lb.Addtoblacklist(context.Background(), "lb123456", params)
+	lbd, _ := lb.AddToBlacklist(context.Background(), "lb123456", params)
 	myprefix := strings.Join(lbd.Blacklists, " ")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
@@ -307,7 +307,7 @@ func TestLoadBalancersAddtoblacklist(t *testing.T) {
 	assert.Equal(t, "10.0.0.10/32", myprefix, "prefix set correct")
 }
 
-func TestLoadBalancersRemovefromblacklist(t *testing.T) {
+func TestLoadBalancersRemoveFromBlacklist(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancers": {
 		"backends": [{'name': 'my-backend'}], "blacklist": [],
 		"name": "myloadbalancer", "loadbalancerid": "lb123456" }
@@ -319,7 +319,7 @@ func TestLoadBalancersRemovefromblacklist(t *testing.T) {
 		Prefix: "10.0.0.10/32",
 	}
 
-	lbd, _ := lb.Removefromblacklist(context.Background(), "lb123456", params)
+	lbd, _ := lb.RemoveFromBlacklist(context.Background(), "lb123456", params)
 	myprefix := strings.Join(lbd.Blacklists, " ")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
