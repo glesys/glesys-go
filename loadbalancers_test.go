@@ -35,7 +35,7 @@ func TestLoadbalancersDestroy(t *testing.T) {
 	c := &mockClient{}
 	lb := LoadbalancerService{client: c}
 
-	lb.Destroy(context.Background(), "lb123456", DestroyLoadbalancerParams{})
+	lb.Destroy(context.Background(), "lb123456")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "loadbalancer/destroy", c.lastPath, "path used is correct")

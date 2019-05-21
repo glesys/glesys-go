@@ -47,11 +47,6 @@ type CreateLoadbalancerParams struct {
 	Name       string `json:"name"`
 }
 
-// DestroyLoadbalancerParams is used when destroying a loadbalancer
-type DestroyLoadbalancerParams struct {
-	KeepIP bool `json:"keepip"`
-}
-
 // EditLoadbalancerParams is used when editing a loadbalancer
 type EditLoadbalancerParams struct {
 	Name string `json:"name"`
@@ -186,11 +181,10 @@ func (lb *LoadbalancerService) Create(context context.Context, params CreateLoad
 }
 
 // Destroy deletes a loadbalancer
-func (lb *LoadbalancerService) Destroy(context context.Context, loadbalancerID string, params DestroyLoadbalancerParams) error {
+func (lb *LoadbalancerService) Destroy(context context.Context, loadbalancerID string) error {
 	return lb.client.post(context, "loadbalancer/destroy", nil, struct {
-		DestroyLoadbalancerParams
 		LoadbalancerID string `json:"loadbalancerid"`
-	}{params, loadbalancerID})
+	}{loadbalancerID})
 }
 
 // Details returns a detailed information about one loadbalancer
