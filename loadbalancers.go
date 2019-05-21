@@ -66,7 +66,7 @@ type AddBackendParams struct {
 	Mode            string `json:"mode,omitempty"`
 	Name            string `json:"name"`
 	ResponseTimeout int    `json:"responsetimeout,omitempty"`
-	Stickysessions  string `json:"stickysessions,omitempty"`
+	StickySessions  string `json:"stickysessions,omitempty"`
 }
 
 // EditBackendParams used to edit a backend

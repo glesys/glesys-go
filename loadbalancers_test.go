@@ -92,7 +92,7 @@ func TestLoadBalancersAddBackend(t *testing.T) {
 	params := AddBackendParams{
 		Name:           "mybackend",
 		Mode:           "tcp",
-		Stickysessions: "no",
+		StickySessions: "no",
 	}
 
 	loadbalancer, _ := lb.AddBackend(context.Background(), "lb123456", params)
