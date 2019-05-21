@@ -5,29 +5,29 @@ import (
 	"fmt"
 )
 
-// LoadbalancerService provides functions to interact with Loadbalancers
-type LoadbalancerService struct {
+// LoadBalancerService provides functions to interact with LoadBalancers
+type LoadBalancerService struct {
 	client clientInterface
 }
 
-// Loadbalancer represents a loadbalancer
-type Loadbalancer struct {
+// LoadBalancer represents a loadbalancer
+type LoadBalancer struct {
 	DataCenter string `json:"datacenter"`
 	ID         string `json:"loadbalancerid"`
 	Name       string `json:"name"`
 }
 
-type LoadbalancerDetails struct {
+type LoadBalancerDetails struct {
 	BackendsList  []LBBackend      `json:"backends"`
 	Blacklists    []string         `json:"blacklist"`
 	DataCenter    string           `json:"datacenter"`
 	FrontendsList []LBFrontend     `json:"frontends"`
 	ID            string           `json:"loadbalancerid"`
-	IPList        []LoadbalancerIP `json:"ipaddress"`
+	IPList        []LoadBalancerIP `json:"ipaddress"`
 	Name          string           `json:"name"`
 }
 
-type LoadbalancerIP struct {
+type LoadBalancerIP struct {
 	Address         string `json:"ipaddress"`
 	Cost            int    `json:"cost"`
 	LockedToAccount bool   `json:"lockedtoaccount"`
@@ -39,20 +39,20 @@ type Certificate struct {
 	Name []string `json:"certificate"`
 }
 
-// CreateLoadbalancerParams is used when creating a new loadbalancer
-type CreateLoadbalancerParams struct {
+// CreateLoadBalancerParams is used when creating a new loadbalancer
+type CreateLoadBalancerParams struct {
 	DataCenter string `json:"datacenter"`
 	IPv4       string `json:"ip,omitempty"`
 	IPv6       string `json:"ipv6,omitempty"`
 	Name       string `json:"name"`
 }
 
-// EditLoadbalancerParams is used when editing a loadbalancer
-type EditLoadbalancerParams struct {
+// EditLoadBalancerParams is used when editing a loadbalancer
+type EditLoadBalancerParams struct {
 	Name string `json:"name"`
 }
 
-// LBBackend represents a Loadbalancer Backend
+// LBBackend represents a LoadBalancer Backend
 type LBBackend struct {
 	ConnectTimeout int      `json:"connecttimeout"`
 	Mode           string   `json:"mode"`
@@ -89,7 +89,7 @@ type AddCertificateParams struct {
 	Certificate string `json:"certificate"`
 }
 
-// LBFrontend represents a Loadbalancer Frontend
+// LBFrontend represents a LoadBalancer Frontend
 type LBFrontend struct {
 	Backend        string `json:"backend"`
 	ClientTimeout  int    `json:"clienttimeout"`
@@ -169,255 +169,255 @@ type ToggleTargetParams struct {
 	Name    string `json:"targetname"`
 }
 
-// Create creates a new network
-func (lb *LoadbalancerService) Create(context context.Context, params CreateLoadbalancerParams) (*LoadbalancerDetails, error) {
+// Create creates a new loadbalancer
+func (lb *LoadBalancerService) Create(context context.Context, params CreateLoadBalancerParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/create", &data, params)
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // Destroy deletes a loadbalancer
-func (lb *LoadbalancerService) Destroy(context context.Context, loadbalancerID string) error {
+func (lb *LoadBalancerService) Destroy(context context.Context, loadbalancerID string) error {
 	return lb.client.post(context, "loadbalancer/destroy", nil, struct {
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{loadbalancerID})
 }
 
 // Details returns a detailed information about one loadbalancer
-func (lb *LoadbalancerService) Details(context context.Context, loadbalancerID string) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) Details(context context.Context, loadbalancerID string) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.get(context, fmt.Sprintf("loadbalancer/details/loadbalancerid/%s", loadbalancerID), &data)
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // Edit edits a loadbalancer
-func (lb *LoadbalancerService) Edit(context context.Context, loadbalancerID string, params EditLoadbalancerParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) Edit(context context.Context, loadbalancerID string, params EditLoadBalancerParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/edit", &data, struct {
-		EditLoadbalancerParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		EditLoadBalancerParams
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // List returns a list of loadbalancers
-func (lb *LoadbalancerService) List(context context.Context) (*[]Loadbalancer, error) {
+func (lb *LoadBalancerService) List(context context.Context) (*[]LoadBalancer, error) {
 	data := struct {
 		Response struct {
-			Loadbalancers []Loadbalancer
+			LoadBalancers []LoadBalancer
 		}
 	}{}
 	err := lb.client.get(context, "loadbalancer/list", &data)
-	return &data.Response.Loadbalancers, err
+	return &data.Response.LoadBalancers, err
 }
 
 // AddBackend creates a new backend used by the loadbalancer specified
-func (lb *LoadbalancerService) AddBackend(context context.Context, loadbalancerID string, params AddBackendParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) AddBackend(context context.Context, loadbalancerID string, params AddBackendParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/addbackend", &data, struct {
 		AddBackendParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // EditBackend edits a Backend
-func (lb *LoadbalancerService) EditBackend(context context.Context, loadbalancerID string, params EditBackendParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) EditBackend(context context.Context, loadbalancerID string, params EditBackendParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/editbackend", &data, struct {
 		EditBackendParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // RemoveBackend deletes a backend
-func (lb *LoadbalancerService) RemoveBackend(context context.Context, loadbalancerID string, params RemoveBackendParams) error {
+func (lb *LoadBalancerService) RemoveBackend(context context.Context, loadbalancerID string, params RemoveBackendParams) error {
 	return lb.client.post(context, "loadbalancer/removebackend", nil, struct {
 		RemoveBackendParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 }
 
 // AddFrontend creates a new frontend used by the loadbalancer specified
-func (lb *LoadbalancerService) AddFrontend(context context.Context, loadbalancerID string, params AddFrontendParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) AddFrontend(context context.Context, loadbalancerID string, params AddFrontendParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/addfrontend", &data, struct {
 		AddFrontendParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // EditFrontend edits a frontend
-func (lb *LoadbalancerService) EditFrontend(context context.Context, loadbalancerID string, params EditFrontendParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) EditFrontend(context context.Context, loadbalancerID string, params EditFrontendParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/editfrontend", &data, struct {
 		EditFrontendParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // RemoveFrontend deletes a frontend
-func (lb *LoadbalancerService) RemoveFrontend(context context.Context, loadbalancerID string, params RemoveFrontendParams) error {
+func (lb *LoadBalancerService) RemoveFrontend(context context.Context, loadbalancerID string, params RemoveFrontendParams) error {
 	return lb.client.post(context, "loadbalancer/removefrontend", nil, struct {
 		RemoveFrontendParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 }
 
 // AddCertificate adds a certificate to the loadbalancer specified
-func (lb *LoadbalancerService) AddCertificate(context context.Context, loadbalancerID string, params AddCertificateParams) error {
+func (lb *LoadBalancerService) AddCertificate(context context.Context, loadbalancerID string, params AddCertificateParams) error {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	return lb.client.post(context, "loadbalancer/addcertificate", &data, struct {
 		AddCertificateParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 }
 
 // ListCertificate
-func (lb *LoadbalancerService) ListCertificate(context context.Context, loadbalancerID string) (*[]string, error) {
+func (lb *LoadBalancerService) ListCertificate(context context.Context, loadbalancerID string) (*[]string, error) {
 	data := struct {
 		Response struct {
 			Certificates []string `json:"certificate"` // TODO cleanup and use the Certificate struct
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/listcertificate", &data, struct {
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{loadbalancerID})
 
 	return &data.Response.Certificates, err
 }
 
 // RemoveCertificate deletes a certificate from the loadbalancer
-func (lb *LoadbalancerService) RemoveCertificate(context context.Context, loadbalancerID string, params string) error {
+func (lb *LoadBalancerService) RemoveCertificate(context context.Context, loadbalancerID string, params string) error {
 	return lb.client.post(context, "loadbalancer/removecertificate", nil, struct {
 		CertificateName string `json:"certificatename"`
-		LoadbalancerID  string `json:"loadbalancerid"`
+		LoadBalancerID  string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 }
 
 // AddTarget adds a target to the backend specified
-func (lb *LoadbalancerService) AddTarget(context context.Context, loadbalancerID string, params AddTargetParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) AddTarget(context context.Context, loadbalancerID string, params AddTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/addtarget", &data, struct {
 		AddTargetParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // EditTarget edits a target
-func (lb *LoadbalancerService) EditTarget(context context.Context, loadbalancerID string, params EditTargetParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) EditTarget(context context.Context, loadbalancerID string, params EditTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/edittarget", &data, struct {
 		EditTargetParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // Enable a target
-func (lb *LoadbalancerService) EnableTarget(context context.Context, loadbalancerID string, params ToggleTargetParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) EnableTarget(context context.Context, loadbalancerID string, params ToggleTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/enabletarget", &data, struct {
 		ToggleTargetParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // Disable a target
-func (lb *LoadbalancerService) DisableTarget(context context.Context, loadbalancerID string, params ToggleTargetParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) DisableTarget(context context.Context, loadbalancerID string, params ToggleTargetParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/disabletarget", &data, struct {
 		ToggleTargetParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // RemoveTarget deletes a target
-func (lb *LoadbalancerService) RemoveTarget(context context.Context, loadbalancerID string, params RemoveTargetParams) error {
+func (lb *LoadBalancerService) RemoveTarget(context context.Context, loadbalancerID string, params RemoveTargetParams) error {
 	return lb.client.post(context, "loadbalancer/removetarget", nil, struct {
 		RemoveTargetParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 }
 
 // Addtoblacklist adds a prefix to loadbalancer blacklist
-func (lb *LoadbalancerService) Addtoblacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) Addtoblacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/addtoblacklist", &data, struct {
 		BlacklistParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }
 
 // Removefromblacklist deletes a prefix from loadbalancer blacklist
-func (lb *LoadbalancerService) Removefromblacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadbalancerDetails, error) {
+func (lb *LoadBalancerService) Removefromblacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
-			Loadbalancer LoadbalancerDetails
+			LoadBalancer LoadBalancerDetails
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/removefromblacklist", &data, struct {
 		BlacklistParams
-		LoadbalancerID string `json:"loadbalancerid"`
+		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
-	return &data.Response.Loadbalancer, err
+	return &data.Response.LoadBalancer, err
 }

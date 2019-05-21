@@ -8,14 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLoadbalancersCreate(t *testing.T) {
+func TestLoadBalancersCreate(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
 	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
 	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
-	params := CreateLoadbalancerParams{
+	params := CreateLoadBalancerParams{
 		DataCenter: "Falkenberg",
 		IPv4:       "192.168.0.1",
 		Name:       "myloadbalancer",
@@ -31,9 +31,9 @@ func TestLoadbalancersCreate(t *testing.T) {
 	assert.Equal(t, "192.168.0.1", loadbalancer.IPList[0].Address, "loadbalancer ip is correct")
 }
 
-func TestLoadbalancersDestroy(t *testing.T) {
+func TestLoadBalancersDestroy(t *testing.T) {
 	c := &mockClient{}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	lb.Destroy(context.Background(), "lb123456")
 
@@ -41,12 +41,12 @@ func TestLoadbalancersDestroy(t *testing.T) {
 	assert.Equal(t, "loadbalancer/destroy", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersDetails(t *testing.T) {
+func TestLoadBalancersDetails(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
 	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
 	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	loadbalancer, _ := lb.Details(context.Background(), "lb123456")
 
@@ -58,21 +58,21 @@ func TestLoadbalancersDetails(t *testing.T) {
 
 func TestLoadlancersEdit(t *testing.T) {
 	c := &mockClient{}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
-	lb.Edit(context.Background(), "lb123456", EditLoadbalancerParams{})
+	lb.Edit(context.Background(), "lb123456", EditLoadBalancerParams{})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "loadbalancer/edit", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersList(t *testing.T) {
+func TestLoadBalancersList(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancers": [
 		{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
 		"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
 		"name": "myloadbalancer", "loadbalancerid": "lb123456" }]
 		}}`}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	loadbalancers, _ := lb.List(context.Background())
 
@@ -82,13 +82,13 @@ func TestLoadbalancersList(t *testing.T) {
 	assert.Equal(t, "Falkenberg", (*loadbalancers)[0].DataCenter, "loadbalancer DataCenter is correct")
 }
 
-func TestLoadbalancersAddBackend(t *testing.T) {
+func TestLoadBalancersAddBackend(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend",
 		"stickysessions": "no", "targets": [] }],
 		"loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 	params := AddBackendParams{
 		Name:           "mybackend",
 		Mode:           "tcp",
@@ -103,9 +103,9 @@ func TestLoadbalancersAddBackend(t *testing.T) {
 	assert.Equal(t, "tcp", loadbalancer.BackendsList[0].Mode, "backend mode is correct")
 }
 
-func TestLoadbalancersEditBackend(t *testing.T) {
+func TestLoadBalancersEditBackend(t *testing.T) {
 	c := &mockClient{}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := EditBackendParams{
 		Name: "mybackend",
@@ -117,11 +117,11 @@ func TestLoadbalancersEditBackend(t *testing.T) {
 	assert.Equal(t, "loadbalancer/editbackend", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersRemoveBackend(t *testing.T) {
+func TestLoadBalancersRemoveBackend(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [], "loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 	params := RemoveBackendParams{
 		Name: "mybackend",
 	}
@@ -132,14 +132,14 @@ func TestLoadbalancersRemoveBackend(t *testing.T) {
 	assert.Equal(t, "loadbalancer/removebackend", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersAddFrontend(t *testing.T) {
+func TestLoadBalancersAddFrontend(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend",
 		"stickysessions": "no", "targets": [] }],
 		"frontends": [{"backend": "mybackend", "name": "myfrontend", "port": 8080}],
 		"loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 	params := AddFrontendParams{
 		Backend: "mybackend",
 		Name:    "myfrontend",
@@ -154,9 +154,9 @@ func TestLoadbalancersAddFrontend(t *testing.T) {
 	assert.Equal(t, 8080, loadbalancer.FrontendsList[0].Port, "Frontend port is correct")
 }
 
-func TestLoadbalancersEditFrontend(t *testing.T) {
+func TestLoadBalancersEditFrontend(t *testing.T) {
 	c := &mockClient{}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := EditFrontendParams{
 		Name: "myfrontend",
@@ -168,11 +168,11 @@ func TestLoadbalancersEditFrontend(t *testing.T) {
 	assert.Equal(t, "loadbalancer/editfrontend", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersRemoveFrontend(t *testing.T) {
+func TestLoadBalancersRemoveFrontend(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"frontends": [], "loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 	params := RemoveFrontendParams{
 		Name: "myfrontend",
 	}
@@ -183,14 +183,14 @@ func TestLoadbalancersRemoveFrontend(t *testing.T) {
 	assert.Equal(t, "loadbalancer/removefrontend", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersAddTarget(t *testing.T) {
+func TestLoadBalancersAddTarget(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend", "stickysessions": "no",
 			"targets": [{"ipaddress": "8.8.8.8", "name": "mytarget", "port": 8080, "status": "DOWN", "weight": 10}]
 			}],
 		"loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := AddTargetParams{
 		Backend:  "mybackend",
@@ -209,14 +209,14 @@ func TestLoadbalancersAddTarget(t *testing.T) {
 	assert.Equal(t, 10, loadbalancer.BackendsList[0].Targets[0].Weight, "Target weight is correct")
 }
 
-func TestLoadbalancersEditTarget(t *testing.T) {
+func TestLoadBalancersEditTarget(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend", "stickysessions": "no",
 			"targets": [{"ipaddress": "8.8.8.8", "name": "mytarget", "port": 8080, "status": "DOWN", "weight": 10}]
 			}],
 		"loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := EditTargetParams{
 		Backend:  "mybackend",
@@ -232,14 +232,14 @@ func TestLoadbalancersEditTarget(t *testing.T) {
 	assert.Equal(t, "loadbalancer/edittarget", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersEnableTarget(t *testing.T) {
+func TestLoadBalancersEnableTarget(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend", "stickysessions": "no",
 			"targets": [{"ipaddress": "8.8.8.8", "name": "mytarget", "port": 8080, "status": "MAINT", "weight": 10}]
 			}],
 		"loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := ToggleTargetParams{
 		Backend: "mybackend",
@@ -252,14 +252,14 @@ func TestLoadbalancersEnableTarget(t *testing.T) {
 	assert.Equal(t, "loadbalancer/enabletarget", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersDisableTarget(t *testing.T) {
+func TestLoadBalancersDisableTarget(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer": {
 		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend", "stickysessions": "no",
 			"targets": [{"ipaddress": "8.8.8.8", "name": "mytarget", "port": 8080, "status": "MAINT", "weight": 10}]
 			}],
 		"loadbalancerid": "lb123456"}}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := ToggleTargetParams{
 		Backend: "mybackend",
@@ -272,9 +272,9 @@ func TestLoadbalancersDisableTarget(t *testing.T) {
 	assert.Equal(t, "loadbalancer/disabletarget", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersRemoveTarget(t *testing.T) {
+func TestLoadBalancersRemoveTarget(t *testing.T) {
 	c := &mockClient{}
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := RemoveTargetParams{
 		Backend: "mybackend",
@@ -287,13 +287,13 @@ func TestLoadbalancersRemoveTarget(t *testing.T) {
 	assert.Equal(t, "loadbalancer/removetarget", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersAddtoblacklist(t *testing.T) {
+func TestLoadBalancersAddtoblacklist(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
 	{ "backends": [], "blacklist": ["10.0.0.10/32"], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
 	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := BlacklistParams{
 		Prefix: "10.0.0.10/32",
@@ -307,13 +307,13 @@ func TestLoadbalancersAddtoblacklist(t *testing.T) {
 	assert.Equal(t, "10.0.0.10/32", myprefix, "prefix set correct")
 }
 
-func TestLoadbalancersRemovefromblacklist(t *testing.T) {
+func TestLoadBalancersRemovefromblacklist(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancers": {
 		"backends": [{'name': 'my-backend'}], "blacklist": [],
 		"name": "myloadbalancer", "loadbalancerid": "lb123456" }
 	}}`}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := BlacklistParams{
 		Prefix: "10.0.0.10/32",
@@ -327,10 +327,10 @@ func TestLoadbalancersRemovefromblacklist(t *testing.T) {
 	assert.Equal(t, "", myprefix, "prefix correctly absent")
 }
 
-func TestLoadbalancersAddCertificate(t *testing.T) {
+func TestLoadBalancersAddCertificate(t *testing.T) {
 	c := &mockClient{}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	params := AddCertificateParams{
 		Name:        "mycert",
@@ -343,10 +343,10 @@ func TestLoadbalancersAddCertificate(t *testing.T) {
 	assert.Equal(t, "loadbalancer/addcertificate", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersListCertificate(t *testing.T) {
+func TestLoadBalancersListCertificate(t *testing.T) {
 	c := &mockClient{}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	lb.ListCertificate(context.Background(), "lb123456")
 
@@ -354,10 +354,10 @@ func TestLoadbalancersListCertificate(t *testing.T) {
 	assert.Equal(t, "loadbalancer/listcertificate", c.lastPath, "path used is correct")
 }
 
-func TestLoadbalancersRemoveCertificate(t *testing.T) {
+func TestLoadBalancersRemoveCertificate(t *testing.T) {
 	c := &mockClient{}
 
-	lb := LoadbalancerService{client: c}
+	lb := LoadBalancerService{client: c}
 
 	lb.RemoveCertificate(context.Background(), "lb123456", "mycert")
 
