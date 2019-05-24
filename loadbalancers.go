@@ -114,14 +114,14 @@ type AddFrontendParams struct {
 type EditFrontendParams struct {
 	ClientTimeout  int    `json:"clienttimeout,omitempty"`
 	MaxConnections int    `json:"maxconnections,omitempty"`
-	Name           string `json:"name"`
+	Name           string `json:"frontendname"`
 	Port           int    `json:"port,omitempty"`
 	SSLCertificate string `json:"sslcertificate,omitempty"`
 }
 
 // RemoveFrontendParams used when removing
 type RemoveFrontendParams struct {
-	Name string `json:"backendname"`
+	Name string `json:"frontendname"`
 }
 
 // Targets used in backends
