@@ -54,10 +54,13 @@ type EditLoadBalancerParams struct {
 
 // LoadBalancerBackend represents a LoadBalancer Backend
 type LoadBalancerBackend struct {
-	ConnectTimeout int      `json:"connecttimeout"`
-	Mode           string   `json:"mode"`
-	Name           string   `json:"name"`
-	Targets        []Target `json:"targets"`
+	ConnectTimeout  int      `json:"connecttimeout"`
+	Mode            string   `json:"mode"`
+	Name            string   `json:"name"`
+	ResponseTimeout int      `json:"responsetimeout"`
+	Status          string   `json:"status"`
+	StickySession   string   `json:"stickysessions"`
+	Targets         []Target `json:"targets"`
 }
 
 // AddBackendParams used when creating backends
