@@ -76,7 +76,7 @@ type AddBackendParams struct {
 type EditBackendParams struct {
 	ConnectTimeout  int    `json:"connecttimeout,omitempty"`
 	Mode            string `json:"mode,omitempty"`
-	Name            string `json:"name"`
+	Name            string `json:"backendname"`
 	ResponseTimeout int    `json:"responsetimeout,omitempty"`
 	StickySession   string `json:"stickysession,omitempty"`
 }
