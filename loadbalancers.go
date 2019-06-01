@@ -149,7 +149,7 @@ type AddTargetParams struct {
 // EditTargetParams used when editing targets
 type EditTargetParams struct {
 	Backend  string `json:"backendname"`
-	Name     string `json:"name"`
+	Name     string `json:"targetname"`
 	Port     int    `json:"port,omitempty"`
 	TargetIP string `json:"ipaddress,omitempty"`
 	Weight   int    `json:"weight,omitempty"`
