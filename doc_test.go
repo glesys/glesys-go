@@ -154,6 +154,26 @@ func ExampleLoadBalancer_AddCertificate() {
 	})
 }
 
+func ExampleLoadBalancer_ListCertificate() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	certlist, _ := client.LoadBalancers.ListCertificate(context.Background(), "lb123456")
+
+	for _, cert := range *certlist {
+		fmt.Println("Certificate:", cert)
+	}
+}
+
+func ExampleLoadBalancer_RemoveCertificate() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.LoadBalancers.RemoveCertificate(context.Background(), "lb123456", "mycert")
+
+	if err != nil {
+		fmt.Printf("Error removing certificate: %s\n", err)
+	}
+}
+
 func ExampleNetworkAdapterService_Create() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
