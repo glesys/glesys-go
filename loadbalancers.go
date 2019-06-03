@@ -34,11 +34,6 @@ type LoadBalancerIP struct {
 	Version         int    `json:"version"`
 }
 
-// Certificate associated with the loadbalancer
-type Certificate struct {
-	Name []string `json:"certificate"`
-}
-
 // CreateLoadBalancerParams is used when creating a new loadbalancer
 type CreateLoadBalancerParams struct {
 	DataCenter string `json:"datacenter"`
