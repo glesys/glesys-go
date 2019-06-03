@@ -32,7 +32,8 @@ func TestLoadBalancersCreate(t *testing.T) {
 }
 
 func TestLoadBalancersDestroy(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{"response": {"status":{"code": 200,
+	"timestamp": "2019-01-01T12:00:00+02:00", "text": "Deleted Loadbalancer", "transactionid": "None" }}}`}
 	lb := LoadBalancerService{client: c}
 
 	lb.Destroy(context.Background(), "lb123456")
@@ -57,10 +58,18 @@ func TestLoadBalancersDetails(t *testing.T) {
 }
 
 func TestLoadlancersEdit(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{ "response": { "loadbalancer":
+	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
+	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
+	"name": "newloadbalancername", "loadbalancerid": "lb123456" }}}`}
+
 	lb := LoadBalancerService{client: c}
 
-	lb.Edit(context.Background(), "lb123456", EditLoadBalancerParams{})
+	params := EditLoadBalancerParams{
+		Name: "newloadbalancername",
+	}
+
+	lb.Edit(context.Background(), "lb123456", params)
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "loadbalancer/edit", c.lastPath, "path used is correct")
@@ -104,11 +113,15 @@ func TestLoadBalancersAddBackend(t *testing.T) {
 }
 
 func TestLoadBalancersEditBackend(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{ "response": { "loadbalancer": {
+		"backends": [{"connecttimeout": 4000, "mode": "http", "name": "mybackend",
+		"stickysessions": "no", "targets": [] }],
+		"loadbalancerid": "lb123456"}}}`}
 	lb := LoadBalancerService{client: c}
 
 	params := EditBackendParams{
 		Name: "mybackend",
+		Mode: "http",
 	}
 
 	lb.EditBackend(context.Background(), "lb123456", params)
@@ -155,11 +168,16 @@ func TestLoadBalancersAddFrontend(t *testing.T) {
 }
 
 func TestLoadBalancersEditFrontend(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{ "response": { "loadbalancer": {
+		"backends": [{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend",
+		"stickysessions": "no", "targets": [] }],
+		"frontends": [{"backend": "mybackend", "name": "myfrontend", "port": 7000}],
+		"loadbalancerid": "lb123456"}}}`}
 	lb := LoadBalancerService{client: c}
 
 	params := EditFrontendParams{
 		Name: "myfrontend",
+		Port: 7000,
 	}
 
 	lb.EditFrontend(context.Background(), "lb123456", params)
@@ -273,7 +291,8 @@ func TestLoadBalancersDisableTarget(t *testing.T) {
 }
 
 func TestLoadBalancersRemoveTarget(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{ "response": { "loadbalancer": { "backends":
+	[{"connecttimeout": 4000, "mode": "tcp", "name": "mybackend", "stickysessions": "no", "targets": [] }], "loadbalancerid": "lb123456"}}}`}
 	lb := LoadBalancerService{client: c}
 
 	params := RemoveTargetParams{
@@ -328,7 +347,8 @@ func TestLoadBalancersRemoveFromBlacklist(t *testing.T) {
 }
 
 func TestLoadBalancersAddCertificate(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{"response": {"status":{"code": 200,
+	"timestamp": "2019-01-01T12:00:00+02:00", "text": "OK", "transactionid": "None" }}}`}
 
 	lb := LoadBalancerService{client: c}
 
@@ -344,7 +364,9 @@ func TestLoadBalancersAddCertificate(t *testing.T) {
 }
 
 func TestLoadBalancersListCertificate(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{"response": {"status":{"code": 200,
+	"timestamp": "2019-01-01T12:00:00+02:00", "text": "OK", "transactionid": "None" }
+	"certificate": ["mycert"]}}`}
 
 	lb := LoadBalancerService{client: c}
 
@@ -355,7 +377,8 @@ func TestLoadBalancersListCertificate(t *testing.T) {
 }
 
 func TestLoadBalancersRemoveCertificate(t *testing.T) {
-	c := &mockClient{}
+	c := &mockClient{body: `{"response": {"status":{"code": 200,
+	"timestamp": "2019-01-01T13:00:00+02:00", "text": "OK", "transactionid": "None" }}}`}
 
 	lb := LoadBalancerService{client: c}
 
