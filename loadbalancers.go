@@ -306,11 +306,11 @@ func (lb *LoadBalancerService) AddCertificate(context context.Context, loadbalan
 	}{params, loadbalancerID})
 }
 
-// ListCertificate list certificates for the LoadBalancer
-func (lb *LoadBalancerService) ListCertificate(context context.Context, loadbalancerID string) (*[]string, error) {
+// ListCertificates list certificates for the LoadBalancer
+func (lb *LoadBalancerService) ListCertificates(context context.Context, loadbalancerID string) (*[]string, error) {
 	data := struct {
 		Response struct {
-			Certificates []string `json:"certificate"` // TODO cleanup and use the Certificate struct
+			Certificates []string `json:"certificate"`
 		}
 	}{}
 	err := lb.client.post(context, "loadbalancer/listcertificate", &data, struct {

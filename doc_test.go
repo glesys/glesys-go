@@ -157,7 +157,7 @@ func ExampleLoadBalancer_AddCertificate() {
 func ExampleLoadBalancer_ListCertificate() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	certlist, _ := client.LoadBalancers.ListCertificate(context.Background(), "lb123456")
+	certlist, _ := client.LoadBalancers.ListCertificates(context.Background(), "lb123456")
 
 	for _, cert := range *certlist {
 		fmt.Println("Certificate:", cert)

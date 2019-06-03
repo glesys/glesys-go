@@ -363,14 +363,14 @@ func TestLoadBalancersAddCertificate(t *testing.T) {
 	assert.Equal(t, "loadbalancer/addcertificate", c.lastPath, "path used is correct")
 }
 
-func TestLoadBalancersListCertificate(t *testing.T) {
+func TestLoadBalancersListCertificates(t *testing.T) {
 	c := &mockClient{body: `{"response": {"status":{"code": 200,
 	"timestamp": "2019-01-01T12:00:00+02:00", "text": "OK", "transactionid": "None" }
 	"certificate": ["mycert"]}}`}
 
 	lb := LoadBalancerService{client: c}
 
-	lb.ListCertificate(context.Background(), "lb123456")
+	lb.ListCertificates(context.Background(), "lb123456")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "loadbalancer/listcertificate", c.lastPath, "path used is correct")
