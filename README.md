@@ -21,7 +21,7 @@ go get github.com/glesys/glesys-go
 
 To use the glesys-go library you need a GleSYS Cloud account and a valid API
 key. You can sign up for an account at https://glesys.com/signup. After signing
-up visit https://customer.glesys.com to create an API key for your Project.
+up visit https://cloud.glesys.com to create an API key for your Project.
 
 #### Set up a Client
 
