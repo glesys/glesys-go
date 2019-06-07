@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.3.0] - 2019-06-07
 ### Added
-- `LoadBalancerService` resource.
+- `LoadBalancerService` resource. - @norrland
+
+### Changed
+- Reference the current URL for GleSYS Cloud. - @abergman
 
 ## [2.2.0] - 2018-11-04
 ### Added
