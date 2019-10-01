@@ -165,7 +165,9 @@ func (s *DomainService) Details(context context.Context, domainname string) (*Do
 			Domain Domain
 		}
 	}{}
-	err := s.client.post(context, "domain/details", &data, domainname)
+	err := s.client.post(context, "domain/details", &data, struct {
+		Name string `json:"domainname"`
+	}{domainname})
 	return &data.Response.Domain, err
 }
 
