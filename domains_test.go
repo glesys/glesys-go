@@ -24,7 +24,7 @@ func TestDomainsAdd(t *testing.T) {
 	assert.Equal(t, "domain/add", c.lastPath, "path used is correct")
 	assert.Equal(t, "example.com", domain.Name, "Domain name is correct")
 	assert.Equal(t, 9, domain.RecordCount, "Domain has the correct number of records")
-	assert.Equal(t, false, domain.UsingGlesysNameserver, "Domain is not using glesys nameservers")
+	assert.Equal(t, "no", domain.UsingGlesysNameserver, "Domain is not using glesys nameservers")
 }
 
 func TestDomainsDeleteDomain(t *testing.T) {
@@ -44,7 +44,7 @@ func TestDomainsDeleteDomain(t *testing.T) {
 func TestDomainsEdit(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
-          "recordcount": 9, "usingglesysnameserver": true,
+          "recordcount": 9, "usingglesysnameserver": "yes",
           "primarynameserver": "ns1.namesystem.se.",
           "responsibleperson": "registry.glesys.se.",
           "ttl": 3600, "refresh": 10800, "retry": 2400, "expire": 1814400, "minimum": 10800,
@@ -83,7 +83,7 @@ func TestDomainsAvailable(t *testing.T) {
 func TestDomainsDetails(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
-          "recordcount": 9, "usingglesysnameserver": true,
+          "recordcount": 9, "usingglesysnameserver": "yes",
           "primarynameserver": "ns1.namesystem.se.",
           "responsibleperson": "registry.glesys.se.",
           "ttl": 3600, "refresh": 10800, "retry": 2700, "expire": 1814400, "minimum": 10800,
@@ -97,7 +97,7 @@ func TestDomainsDetails(t *testing.T) {
 	assert.Equal(t, "domain/details", c.lastPath, "path used is correct")
 	assert.Equal(t, "example.com", domain.Name, "Domain name is correct")
 	assert.Equal(t, 3600, domain.TTL, "Domain has the correct TTL")
-	assert.Equal(t, true, domain.UsingGlesysNameserver, "Domain is using glesys nameservers")
+	assert.Equal(t, "yes", domain.UsingGlesysNameserver, "Domain is using glesys nameservers")
 }
 
 func TestDomainsList(t *testing.T) {

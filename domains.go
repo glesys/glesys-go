@@ -24,7 +24,7 @@ type Domain struct {
 	ResponsiblePerson     string        `json:"responsibleperson,omitempty"`
 	Retry                 int           `json:"retry,omitempty"`
 	TTL                   int           `json:"ttl,omitempty"`
-	UsingGlesysNameserver bool          `json:"usingglesysnameserver,omitempty"`
+	UsingGlesysNameserver string        `json:"usingglesysnameserver,omitempty"`
 }
 
 type DomainPrice struct {
