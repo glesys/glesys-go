@@ -13,6 +13,7 @@ type DomainService struct {
 type Domain struct {
 	Name                  string        `json:"domainname"`
 	Available             bool          `json:"available,omitempty"`
+	CreateTime            string        `json:"createtime,omitempty"`
 	DisplayName           string        `json:"displayname,omitempty"`
 	Expire                int           `json:"expire,omitempty"`
 	Minimum               int           `json:"minimum,omitempty"`
