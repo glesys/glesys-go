@@ -49,7 +49,7 @@ func TestDomainsEdit(t *testing.T) {
           "responsibleperson": "registry.glesys.se.",
           "ttl": 3600, "refresh": 10800, "retry": 2400, "expire": 1814400, "minimum": 10800,
           "contactinfo": "None", "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
-            "autorenew": true, "tld": "com", "invoicenumber": "None"}}}}`}
+            "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 	d := DomainService{client: c}
 
 	params := EditDomainParams{
@@ -88,7 +88,7 @@ func TestDomainsDetails(t *testing.T) {
           "responsibleperson": "registry.glesys.se.",
           "ttl": 3600, "refresh": 10800, "retry": 2700, "expire": 1814400, "minimum": 10800,
           "contactinfo": "None", "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
-            "autorenew": true, "tld": "com", "invoicenumber": "None"}}}}`}
+            "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 	d := DomainService{client: c}
 
 	domain, _ := d.Details(context.Background(), "example.com")
@@ -104,7 +104,7 @@ func TestDomainsList(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domains": [{"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
-          "autorenew": true, "tld": "com", "invoicenumber": "None"}}]}}`}
+          "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}]}}`}
 
 	d := DomainService{client: c}
 
@@ -114,14 +114,14 @@ func TestDomainsList(t *testing.T) {
 	assert.Equal(t, "domain/list", c.lastPath, "path used is correct")
 	assert.Equal(t, "example.com", (*domains)[0].Name, "Domain name is correct")
 	assert.Equal(t, 4, (*domains)[0].RecordCount, "record count correct")
-	assert.Equal(t, true, (*domains)[0].RegistrarInfo.AutoRenew, "Domain AutoRenew is set")
+	assert.Equal(t, "yes", (*domains)[0].RegistrarInfo.AutoRenew, "Domain AutoRenew is set")
 }
 
 func TestDomainsRegister(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "REGISTER", "statedescription": "", "expire": "2038-01-19",
-          "autorenew": true, "tld": "com", "invoicenumber": "None"}}}}`}
+          "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
 	d := DomainService{client: c}
 	params := RegisterDomainParams{
@@ -148,7 +148,7 @@ func TestDomainsTransfer(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "TRANSFER", "statedescription": "", "expire": "2038-01-19",
-          "autorenew": true, "tld": "com", "invoicenumber": "None"}}}}`}
+          "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
 	d := DomainService{client: c}
 	params := RegisterDomainParams{

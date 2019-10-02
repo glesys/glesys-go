@@ -62,7 +62,7 @@ type EditDomainParams struct {
 
 // RegistrarInfo contains information about the registrar for the domain
 type RegistrarInfo struct {
-	AutoRenew        bool   `json:"autorenew"`
+	AutoRenew        string `json:"autorenew"`
 	State            string `json:"state"`
 	StateDescription string `json:"statedescription,omitempty"`
 	Expire           string `json:"expire,omitempty"`
