@@ -11,7 +11,7 @@ func TestEmailsOverview(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":1,"total":1,"perpage":1}}}}`}
 	s := EmailService{client: c}
 
-	emailoverview, _ := s.Overview(context.Background(), EmailOverviewParams{})
+	emailoverview, _ := s.Overview(context.Background(), OverviewParams{})
 	emaildomains := &emailoverview.Domains
 	emailsummary := &emailoverview.Summary
 	emailmeta := &emailoverview.Meta
@@ -35,7 +35,7 @@ func TestEmailsOverviewWithFilterParameter(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":1,"total":1,"perpage":1}}}}`}
 	s := EmailService{client: c}
 
-	emailoverview, _ := s.Overview(context.Background(), EmailOverviewParams{Filter: "example.com"})
+	emailoverview, _ := s.Overview(context.Background(), OverviewParams{Filter: "example.com"})
 	emaildomains := &emailoverview.Domains
 	emailsummary := &emailoverview.Summary
 	emailmeta := &emailoverview.Meta
@@ -58,7 +58,7 @@ func TestEmailsOverviewWithFilterParameter(t *testing.T) {
 func TestEmailsOverviewWithPageParameter(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":2,"total":31,"perpage":30}}}}`}
 	s := EmailService{client: c}
-	emailoverview, _ := s.Overview(context.Background(), EmailOverviewParams{Page: 2})
+	emailoverview, _ := s.Overview(context.Background(), OverviewParams{Page: 2})
 	emaildomains := &emailoverview.Domains
 	emailsummary := &emailoverview.Summary
 	emailmeta := &emailoverview.Meta
@@ -82,7 +82,7 @@ func TestEmailsOverviewWithFilterAndPageParameter(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":1,"total":1,"perpage":1}}}}`}
 	s := EmailService{client: c}
 
-	emailoverview, _ := s.Overview(context.Background(), EmailOverviewParams{Filter: "example.com", Page: 1})
+	emailoverview, _ := s.Overview(context.Background(), OverviewParams{Filter: "example.com", Page: 1})
 	emaildomains := &emailoverview.Domains
 	emailsummary := &emailoverview.Summary
 	emailmeta := &emailoverview.Meta
@@ -106,7 +106,7 @@ func TestEmailsGlobalQuotaWithoutNewParam(t *testing.T) {
 	c := &mockClient{body: `{"response":{"globalquota":{"usage":0,"max":10240}}}`}
 	s := EmailService{client: c}
 
-	emailglobalquota, _ := s.GlobalQuota(context.Background(), EmailGlobalQuotaParams{})
+	emailglobalquota, _ := s.GlobalQuota(context.Background(), GlobalQuotaParams{})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "email/globalquota", c.lastPath, "path used is correct")
@@ -118,7 +118,7 @@ func TestEmailsGlobalQuotaWithNewParam(t *testing.T) {
 	c := &mockClient{body: `{"response":{"globalquota":{"usage":0,"max":20480}}}`}
 	s := EmailService{client: c}
 
-	emailglobalquota, _ := s.GlobalQuota(context.Background(), EmailGlobalQuotaParams{GlobalQuota: 20480})
+	emailglobalquota, _ := s.GlobalQuota(context.Background(), GlobalQuotaParams{GlobalQuota: 20480})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "email/globalquota", c.lastPath, "path used is correct")

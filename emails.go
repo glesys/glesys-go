@@ -37,8 +37,8 @@ type EmailOverview struct {
 	Meta    EmailOverviewMeta     `json:"meta"`
 }
 
-// EmailOverviewParams is used for Filtering and/or Paging on the overview endpoint.
-type EmailOverviewParams struct {
+// OverviewParams is used for Filtering and/or Paging on the overview endpoint.
+type OverviewParams struct {
 	Filter string `json:"filter,omitempty"`
 	Page   int    `json:"page,omitempty"`
 }
@@ -48,12 +48,12 @@ type EmailGlobalQuota struct {
 	Max   int `json:"max"`
 }
 
-type EmailGlobalQuotaParams struct {
+type GlobalQuotaParams struct {
 	GlobalQuota int `json:"globalquota,omitempty"`
 }
 
 // Overview fetches a summary of the email accounts and domains on the account.
-func (em *EmailService) Overview(context context.Context, params EmailOverviewParams) (*EmailOverview, error) {
+func (em *EmailService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
 
 	// String builder for creating the suffix based on the page and/or filter.
 	var suffixbuilder strings.Builder
@@ -83,7 +83,7 @@ func (em *EmailService) Overview(context context.Context, params EmailOverviewPa
 }
 
 // GlobalQuoata enables the user to set and get the global quota.
-func (em *EmailService) GlobalQuota(context context.Context, params EmailGlobalQuotaParams) (*EmailGlobalQuota, error) {
+func (em *EmailService) GlobalQuota(context context.Context, params GlobalQuotaParams) (*EmailGlobalQuota, error) {
 	data := struct {
 		Response struct {
 			GlobalQuota EmailGlobalQuota
@@ -91,7 +91,7 @@ func (em *EmailService) GlobalQuota(context context.Context, params EmailGlobalQ
 	}{}
 
 	err := em.client.post(context, "email/globalquota", &data, struct {
-		EmailGlobalQuotaParams
+		GlobalQuotaParams
 	}{params})
 
 	return &data.Response.GlobalQuota, err

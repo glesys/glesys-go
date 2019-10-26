@@ -10,8 +10,8 @@ import (
 func ExampleEmailService_Overview() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	// NOTE: All parameters in EmailOverviewParams are optional and can be omitted.
-	overview, _ := client.Emails.Overview(context.Background(), glesys.EmailOverviewParams{
+	// NOTE: All parameters in OverviewParams are optional and can be omitted.
+	overview, _ := client.Emails.Overview(context.Background(), glesys.OverviewParams{
 		Filter: "your-domain.com",
 		Page:   1,
 	})
@@ -23,7 +23,7 @@ func ExampleEmailService_GlobalQuota() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The GlobalQuota parameter can be omitted to only fetch the current value.
-	globalquota, _ := client.Emails.GlobalQuota(context.Background(), glesys.EmailGlobalQuotaParams{
+	globalquota, _ := client.Emails.GlobalQuota(context.Background(), glesys.GlobalQuotaParams{
 		GlobalQuota: 20480,
 	})
 
