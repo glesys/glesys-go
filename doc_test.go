@@ -7,6 +7,18 @@ import (
 	glesys "github.com/glesys/glesys-go"
 )
 
+func ExampleEmailService_Overview() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: All parameters in EmailOverviewParams are optional and can be omitted.
+	overview, _ := client.Emails.Overview(context.Background(), glesys.EmailOverviewParams{
+		Filter: "your-domain.com",
+		Page:   1,
+	})
+
+	fmt.Printf("%#v", overview)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

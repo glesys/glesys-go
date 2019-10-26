@@ -20,6 +20,7 @@
 // The different modules of the GleSYS API are available on the client.
 // For example:
 //
+//     client.Emails.Overview(...)
 //     client.IPs.List(...)
 //     client.NetworkAdapters.Create(...)
 //     client.Networks.Create(...)
