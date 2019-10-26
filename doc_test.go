@@ -31,6 +31,17 @@ func ExampleEmailService_GlobalQuota() {
 	fmt.Println(globalquota.Max)
 }
 
+func ExampleEmailService_List() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: The filter in ListEmailsParams is optional and can be omitted.
+	list, _ := client.Emails.List(context.Background(), "your-domain.com", glesys.ListEmailsParams{
+		Filter: "user@your-domain.com",
+	})
+
+	fmt.Printf("%#v\n", list)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

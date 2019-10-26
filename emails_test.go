@@ -125,3 +125,32 @@ func TestEmailsGlobalQuotaWithNewParam(t *testing.T) {
 	assert.Equal(t, 0, emailglobalquota.Usage, "usage number is correct")
 	assert.Equal(t, 20480, emailglobalquota.Max, "max number is correct")
 }
+
+func TestEmailsList(t *testing.T) {
+	c := &mockClient{body: `{"response":{"list":{"emailaccounts":[{"emailaccount":"user@example.com","displayname":"user@example.com","quota":{"max":200,"unit":"MB"},"antispamlevel":3,"antivirus":"yes","autorespond":"yes","autorespondmessage":"This is not the account you are looking for.\n\nMove along, move along.","autorespondsaveemail":"yes","rejectspam":"no","created":"2019-10-26T13:07:13+02:00","modified":"2019-10-26T15:38:51+02:00"}],"emailaliases":[{"emailalias":"alias@example.com","displayname":"alias@example.com","goto":"user@example.com"}]}}}`}
+	s := EmailService{client: c}
+
+	emaillist, _ := s.List(context.Background(), "example.com", ListEmailsParams{})
+	emailaccounts := &emaillist.EmailAccounts
+	emailaliases := &emaillist.EmailAliases
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/list", c.lastPath, "path used is correct")
+
+	assert.Equal(t, "user@example.com", (*emailaccounts)[0].EmailAccount, "emailaccount is correct")
+	assert.Equal(t, "user@example.com", (*emailaccounts)[0].DisplayName, "displayname is correct")
+	assert.Equal(t, 200, (*emailaccounts)[0].Quota.Max, "quota.max is correct")
+	assert.Equal(t, "MB", (*emailaccounts)[0].Quota.Unit, "quota.unit is correct")
+	assert.Equal(t, 3, (*emailaccounts)[0].AntiSpamLevel, "antispamlevel is correct")
+	assert.Equal(t, "yes", (*emailaccounts)[0].AntiVirus, "antivirus is correct")
+	assert.Equal(t, "yes", (*emailaccounts)[0].AutoRespond, "autorespond is correct")
+	assert.Equal(t, "This is not the account you are looking for.\n\nMove along, move along.", (*emailaccounts)[0].AutoRespondMessage, "autorespondmessage is correct")
+	assert.Equal(t, "yes", (*emailaccounts)[0].AutoRespondSaveEmail, "autorespondsaveemail is correct")
+	assert.Equal(t, "no", (*emailaccounts)[0].RejectSpam, "rejectspam is correct")
+	assert.Equal(t, "2019-10-26T13:07:13+02:00", (*emailaccounts)[0].Created, "created is correct")
+	assert.Equal(t, "2019-10-26T15:38:51+02:00", (*emailaccounts)[0].Modified, "modified is correct")
+
+	assert.Equal(t, "alias@example.com", (*emailaliases)[0].EmailAlias, "emailalias is correct")
+	assert.Equal(t, "alias@example.com", (*emailaliases)[0].DisplayName, "displayname is correct")
+	assert.Equal(t, "user@example.com", (*emailaliases)[0].GoTo, "goto is correct")
+}

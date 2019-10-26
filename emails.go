@@ -48,8 +48,43 @@ type EmailGlobalQuota struct {
 	Max   int `json:"max"`
 }
 
+// GlobalQuotaParams is used for updating the global quota for email accounts.
 type GlobalQuotaParams struct {
 	GlobalQuota int `json:"globalquota,omitempty"`
+}
+
+type EmailAccountQuota struct {
+	Max  int    `json:"max"`
+	Unit string `json:"unit"`
+}
+
+type EmailAccount struct {
+	EmailAccount         string            `json:"emailaccount"`
+	DisplayName          string            `json:"displayname"`
+	Quota                EmailAccountQuota `json:"quota"`
+	AntiSpamLevel        int               `json:"antispamlevel"`
+	AntiVirus            string            `json:"antivirus"`
+	AutoRespond          string            `json:"autorespond"`
+	AutoRespondMessage   string            `json:"autorespondmessage,omitempty"`
+	AutoRespondSaveEmail string            `json:"autorespondsaveemail"`
+	RejectSpam           string            `json:"rejectspam"`
+	Created              string            `json:"created"`
+	Modified             string            `json:"modified,omitempty"`
+}
+
+type EmailAlias struct {
+	EmailAlias  string `json:"emailalias"`
+	DisplayName string `json:"displayname"`
+	GoTo        string `json:"goto"`
+}
+
+type EmailList struct {
+	EmailAccounts []EmailAccount `json:"emailaccounts"`
+	EmailAliases  []EmailAlias   `json:"emailaliases"`
+}
+
+type ListEmailsParams struct {
+	Filter string `json:"filter,omitempty"`
 }
 
 // Overview fetches a summary of the email accounts and domains on the account.
@@ -95,4 +130,19 @@ func (em *EmailService) GlobalQuota(context context.Context, params GlobalQuotaP
 	}{params})
 
 	return &data.Response.GlobalQuota, err
+}
+
+func (em *EmailService) List(context context.Context, domain string, params ListEmailsParams) (*EmailList, error) {
+	data := struct {
+		Response struct {
+			List EmailList
+		}
+	}{}
+
+	err := em.client.post(context, "email/list", &data, struct {
+		ListEmailsParams
+		DomainName string `json:"domainname"`
+	}{params, domain})
+
+	return &data.Response.List, err
 }
