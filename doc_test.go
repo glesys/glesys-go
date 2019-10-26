@@ -19,6 +19,18 @@ func ExampleEmailService_Overview() {
 	fmt.Printf("%#v", overview)
 }
 
+func ExampleEmailService_GlobalQuota() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: The GlobalQuota parameter can be omitted to only fetch the current value.
+	globalquota, _ := client.Emails.GlobalQuota(context.Background(), glesys.EmailGlobalQuotaParams{
+		GlobalQuota: 20480,
+	})
+
+	fmt.Println(globalquota.Usage)
+	fmt.Println(globalquota.Max)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

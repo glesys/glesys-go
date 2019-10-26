@@ -101,3 +101,27 @@ func TestEmailsOverviewWithFilterAndPageParameter(t *testing.T) {
 	assert.Equal(t, 1, (*emailmeta).Total, "Total number is correct")
 	assert.Equal(t, 1, (*emailmeta).PerPage, "Per page number is correct")
 }
+
+func TestEmailsGlobalQuotaWithoutNewParam(t *testing.T) {
+	c := &mockClient{body: `{"response":{"globalquota":{"usage":0,"max":10240}}}`}
+	s := EmailService{client: c}
+
+	emailglobalquota, _ := s.GlobalQuota(context.Background(), EmailGlobalQuotaParams{})
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/globalquota", c.lastPath, "path used is correct")
+	assert.Equal(t, 0, emailglobalquota.Usage, "usage number is correct")
+	assert.Equal(t, 10240, emailglobalquota.Max, "max number is correct")
+}
+
+func TestEmailsGlobalQuotaWithNewParam(t *testing.T) {
+	c := &mockClient{body: `{"response":{"globalquota":{"usage":0,"max":20480}}}`}
+	s := EmailService{client: c}
+
+	emailglobalquota, _ := s.GlobalQuota(context.Background(), EmailGlobalQuotaParams{GlobalQuota: 20480})
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/globalquota", c.lastPath, "path used is correct")
+	assert.Equal(t, 0, emailglobalquota.Usage, "usage number is correct")
+	assert.Equal(t, 20480, emailglobalquota.Max, "max number is correct")
+}

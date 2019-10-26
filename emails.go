@@ -43,6 +43,15 @@ type EmailOverviewParams struct {
 	Page   int    `json:"page,omitempty"`
 }
 
+type EmailGlobalQuota struct {
+	Usage int `json:"usage"`
+	Max   int `json:"max"`
+}
+
+type EmailGlobalQuotaParams struct {
+	GlobalQuota int `json:"globalquota,omitempty"`
+}
+
 // Overview fetches a summary of the email accounts and domains on the account.
 func (em *EmailService) Overview(context context.Context, params EmailOverviewParams) (*EmailOverview, error) {
 
@@ -71,4 +80,19 @@ func (em *EmailService) Overview(context context.Context, params EmailOverviewPa
 	// Append the suffix to the endpoint
 	err := em.client.get(context, "email/overview"+pathsuffix, &data)
 	return &data.Response.Overview, err
+}
+
+// GlobalQuoata enables the user to set and get the global quota.
+func (em *EmailService) GlobalQuota(context context.Context, params EmailGlobalQuotaParams) (*EmailGlobalQuota, error) {
+	data := struct {
+		Response struct {
+			GlobalQuota EmailGlobalQuota
+		}
+	}{}
+
+	err := em.client.post(context, "email/globalquota", &data, struct {
+		EmailGlobalQuotaParams
+	}{params})
+
+	return &data.Response.GlobalQuota, err
 }
