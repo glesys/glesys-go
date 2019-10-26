@@ -31,13 +31,14 @@ type EmailOverviewMeta struct {
 	PerPage int `json:"perpage"`
 }
 
+// EmailOverview represents the overview of the accounts email setups.
 type EmailOverview struct {
 	Summary EmailOverviewSummary  `json:"summary"`
 	Domains []EmailOverviewDomain `json:"domains"`
 	Meta    EmailOverviewMeta     `json:"meta"`
 }
 
-// OverviewParams is used for Filtering and/or Paging on the overview endpoint.
+// OverviewParams is used for filtering and/or paging on the overview endpoint.
 type OverviewParams struct {
 	Filter string `json:"filter,omitempty"`
 	Page   int    `json:"page,omitempty"`
@@ -83,6 +84,7 @@ type EmailList struct {
 	EmailAliases  []EmailAlias   `json:"emailaliases"`
 }
 
+// ListEmailsParams is use for filtering when listing emails for a domain.
 type ListEmailsParams struct {
 	Filter string `json:"filter,omitempty"`
 }
