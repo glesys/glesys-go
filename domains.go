@@ -223,7 +223,9 @@ func (s *DomainService) ListRecords(context context.Context, domainname string) 
 			Records []DomainRecord
 		}
 	}{}
-	err := s.client.post(context, "domain/listrecords", &data, domainname)
+	err := s.client.post(context, "domain/listrecords", &data, struct {
+		Name string `json:"domainname"`
+	}{domainname})
 	return &data.Response.Records, err
 }
 
