@@ -42,6 +42,23 @@ func ExampleEmailService_List() {
 	fmt.Printf("%#v\n", list)
 }
 
+func ExampleEmailService_EditAccount() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: All parameters are optional and can be omitted.
+	editaccount, _ := client.Emails.EditAccount(context.Background(), "user@your-domain.com", glesys.EditAccountParams{
+		AntiSpamLevel:      3,
+		AntiVirus:          "yes",
+		Password:           "SuperSecretPassword",
+		AutoRespond:        "yes",
+		AutoRespondMessage: "Your Automatic Response",
+		Quota:              400,
+		RejectSpam:         "yes",
+	})
+
+	fmt.Printf("%#v\n", editaccount)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

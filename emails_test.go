@@ -154,3 +154,25 @@ func TestEmailsList(t *testing.T) {
 	assert.Equal(t, "alias@example.com", (*emailaliases)[0].DisplayName, "displayname is correct")
 	assert.Equal(t, "user@example.com", (*emailaliases)[0].GoTo, "goto is correct")
 }
+
+func TestEmailEditAccount(t *testing.T) {
+	c := &mockClient{body: `{"response":{"emailaccount":{"emailaccount":"user@example.com","displayname":"user@example.com","quota":{"max":200,"unit":"MB"},"antispamlevel":3,"antivirus":"yes","autorespond":"yes","autorespondmessage":"This is not the account you are looking for.\n\nMove along, move along.","autorespondsaveemail":"yes","rejectspam":"no","created":"2019-10-26T13:07:13+02:00","modified":"2019-11-10T22:09:14+01:00"}}}`}
+	s := EmailService{client: c}
+
+	editaccount, _ := s.EditAccount(context.Background(), "user@example.com", EditAccountParams{Quota: 200})
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/editaccount", c.lastPath, "path used is correct")
+	assert.Equal(t, "user@example.com", editaccount.EmailAccount, "emailaccount is correct")
+	assert.Equal(t, "user@example.com", editaccount.DisplayName, "displayname is correct")
+	assert.Equal(t, 200, editaccount.Quota.Max, "quota.max is correct")
+	assert.Equal(t, "MB", editaccount.Quota.Unit, "quota.unit is correct")
+	assert.Equal(t, 3, editaccount.AntiSpamLevel, "antispamlevel is correct")
+	assert.Equal(t, "yes", editaccount.AntiVirus, "antivirus is correct")
+	assert.Equal(t, "yes", editaccount.AutoRespond, "autorespond is correct")
+	assert.Equal(t, "This is not the account you are looking for.\n\nMove along, move along.", editaccount.AutoRespondMessage, "autorespondmessage is correct")
+	assert.Equal(t, "yes", editaccount.AutoRespondSaveEmail, "autorespondsaveemail is correct")
+	assert.Equal(t, "no", editaccount.RejectSpam, "rejectspam is correct")
+	assert.Equal(t, "2019-10-26T13:07:13+02:00", editaccount.Created, "created is correct")
+	assert.Equal(t, "2019-11-10T22:09:14+01:00", editaccount.Modified, "modified is correct")
+}

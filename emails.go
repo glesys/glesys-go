@@ -89,6 +89,16 @@ type ListEmailsParams struct {
 	Filter string `json:"filter,omitempty"`
 }
 
+type EditAccountParams struct {
+	AntiSpamLevel      int    `json:"antispamlevel,omitempty"`
+	AntiVirus          string `json:"antivirus,omitempty"`
+	Password           string `json:"password,omitempty"`
+	AutoRespond        string `json:"autorespond,omitempty"`
+	AutoRespondMessage string `json:"autorespondmessage,omitempty"`
+	Quota              int    `json:"quota,omitempty"`
+	RejectSpam         string `json:"rejectspam,omitempty"`
+}
+
 // Overview fetches a summary of the email accounts and domains on the account.
 func (em *EmailService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
 
@@ -147,4 +157,20 @@ func (em *EmailService) List(context context.Context, domain string, params List
 	}{params, domain})
 
 	return &data.Response.List, err
+}
+
+//EditAccount allows you to Edit an email account's parameters.
+func (em *EmailService) EditAccount(context context.Context, emailAccount string, params EditAccountParams) (*EmailAccount, error) {
+	data := struct {
+		Response struct {
+			EmailAccount EmailAccount
+		}
+	}{}
+
+	err := em.client.post(context, "email/editaccount", &data, struct {
+		EditAccountParams
+		EmailAccount string `json:"emailaccount"`
+	}{params, emailAccount})
+
+	return &data.Response.EmailAccount, err
 }
