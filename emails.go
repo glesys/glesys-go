@@ -144,6 +144,7 @@ func (em *EmailService) GlobalQuota(context context.Context, params GlobalQuotaP
 	return &data.Response.GlobalQuota, err
 }
 
+// List Gets a list of all accounts and aliases of a domain with full details.
 func (em *EmailService) List(context context.Context, domain string, params ListEmailsParams) (*EmailList, error) {
 	data := struct {
 		Response struct {
