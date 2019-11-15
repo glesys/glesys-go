@@ -175,3 +175,10 @@ func (em *EmailService) EditAccount(context context.Context, emailAccount string
 
 	return &data.Response.EmailAccount, err
 }
+
+// Delete allows you to remove an email account or alias.
+func (em *EmailService) Delete(context context.Context, email string) error {
+	return em.client.post(context, "email/delete", nil, struct {
+		Email string `json:"email"`
+	}{email})
+}

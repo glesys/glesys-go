@@ -176,3 +176,13 @@ func TestEmailEditAccount(t *testing.T) {
 	assert.Equal(t, "2019-10-26T13:07:13+02:00", editaccount.Created, "created is correct")
 	assert.Equal(t, "2019-11-10T22:09:14+01:00", editaccount.Modified, "modified is correct")
 }
+
+func TestEmailDelete(t *testing.T) {
+	c := &mockClient{body: `{"response": {}}`}
+	s := EmailService{client: c}
+
+	s.Delete(context.Background(), "user@example.com")
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/delete", c.lastPath, "path used is correct")
+}

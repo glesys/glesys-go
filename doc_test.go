@@ -59,6 +59,13 @@ func ExampleEmailService_EditAccount() {
 	fmt.Printf("%#v\n", editaccount)
 }
 
+func ExampleEmailService_Delete() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: The email parameter can be both an account and an alias.
+	client.Emails.Delete(context.Background(), "user@your-domain.com")
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
