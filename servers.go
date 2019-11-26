@@ -27,7 +27,7 @@ type Server struct {
 //Are used to create user(s) on new machine
 type User struct {
 	Username     string   `json:"username"`
-	PublicKey    []string `json:"sshkeys"`
+	PublicKeys   []string `json:"sshkeys"`
 	Password     string   `json:"password"`
 }
 
