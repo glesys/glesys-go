@@ -24,6 +24,13 @@ type Server struct {
 	Platform   string `json:"platform"`
 }
 
+//Are used to create user(s) on new machine
+type User struct {
+	Username     string   `json:"username"`
+	PublicKey    []string `json:"sshkeys"`
+	Password     string   `json:"password"`
+}
+
 // ServerDetails is a more complete representation of a server
 type ServerDetails struct {
 	CPU         int    `json:"cpucores"`
@@ -66,6 +73,7 @@ type CreateServerParams struct {
 	PublicKey    string `json:"sshkey,omitempty"`
 	Storage      int    `json:"disksize"`
 	Template     string `json:"templatename"`
+	Users        []User `json:"users"`
 }
 
 // EditServerParams is used when editing an existing server
