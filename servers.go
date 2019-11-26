@@ -24,7 +24,7 @@ type Server struct {
 	Platform   string `json:"platform"`
 }
 
-//Are used to create user(s) on new machine
+// User represents a system user when creating servers (currently supported in KVM)
 type User struct {
 	Username     string   `json:"username"`
 	PublicKeys   []string `json:"sshkeys"`
