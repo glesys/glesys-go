@@ -105,6 +105,33 @@ func (p CreateServerParams) WithDefaults() CreateServerParams {
 	return p
 }
 
+// WithUser populates the parameters with default values for platforms with user support eg. KVM
+// Existing parameters will not be overwritten.
+func (p CreateServerParams) WithUser() CreateServerParams {
+
+	users := []User{{
+		Username:  "glesys",
+		PublicKeys: []string{"ssh-rsa AAAAB3NzaC1yc2EAAAAD"},
+		Password:  "k6is0tnmyevtwe36p4bq7g82yj8kswayob7ula40ywmatn83gr9g7ui6ps4ztrl6",
+	}}
+
+	defaults := CreateServerParams{
+		Bandwidth:  100,
+		CPU:        2,
+		DataCenter: "Falkenberg",
+		Hostname:   generateHostname(),
+		IPv4:       "any",
+		IPv6:       "any",
+		Memory:     2048,
+		Platform:   "KVM",
+		Storage:    20,
+		Template:   "ubuntu-18-04",
+		Users:      users,
+	}
+	mergo.Merge(&p, defaults)
+	return p
+}
+
 // DestroyServerParams is used when destroying a server
 type DestroyServerParams struct {
 	KeepIP bool `json:"keepip"`

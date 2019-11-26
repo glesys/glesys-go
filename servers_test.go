@@ -58,6 +58,29 @@ func TestCreateServerParamsCustomWithDefaults(t *testing.T) {
 	assert.Equal(t, "Debian 8 64-bit", params.Template, "Template has correct default value")
 }
 
+func TestCreateServerParamsWithUsers(t *testing.T) {
+	params := CreateServerParams{}.WithUser()
+
+	users := []User{{
+		Username:  "glesys",
+		PublicKeys: []string{"ssh-rsa AAAAB3NzaC1yc2EAAAAD"},
+		Password:  "k6is0tnmyevtwe36p4bq7g82yj8kswayob7ula40ywmatn83gr9g7ui6ps4ztrl6",
+	}}
+
+	assert.Equal(t, 100, params.Bandwidth, "Bandwidth has correct default value")
+	assert.Equal(t, 2, params.CPU, "CPU has correct default value")
+	assert.Equal(t, "Falkenberg", params.DataCenter, "DataCenter has correct default value")
+	assert.Equal(t, "any", params.IPv4, "IPv4 has correct default value")
+	assert.Equal(t, "any", params.IPv6, "IPv6 has correct default value")
+	assert.Equal(t, 2048, params.Memory, "Memory has correct default value")
+	assert.Equal(t, "KVM", params.Platform, "Platform has correct default value")
+	assert.Equal(t, 20, params.Storage, "Storage has correct default value")
+	assert.Equal(t, "ubuntu-18-04", params.Template, "Template has correct default value")
+	assert.Equal(t, users, params.Users, "Users has correct default value")
+
+	assert.NotEmpty(t, params.Hostname, "Hostname has a default value")
+}
+
 func TestServersCreate(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "server": { "serverid": "vz12345" } } }`}
 	s := ServerService{client: c}
