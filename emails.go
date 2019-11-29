@@ -84,11 +84,12 @@ type EmailList struct {
 	EmailAliases  []EmailAlias   `json:"emailaliases"`
 }
 
-// ListEmailsParams is use for filtering when listing emails for a domain.
+// ListEmailsParams is used for filtering when listing emails for a domain.
 type ListEmailsParams struct {
 	Filter string `json:"filter,omitempty"`
 }
 
+// EditAccountParams is used for updating the different values on an email account.
 type EditAccountParams struct {
 	AntiSpamLevel      int    `json:"antispamlevel,omitempty"`
 	AntiVirus          string `json:"antivirus,omitempty"`
@@ -160,7 +161,7 @@ func (em *EmailService) List(context context.Context, domain string, params List
 	return &data.Response.List, err
 }
 
-//EditAccount allows you to Edit an email account's parameters.
+// EditAccount allows you to Edit an email account's parameters.
 func (em *EmailService) EditAccount(context context.Context, emailAccount string, params EditAccountParams) (*EmailAccount, error) {
 	data := struct {
 		Response struct {
