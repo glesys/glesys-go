@@ -100,6 +100,18 @@ type EditAccountParams struct {
 	RejectSpam         string `json:"rejectspam,omitempty"`
 }
 
+// CreateAccountParams is used for creating new email accounts.
+type CreateAccountParams struct {
+	EmailAccount       string `json:"emailaccount"`
+	Password           string `json:"password"`
+	AntiSpamLevel      int    `json:"antispamlevel,omitempty"`
+	AntiVirus          string `json:"antivirus,omitempty"`
+	AutoRespond        string `json:"autorespond,omitempty"`
+	AutoRespondMessage string `json:"autorespondmessage,omitempty"`
+	Quota              int    `json:"quota,omitempty"`
+	RejectSpam         string `json:"rejectspam,omitempty"`
+}
+
 // Overview fetches a summary of the email accounts and domains on the account.
 func (em *EmailService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
 
@@ -182,4 +194,20 @@ func (em *EmailService) Delete(context context.Context, email string) error {
 	return em.client.post(context, "email/delete", nil, struct {
 		Email string `json:"email"`
 	}{email})
+}
+
+// CreateAccount allows you to create an email account.
+func (em *EmailService) CreateAccount(context context.Context, params CreateAccountParams) (*EmailAccount, error) {
+	data := struct {
+		Response struct {
+			EmailAccount EmailAccount
+		}
+	}{}
+
+	err := em.client.post(context, "email/createaccount", &data, struct {
+		CreateAccountParams
+	}{params})
+
+	return &data.Response.EmailAccount, err
+
 }

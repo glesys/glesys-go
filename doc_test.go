@@ -66,6 +66,24 @@ func ExampleEmailService_Delete() {
 	client.Emails.Delete(context.Background(), "user@your-domain.com")
 }
 
+func ExampleEmailService_CreateAccount() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: All parameters except for EmailAccount and Password are optional and can be omitted.
+	createaccount, _ := client.Emails.CreateAccount(context.Background(), glesys.CreateAccountParams{
+		EmailAccount:       "new_user@example.com",
+		Password:           "SuperSecretPassword",
+		AntiSpamLevel:      3,
+		AntiVirus:          "yes",
+		AutoRespond:        "yes",
+		AutoRespondMessage: "Your Automatic Response",
+		Quota:              400,
+		RejectSpam:         "yes",
+	})
+
+	fmt.Printf("%#v\n", createaccount)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
