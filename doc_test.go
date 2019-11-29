@@ -71,7 +71,7 @@ func ExampleEmailService_CreateAccount() {
 
 	// NOTE: All parameters except for EmailAccount and Password are optional and can be omitted.
 	createaccount, _ := client.Emails.CreateAccount(context.Background(), glesys.CreateAccountParams{
-		EmailAccount:       "new_user@example.com",
+		EmailAccount:       "new_user@your-domain.com",
 		Password:           "SuperSecretPassword",
 		AntiSpamLevel:      3,
 		AntiVirus:          "yes",
