@@ -84,6 +84,14 @@ func ExampleEmailService_CreateAccount() {
 	fmt.Printf("%#v\n", createaccount)
 }
 
+func ExampleEmailQuota() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	quota, _ := client.Emails.Quota(context.Background(), "user@your-domain.com")
+
+	fmt.Printf("%#v\n", quota)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

@@ -84,6 +84,17 @@ type EmailList struct {
 	EmailAliases  []EmailAlias   `json:"emailaliases"`
 }
 
+type EmailAccountQuotaUsed struct {
+	Amount int    `json:"amount"`
+	Unit   string `json:"unit"`
+}
+
+type EmailQuota struct {
+	EmailAccount string                `json:"emailaccount"`
+	Used         EmailAccountQuotaUsed `json:"used"`
+	Total        EmailAccountQuota     `json:"total"`
+}
+
 // ListEmailsParams is used for filtering when listing emails for a domain.
 type ListEmailsParams struct {
 	Filter string `json:"filter,omitempty"`
@@ -209,4 +220,19 @@ func (em *EmailService) CreateAccount(context context.Context, params CreateAcco
 	}{params})
 
 	return &data.Response.EmailAccount, err
+}
+
+// Quota returns the used and total quota for an email account.
+func (em *EmailService) Quota(context context.Context, emailaccount string) (*EmailQuota, error) {
+	data := struct {
+		Response struct {
+			Quota EmailQuota
+		}
+	}{}
+
+	err := em.client.post(context, "email/quota", &data, struct {
+		EmailAccount string `json:"emailaccount"`
+	}{emailaccount})
+
+	return &data.Response.Quota, err
 }

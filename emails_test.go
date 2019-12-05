@@ -209,3 +209,19 @@ func TestCreateAccount(t *testing.T) {
 	assert.Equal(t, "2019-11-29T21:31:28+01:00", createaccount.Created, "created is correct")
 	assert.Equal(t, "", createaccount.Modified, "modified is correct")
 }
+
+func TestQuota(t *testing.T) {
+	c := &mockClient{body: `{"response":{"quota":{"emailaccount":"user@example.com","used":{"amount":0,"unit":"MB"},"total":{"max":400,"unit":"MB"}}}}`}
+
+	s := EmailService{client: c}
+
+	quota, _ := s.Quota(context.Background(), "user@example.com")
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/quota", c.lastPath, "path used is correct")
+	assert.Equal(t, "user@example.com", quota.EmailAccount, "emailaccount is correct")
+	assert.Equal(t, 0, quota.Used.Amount, "used amount is correct")
+	assert.Equal(t, "MB", quota.Used.Unit, "used unit is correct")
+	assert.Equal(t, 400, quota.Total.Max, "total max is correct")
+	assert.Equal(t, "MB", quota.Total.Unit, "total unit is correct")
+}
