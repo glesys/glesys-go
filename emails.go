@@ -209,5 +209,4 @@ func (em *EmailService) CreateAccount(context context.Context, params CreateAcco
 	}{params})
 
 	return &data.Response.EmailAccount, err
-
 }
