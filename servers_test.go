@@ -59,12 +59,23 @@ func TestCreateServerParamsCustomWithDefaults(t *testing.T) {
 }
 
 func TestCreateServerParamsWithUsers(t *testing.T) {
-	params := CreateServerParams{}.WithUser()
+	params := CreateServerParams{
+		Bandwidth: 100,
+		CPU: 2,
+		DataCenter: "Falkenberg",
+		IPv4: "any",
+		IPv6: "any",
+		Memory: 2048,
+		Storage: 20,
+		Platform: "KVM",
+		Template: "ubuntu-18-04",
+		Hostname: "kvmXXXXXXX",
 
-	users := []User{{
-		Username:  "glesys",
-		PublicKeys: []string{"ssh-rsa AAAAB3NzaC1yc2EAAAAD"},
-		Password:  "k6is0tnmyevtwe36p4bq7g82yj8kswayob7ula40ywmatn83gr9g7ui6ps4ztrl6",
+	}.WithUser("glesys", []string{"ssh-rsa"}, "password")
+
+	users := []User{{"glesys",
+		 []string{"ssh-rsa"},
+		 "password",
 	}}
 
 	assert.Equal(t, 100, params.Bandwidth, "Bandwidth has correct default value")
