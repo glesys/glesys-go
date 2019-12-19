@@ -239,3 +239,17 @@ func TestCreateAlias(t *testing.T) {
 	assert.Equal(t, "alias@example.com", alias.DisplayName, "displayname is correct")
 	assert.Equal(t, "user@example.com", alias.GoTo, "goto is correct")
 }
+
+func TestEditAlias(t *testing.T) {
+	c := &mockClient{body: `{"response":{"alias":{"emailalias":"alias@example.com","displayname":"alias@example.com","goto":"anotheruser@example.com"}}}`}
+
+	s := EmailService{client: c}
+
+	alias, _ := s.CreateAlias(context.Background(), EmailAliasParams{EmailAlias: "alias@example.com", GoTo: "user@example.com"})
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/createalias", c.lastPath, "path used is correct")
+	assert.Equal(t, "alias@example.com", alias.EmailAlias, "emailalias is correct")
+	assert.Equal(t, "alias@example.com", alias.DisplayName, "displayname is correct")
+	assert.Equal(t, "anotheruser@example.com", alias.GoTo, "goto is correct")
+}

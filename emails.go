@@ -257,3 +257,18 @@ func (em *EmailService) CreateAlias(context context.Context, params EmailAliasPa
 
 	return &data.Response.Alias, err
 }
+
+// EditAlias updates an already existing alias.
+func (em *EmailService) EditAlias(context context.Context, params EmailAliasParams) (*EmailAlias, error) {
+	data := struct {
+		Response struct {
+			Alias EmailAlias
+		}
+	}{}
+
+	err := em.client.post(context, "email/editalias", &data, struct {
+		EmailAliasParams
+	}{params})
+
+	return &data.Response.Alias, err
+}
