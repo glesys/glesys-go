@@ -129,6 +129,45 @@ type EmailAliasParams struct {
 	GoTo       string `json:"goto"`
 }
 
+type EmailCostEntity struct {
+	Amount   int    `json:"amount"`
+	Currency string `json:"currency"`
+}
+
+type EmailCostsEntry struct {
+	Amount int             `json:"amount"`
+	Cost   EmailCostEntity `json:"cost"`
+}
+
+type EmailQuotaPricelist struct {
+	Amount     string `json:"amount"`
+	Currency   string `json:"currency"`
+	Unit       string `json:"unit"`
+	FreeAmount int    `json:"freeamount"`
+}
+
+type EmailAccountsPricelist struct {
+	Amount     int    `json:"amount"`
+	Currency   string `json:"currency"`
+	Unit       string `json:"unit"`
+	FreeAmount int    `json:"freeamount"`
+}
+
+type EmailCostsContainer struct {
+	Quota    EmailCostsEntry `json:"quota"`
+	Accounts EmailCostsEntry `json:"accounts"`
+}
+
+type EmailPricelistContainer struct {
+	Quota    EmailQuotaPricelist    `json:"quota"`
+	Accounts EmailAccountsPricelist `json:"accounts"`
+}
+
+type EmailCosts struct {
+	Costs     EmailCostsContainer     `json:"costs"`
+	PriceList EmailPricelistContainer `json:"pricelist"`
+}
+
 // Overview fetches a summary of the email accounts and domains on the account.
 func (em *EmailService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
 
@@ -271,4 +310,18 @@ func (em *EmailService) EditAlias(context context.Context, params EmailAliasPara
 	}{params})
 
 	return &data.Response.Alias, err
+}
+
+// Costs returns the email related costs and the current pricelist.
+func (em *EmailService) Costs(context context.Context) (*EmailCosts, error) {
+	data := struct {
+		Response struct {
+			Costs     EmailCostsContainer
+			PriceList EmailPricelistContainer
+		}
+	}{}
+
+	err := em.client.get(context, "email/costs", &data)
+
+	return &EmailCosts{Costs: data.Response.Costs, PriceList: data.Response.PriceList}, err
 }

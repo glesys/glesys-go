@@ -114,6 +114,14 @@ func ExampleEmailEditAlias() {
 	fmt.Printf("%#v\n", alias)
 }
 
+func ExampleEmailCosts() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	costs, _ := client.Emails.Costs(context.Background())
+
+	fmt.Printf("%#v\n", costs)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

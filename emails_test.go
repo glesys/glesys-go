@@ -253,3 +253,27 @@ func TestEditAlias(t *testing.T) {
 	assert.Equal(t, "alias@example.com", alias.DisplayName, "displayname is correct")
 	assert.Equal(t, "anotheruser@example.com", alias.GoTo, "goto is correct")
 }
+
+func TestCosts(t *testing.T) {
+	c := &mockClient{body: `{"response":{"costs":{"quota":{"amount":10,"cost":{"amount":0,"currency":"SEK"}},"accounts":{"amount":3,"cost":{"amount":0,"currency":"SEK"}}},"pricelist":{"quota":{"amount":"1.00","currency":"SEK","unit":"GB","freeamount":10},"accounts":{"amount":50,"currency":"SEK","unit":"50 accounts","freeamount":50}}}}`}
+
+	s := EmailService{client: c}
+
+	costs, _ := s.Costs(context.Background())
+	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/costs", c.lastPath, "path used is correct")
+	assert.Equal(t, 10, costs.Costs.Quota.Amount, "costs.quota.amount is correct")
+	assert.Equal(t, 0, costs.Costs.Quota.Cost.Amount, "costs.quota.cost.amount is correct")
+	assert.Equal(t, "SEK", costs.Costs.Quota.Cost.Currency, "costs.quota.cost.currency is correct")
+	assert.Equal(t, 3, costs.Costs.Accounts.Amount, "costs.accounts.amount is correct")
+	assert.Equal(t, 0, costs.Costs.Accounts.Cost.Amount, "costs.accounts.cost.amount is correct")
+	assert.Equal(t, "SEK", costs.Costs.Accounts.Cost.Currency, "costs.accounts.cost.currency is correct")
+	assert.Equal(t, "1.00", costs.PriceList.Quota.Amount, "pricelist.quota.amount is correct")
+	assert.Equal(t, "SEK", costs.PriceList.Quota.Currency, "pricelist.quota.currency is correct")
+	assert.Equal(t, "GB", costs.PriceList.Quota.Unit, "pricelist.quota.unit is correct")
+	assert.Equal(t, 10, costs.PriceList.Quota.FreeAmount, "pricelist.quota.freeamount is correct")
+	assert.Equal(t, 50, costs.PriceList.Accounts.Amount, "pricelist.accounts.amount is correct")
+	assert.Equal(t, "SEK", costs.PriceList.Accounts.Currency, "pricelist.accounts.currency is correct")
+	assert.Equal(t, "50 accounts", costs.PriceList.Accounts.Unit, "pricelist.accounts.unit is correct")
+	assert.Equal(t, 50, costs.PriceList.Accounts.FreeAmount, "pricelist.accounts.freeamount is correct")
+}
