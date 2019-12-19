@@ -92,6 +92,17 @@ func ExampleEmailQuota() {
 	fmt.Printf("%#v\n", quota)
 }
 
+func ExampleEmailCreateAlias() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	alias, _ := client.Emails.CreateAlias(context.Background(), glesys.EmailAliasParams{
+		EmailAlias: "alias@your-domain.com",
+		GoTo:       "user@your-domain.com",
+	})
+
+	fmt.Printf("%#v\n", alias)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

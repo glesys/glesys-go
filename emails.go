@@ -123,6 +123,12 @@ type CreateAccountParams struct {
 	RejectSpam         string `json:"rejectspam,omitempty"`
 }
 
+// EmailAliasParams is used for creating new email aliases as well as editing already existing ones.
+type EmailAliasParams struct {
+	EmailAlias string `json:"emailalias"`
+	GoTo       string `json:"goto"`
+}
+
 // Overview fetches a summary of the email accounts and domains on the account.
 func (em *EmailService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
 
@@ -235,4 +241,19 @@ func (em *EmailService) Quota(context context.Context, emailaccount string) (*Em
 	}{emailaccount})
 
 	return &data.Response.Quota, err
+}
+
+// CreateAlias sets up a new alias.
+func (em *EmailService) CreateAlias(context context.Context, params EmailAliasParams) (*EmailAlias, error) {
+	data := struct {
+		Response struct {
+			Alias EmailAlias
+		}
+	}{}
+
+	err := em.client.post(context, "email/createalias", &data, struct {
+		EmailAliasParams
+	}{params})
+
+	return &data.Response.Alias, err
 }
