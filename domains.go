@@ -95,6 +95,12 @@ type DeleteDomainParams struct {
 	ForceDeleteEmail string `json:"forcedeleteemail,omitempty"`
 }
 
+// RenewDomainParams - parameters to send when renewing a domain.
+type RenewDomainParams struct {
+	Name     string `json:"domainname"`
+	NumYears int    `json:"numyears"`
+}
+
 // DomainRecord - data in the domain
 type DomainRecord struct {
 	DomainName string `json:"domainname"`
@@ -202,6 +208,17 @@ func (s *DomainService) Register(context context.Context, params RegisterDomainP
 		}
 	}{}
 	err := s.client.post(context, "domain/register", &data, params)
+	return &data.Response.Domain, err
+}
+
+// Renew - Renew a domain
+func (s *DomainService) Renew(context context.Context, params RenewDomainParams) (*Domain, error) {
+	data := struct {
+		Response struct {
+			Domain Domain
+		}
+	}{}
+	err := s.client.post(context, "domain/renew", &data, params)
 	return &data.Response.Domain, err
 }
 

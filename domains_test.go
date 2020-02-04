@@ -144,6 +144,25 @@ func TestDomainsRegister(t *testing.T) {
 	assert.Equal(t, "REGISTER", domain.RegistrarInfo.State, "Domain is in correct state")
 }
 
+func TestDomainsRenew(t *testing.T) {
+	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
+          "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
+          "recordcount": 4, "registrarinfo": {"state": "RENEW", "statedescription": "", "expire": "2038-01-19",
+          "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
+
+	d := DomainService{client: c}
+	params := RenewDomainParams{
+		Name:     "example.com",
+		NumYears: 1,
+	}
+
+	domain, _ := d.Renew(context.Background(), params)
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "domain/renew", c.lastPath, "path used is correct")
+	assert.Equal(t, "RENEW", domain.RegistrarInfo.State, "Domain is in correct state")
+}
+
 func TestDomainsTransfer(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
