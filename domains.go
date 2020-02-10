@@ -101,6 +101,12 @@ type RenewDomainParams struct {
 	NumYears int    `json:"numyears"`
 }
 
+// SetAutoRenewParams - parameters to send for renewing a domain automatically.
+type SetAutoRenewParams struct {
+	Name     string `json:"domainname"`
+	SetAutoRenew string    `json:"setautorenew"`
+}
+
 // DomainRecord - data in the domain
 type DomainRecord struct {
 	DomainName string `json:"domainname"`
@@ -219,6 +225,17 @@ func (s *DomainService) Renew(context context.Context, params RenewDomainParams)
 		}
 	}{}
 	err := s.client.post(context, "domain/renew", &data, params)
+	return &data.Response.Domain, err
+}
+
+// SetAutoRenew - Set a domain to renew automatically
+func (s *DomainService) SetAutoRenew(context context.Context, params SetAutoRenewParams) (*Domain, error) {
+	data := struct {
+		Response struct {
+			Domain Domain
+		}
+	}{}
+	err := s.client.post(context, "domain/setautorenew", &data, params)
 	return &data.Response.Domain, err
 }
 
