@@ -11,7 +11,7 @@ func ExampleEmailService_Overview() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: All parameters in OverviewParams are optional and can be omitted.
-	overview, _ := client.Emails.Overview(context.Background(), glesys.OverviewParams{
+	overview, _ := client.EmailDomains.Overview(context.Background(), glesys.OverviewParams{
 		Filter: "example.com",
 		Page:   1,
 	})
@@ -23,7 +23,7 @@ func ExampleEmailService_GlobalQuota() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The GlobalQuota parameter can be omitted to only fetch the current value.
-	globalquota, _ := client.Emails.GlobalQuota(context.Background(), glesys.GlobalQuotaParams{
+	globalquota, _ := client.EmailDomains.GlobalQuota(context.Background(), glesys.GlobalQuotaParams{
 		GlobalQuota: 20480,
 	})
 
@@ -35,7 +35,7 @@ func ExampleEmailService_List() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The filter in ListEmailsParams is optional and can be omitted.
-	list, _ := client.Emails.List(context.Background(), "example.com", glesys.ListEmailsParams{
+	list, _ := client.EmailDomains.List(context.Background(), "example.com", glesys.ListEmailsParams{
 		Filter: "user@example.com",
 	})
 
@@ -46,7 +46,7 @@ func ExampleEmailService_EditAccount() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: All parameters are optional and can be omitted.
-	editaccount, _ := client.Emails.EditAccount(context.Background(), "user@example.com", glesys.EditAccountParams{
+	editaccount, _ := client.EmailDomains.EditAccount(context.Background(), "user@example.com", glesys.EditAccountParams{
 		AntiSpamLevel:      3,
 		AntiVirus:          "yes",
 		Password:           "SuperSecretPassword",
@@ -63,14 +63,14 @@ func ExampleEmailService_Delete() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The email parameter can be both an account and an alias.
-	client.Emails.Delete(context.Background(), "user@example.com")
+	client.EmailDomains.Delete(context.Background(), "user@example.com")
 }
 
 func ExampleEmailService_CreateAccount() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: All parameters except for EmailAccount and Password are optional and can be omitted.
-	createaccount, _ := client.Emails.CreateAccount(context.Background(), glesys.CreateAccountParams{
+	createaccount, _ := client.EmailDomains.CreateAccount(context.Background(), glesys.CreateAccountParams{
 		EmailAccount:       "new_user@example.com",
 		Password:           "SuperSecretPassword",
 		AntiSpamLevel:      3,
@@ -87,7 +87,7 @@ func ExampleEmailService_CreateAccount() {
 func ExampleEmailQuota() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	quota, _ := client.Emails.Quota(context.Background(), "user@example.com")
+	quota, _ := client.EmailDomains.Quota(context.Background(), "user@example.com")
 
 	fmt.Printf("%#v\n", quota)
 }
@@ -95,7 +95,7 @@ func ExampleEmailQuota() {
 func ExampleEmailCreateAlias() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	alias, _ := client.Emails.CreateAlias(context.Background(), glesys.EmailAliasParams{
+	alias, _ := client.EmailDomains.CreateAlias(context.Background(), glesys.EmailAliasParams{
 		EmailAlias: "alias@example.com",
 		GoTo:       "user@example.com",
 	})
@@ -106,7 +106,7 @@ func ExampleEmailCreateAlias() {
 func ExampleEmailEditAlias() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	alias, _ := client.Emails.EditAlias(context.Background(), glesys.EmailAliasParams{
+	alias, _ := client.EmailDomains.EditAlias(context.Background(), glesys.EmailAliasParams{
 		EmailAlias: "alias@example.com",
 		GoTo:       "another_user@example.com",
 	})
@@ -117,7 +117,7 @@ func ExampleEmailEditAlias() {
 func ExampleEmailCosts() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	costs, _ := client.Emails.Costs(context.Background())
+	costs, _ := client.EmailDomains.Costs(context.Background())
 
 	fmt.Printf("%#v\n", costs)
 }
