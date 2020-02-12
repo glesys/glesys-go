@@ -103,8 +103,8 @@ type RenewDomainParams struct {
 
 // SetAutoRenewParams - parameters to send for renewing a domain automatically.
 type SetAutoRenewParams struct {
-	Name     string `json:"domainname"`
-	SetAutoRenew string    `json:"setautorenew"`
+	Name         string `json:"domainname"`
+	SetAutoRenew string `json:"setautorenew"`
 }
 
 // DomainRecord - data in the domain
