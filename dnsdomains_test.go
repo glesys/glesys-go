@@ -7,18 +7,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDomainsAdd(t *testing.T) {
+func TestDnsDomainsAdd(t *testing.T) {
 	c := &mockClient{body: `{"response": {"domain": {"domainname": "example.com",
 	  "createtime": "2019-07-02T21:55:18+02:00", "displayname": "example.com",
 	  "recordcount": 9, "registrarinfo": "None", "usingglesysnameserver": "no"}}}`}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
-	params := AddDomainParams{
+	params := AddDnsDomainParams{
 		Name:          "example.com",
 		CreateRecords: false,
 	}
 
-	domain, _ := d.AddDomain(context.Background(), params)
+	domain, _ := d.AddDnsDomain(context.Background(), params)
 
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "domain/add", c.lastPath, "path used is correct")
@@ -27,11 +27,11 @@ func TestDomainsAdd(t *testing.T) {
 	assert.Equal(t, "no", domain.UsingGlesysNameserver, "Domain is not using glesys nameservers")
 }
 
-func TestDomainsDeleteDomain(t *testing.T) {
+func TestDnsDomainsDeleteDomain(t *testing.T) {
 	c := &mockClient{}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
-	params := DeleteDomainParams{
+	params := DeleteDnsDomainParams{
 		Name: "example.com",
 	}
 
@@ -41,7 +41,7 @@ func TestDomainsDeleteDomain(t *testing.T) {
 	assert.Equal(t, "domain/delete", c.lastPath, "path used is correct")
 }
 
-func TestDomainsEdit(t *testing.T) {
+func TestDnsDomainsEdit(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 9, "usingglesysnameserver": "yes",
@@ -50,9 +50,9 @@ func TestDomainsEdit(t *testing.T) {
           "ttl": 3600, "refresh": 10800, "retry": 2400, "expire": 1814400, "minimum": 10800,
           "contactinfo": "None", "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
             "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
-	params := EditDomainParams{
+	params := EditDnsDomainParams{
 		Name:  "example.com",
 		Retry: 2400,
 	}
@@ -65,12 +65,12 @@ func TestDomainsEdit(t *testing.T) {
 	assert.Equal(t, 2400, domain.Retry, "Domain Retry correct")
 }
 
-func TestDomainsAvailable(t *testing.T) {
+func TestDnsDomainsAvailable(t *testing.T) {
 	c := &mockClient{body: `{"response": {"domain": [ {"domainname": "example.com",
 	   "available": true,
 	   "prices": [{"amount": 123, "currency": "SEK", "years": 1}, {"amount": 1230, "currency": "SEK", "years": 10}]
            }]}}`}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	domains, _ := d.Available(context.Background(), "example.com")
 
@@ -80,7 +80,7 @@ func TestDomainsAvailable(t *testing.T) {
 	assert.Equal(t, 1230, (*domains)[0].Prices[1].Amount, "Domain amount is correct")
 }
 
-func TestDomainsDetails(t *testing.T) {
+func TestDnsDomainsDetails(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 9, "usingglesysnameserver": "yes",
@@ -89,7 +89,7 @@ func TestDomainsDetails(t *testing.T) {
           "ttl": 3600, "refresh": 10800, "retry": 2700, "expire": 1814400, "minimum": 10800,
           "contactinfo": "None", "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
             "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	domain, _ := d.Details(context.Background(), "example.com")
 
@@ -100,13 +100,13 @@ func TestDomainsDetails(t *testing.T) {
 	assert.Equal(t, "yes", domain.UsingGlesysNameserver, "Domain is using glesys nameservers")
 }
 
-func TestDomainsList(t *testing.T) {
+func TestDnsDomainsList(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domains": [{"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}]}}`}
 
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	domains, _ := d.List(context.Background())
 
@@ -117,14 +117,14 @@ func TestDomainsList(t *testing.T) {
 	assert.Equal(t, "yes", (*domains)[0].RegistrarInfo.AutoRenew, "Domain AutoRenew is set")
 }
 
-func TestDomainsRegister(t *testing.T) {
+func TestDnsDomainsRegister(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "REGISTER", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DomainService{client: c}
-	params := RegisterDomainParams{
+	d := DnsDomainService{client: c}
+	params := RegisterDnsDomainParams{
 		Name:               "example.com",
 		Firstname:          "Alice",
 		Lastname:           "Smith",
@@ -144,14 +144,14 @@ func TestDomainsRegister(t *testing.T) {
 	assert.Equal(t, "REGISTER", domain.RegistrarInfo.State, "Domain is in correct state")
 }
 
-func TestDomainsRenew(t *testing.T) {
+func TestDnsDomainsRenew(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "RENEW", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DomainService{client: c}
-	params := RenewDomainParams{
+	d := DnsDomainService{client: c}
+	params := RenewDnsDomainParams{
 		Name:     "example.com",
 		NumYears: 1,
 	}
@@ -163,15 +163,15 @@ func TestDomainsRenew(t *testing.T) {
 	assert.Equal(t, "RENEW", domain.RegistrarInfo.State, "Domain is in correct state")
 }
 
-func TestDomainsSetAutoRenew(t *testing.T) {
+func TestDnsDomainsSetAutoRenew(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "RENEW", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 	params := SetAutoRenewParams{
-		Name:     "example.com",
+		Name:         "example.com",
 		SetAutoRenew: "yes",
 	}
 
@@ -182,14 +182,14 @@ func TestDomainsSetAutoRenew(t *testing.T) {
 	assert.Equal(t, "yes", domain.RegistrarInfo.AutoRenew, "Domain is set to renew automatically.")
 }
 
-func TestDomainsTransfer(t *testing.T) {
+func TestDnsDomainsTransfer(t *testing.T) {
 	c := &mockClient{body: `{"response": { "domain": {"domainname": "example.com",
           "createtime": "2010-07-13T11:13:50+02:00", "displayname": "example.com",
           "recordcount": 4, "registrarinfo": {"state": "TRANSFER", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DomainService{client: c}
-	params := RegisterDomainParams{
+	d := DnsDomainService{client: c}
+	params := RegisterDnsDomainParams{
 		Name:               "example.com",
 		Firstname:          "Alice",
 		Lastname:           "Smith",
@@ -209,7 +209,7 @@ func TestDomainsTransfer(t *testing.T) {
 	assert.Equal(t, "TRANSFER", domain.RegistrarInfo.State, "Domain is in correct state")
 }
 
-func TestDomainsAddRecord(t *testing.T) {
+func TestDnsDomainsAddRecord(t *testing.T) {
 	c := &mockClient{body: `{"response": { "record":
           {"recordid": 1234569, "domainname": "example.com", "host": "test", "type": "A", "data": "127.0.0.1", "ttl": 3600}
 	}}`}
@@ -221,7 +221,7 @@ func TestDomainsAddRecord(t *testing.T) {
 		Type:       "A",
 	}
 
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	record, _ := d.AddRecord(context.Background(), params)
 
@@ -231,13 +231,13 @@ func TestDomainsAddRecord(t *testing.T) {
 	assert.Equal(t, "127.0.0.1", (*record).Data, "Record data is correct")
 }
 
-func TestDomainsListRecords(t *testing.T) {
+func TestDnsDomainsListRecords(t *testing.T) {
 	c := &mockClient{body: `{"response": { "records": [
 	  {"recordid": 1234567, "domainname": "example.com", "host": "www", "type": "A", "data": "127.0.0.1", "ttl": 3600},
           {"recordid": 1234568, "domainname": "example.com", "host": "mail", "type": "A", "data": "127.0.0.3", "ttl": 3600}
 	]}}`}
 
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	records, _ := d.ListRecords(context.Background(), "example.com")
 
@@ -247,7 +247,7 @@ func TestDomainsListRecords(t *testing.T) {
 	assert.Equal(t, "127.0.0.3", (*records)[1].Data, "Record data is correct")
 }
 
-func TestDomainsUpdateRecord(t *testing.T) {
+func TestDnsDomainsUpdateRecord(t *testing.T) {
 	c := &mockClient{body: `{"response": { "record":
           {"recordid": 1234567, "domainname": "example.com", "host": "mail", "type": "A", "data": "127.0.0.3", "ttl": 3600}
 	}}`}
@@ -257,7 +257,7 @@ func TestDomainsUpdateRecord(t *testing.T) {
 		Data:     "127.0.0.3",
 	}
 
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	record, _ := d.UpdateRecord(context.Background(), params)
 
@@ -267,9 +267,9 @@ func TestDomainsUpdateRecord(t *testing.T) {
 	assert.Equal(t, "127.0.0.3", (*record).Data, "Record data is correct")
 }
 
-func TestDomainsDeleteRecord(t *testing.T) {
+func TestDnsDomainsDeleteRecord(t *testing.T) {
 	c := &mockClient{}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	d.DeleteRecord(context.Background(), 1234567)
 
@@ -277,9 +277,9 @@ func TestDomainsDeleteRecord(t *testing.T) {
 	assert.Equal(t, "domain/deleterecord", c.lastPath, "path used is correct")
 }
 
-func TestDomainsChangeNameservers(t *testing.T) {
+func TestDnsDomainsChangeNameservers(t *testing.T) {
 	c := &mockClient{}
-	d := DomainService{client: c}
+	d := DnsDomainService{client: c}
 
 	params := ChangeNameserverParams{
 		DomainName: "example.com",

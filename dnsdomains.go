@@ -4,39 +4,39 @@ import (
 	"context"
 )
 
-// DomainService provides functions to interact with Domains
-type DomainService struct {
+// DnsDomainService provides functions to interact withDnsDomains
+type DnsDomainService struct {
 	client clientInterface
 }
 
-// Domain represents a domain
-type Domain struct {
-	Name                  string        `json:"domainname"`
-	Available             bool          `json:"available,omitempty"`
-	CreateTime            string        `json:"createtime,omitempty"`
-	DisplayName           string        `json:"displayname,omitempty"`
-	Expire                int           `json:"expire,omitempty"`
-	Minimum               int           `json:"minimum,omitempty"`
-	Prices                []DomainPrice `json:"prices,omitempty"`
-	PrimaryNameServer     string        `json:"primarynameserver,omitempty"`
-	RecordCount           int           `json:"recordcount,omitempty"`
-	Refresh               int           `json:"refresh,omitempty"`
-	RegistrarInfo         RegistrarInfo `json:"registrarinfo,omitempty"`
-	ResponsiblePerson     string        `json:"responsibleperson,omitempty"`
-	Retry                 int           `json:"retry,omitempty"`
-	TTL                   int           `json:"ttl,omitempty"`
-	UsingGlesysNameserver string        `json:"usingglesysnameserver,omitempty"`
+//DnsDomain represents a domain
+type DnsDomain struct {
+	Name                  string           `json:"domainname"`
+	Available             bool             `json:"available,omitempty"`
+	CreateTime            string           `json:"createtime,omitempty"`
+	DisplayName           string           `json:"displayname,omitempty"`
+	Expire                int              `json:"expire,omitempty"`
+	Minimum               int              `json:"minimum,omitempty"`
+	Prices                []DnsDomainPrice `json:"prices,omitempty"`
+	PrimaryNameServer     string           `json:"primarynameserver,omitempty"`
+	RecordCount           int              `json:"recordcount,omitempty"`
+	Refresh               int              `json:"refresh,omitempty"`
+	RegistrarInfo         RegistrarInfo    `json:"registrarinfo,omitempty"`
+	ResponsiblePerson     string           `json:"responsibleperson,omitempty"`
+	Retry                 int              `json:"retry,omitempty"`
+	TTL                   int              `json:"ttl,omitempty"`
+	UsingGlesysNameserver string           `json:"usingglesysnameserver,omitempty"`
 }
 
-type DomainPrice struct {
+type DnsDomainPrice struct {
 	Amount   int    `json:"amount"`
 	Currency string `json:"currency"`
 	Years    int    `json:"years"`
 }
 
-// AddDomainParams - used for adding existing domains to GleSYS
+// AddDnsDomainParams - used for adding existing domains to GleSYS
 // use CreateRecords = false to not create additional records.
-type AddDomainParams struct {
+type AddDnsDomainParams struct {
 	Name              string `json:"domainname"`
 	CreateRecords     bool   `json:"createrecords,omitempty"`
 	Expire            int    `json:"expire,omitempty"`
@@ -48,8 +48,8 @@ type AddDomainParams struct {
 	TTL               int    `json:"ttl,omitempty"`
 }
 
-// EditDomainParams - used when editing domain parameters
-type EditDomainParams struct {
+// EditDnsDomainParams - used when editing domain parameters
+type EditDnsDomainParams struct {
 	Name              string `json:"domainname"`
 	Expire            int    `json:"expire,omitempty"`
 	Minimum           int    `json:"minimum,omitempty"`
@@ -70,8 +70,8 @@ type RegistrarInfo struct {
 	InvoiceNumber    string `json:"invoicenumber,omitempty"`
 }
 
-// RegisterDomainParams - parameters used when registering a domain
-type RegisterDomainParams struct {
+// RegisterDnsDomainParams - parameters used when registering a domain
+type RegisterDnsDomainParams struct {
 	Name               string `json:"domainname"`
 	Address            string `json:"address"`
 	City               string `json:"city"`
@@ -88,15 +88,15 @@ type RegisterDomainParams struct {
 	NumYears  int    `json:"numyears,omitempty"`
 }
 
-// DeleteDomainParams - parameters for deleting a domain from the dns system.
+// DeleteDnsDomainParams - parameters for deleting a domain from the dns system.
 // Set ForceDeleteEmail to true, to delete a domain AND email accounts for the domain.
-type DeleteDomainParams struct {
+type DeleteDnsDomainParams struct {
 	Name             string `json:"domainname"`
 	ForceDeleteEmail string `json:"forcedeleteemail,omitempty"`
 }
 
-// RenewDomainParams - parameters to send when renewing a domain.
-type RenewDomainParams struct {
+// RenewDnsDomainParams - parameters to send when renewing a domain.
+type RenewDnsDomainParams struct {
 	Name     string `json:"domainname"`
 	NumYears int    `json:"numyears"`
 }
@@ -107,8 +107,8 @@ type SetAutoRenewParams struct {
 	SetAutoRenew string `json:"setautorenew"`
 }
 
-// DomainRecord - data in the domain
-type DomainRecord struct {
+// DnsDomainRecord - data in the domain
+type DnsDomainRecord struct {
 	DomainName string `json:"domainname"`
 	Data       string `json:"data"`
 	Host       string `json:"host"`
@@ -145,21 +145,21 @@ type ChangeNameserverParams struct {
 }
 
 // Available - checks if the domain is available
-func (s *DomainService) Available(context context.Context, search string) (*[]Domain, error) {
+func (s *DnsDomainService) Available(context context.Context, search string) (*[]DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain []Domain
+			Domain []DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/available", &data, search)
 	return &data.Response.Domain, err
 }
 
-// AddDomain - add an existing domain to your GleSYS account
-func (s *DomainService) AddDomain(context context.Context, params AddDomainParams) (*Domain, error) {
+// AddDnsDomain - add an existing domain to your GleSYS account
+func (s *DnsDomainService) AddDnsDomain(context context.Context, params AddDnsDomainParams) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/add", &data, params)
@@ -167,15 +167,15 @@ func (s *DomainService) AddDomain(context context.Context, params AddDomainParam
 }
 
 // Delete - deletes a domain from the dns system
-func (s *DomainService) Delete(context context.Context, params DeleteDomainParams) error {
+func (s *DnsDomainService) Delete(context context.Context, params DeleteDnsDomainParams) error {
 	return s.client.post(context, "domain/delete", nil, params)
 }
 
 // Details - return details about the domain
-func (s *DomainService) Details(context context.Context, domainname string) (*Domain, error) {
+func (s *DnsDomainService) Details(context context.Context, domainname string) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/details", &data, struct {
@@ -185,10 +185,10 @@ func (s *DomainService) Details(context context.Context, domainname string) (*Do
 }
 
 // Edit - edit domain parameters
-func (s *DomainService) Edit(context context.Context, params EditDomainParams) (*Domain, error) {
+func (s *DnsDomainService) Edit(context context.Context, params EditDnsDomainParams) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/edit", &data, params)
@@ -196,10 +196,10 @@ func (s *DomainService) Edit(context context.Context, params EditDomainParams) (
 }
 
 // List - return a list of all domains in your account
-func (s *DomainService) List(context context.Context) (*[]Domain, error) {
+func (s *DnsDomainService) List(context context.Context) (*[]DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domains []Domain
+			Domains []DnsDomain
 		}
 	}{}
 	err := s.client.get(context, "domain/list", &data)
@@ -207,10 +207,10 @@ func (s *DomainService) List(context context.Context) (*[]Domain, error) {
 }
 
 // Register - Register a domain
-func (s *DomainService) Register(context context.Context, params RegisterDomainParams) (*Domain, error) {
+func (s *DnsDomainService) Register(context context.Context, params RegisterDnsDomainParams) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/register", &data, params)
@@ -218,10 +218,10 @@ func (s *DomainService) Register(context context.Context, params RegisterDomainP
 }
 
 // Renew - Renew a domain
-func (s *DomainService) Renew(context context.Context, params RenewDomainParams) (*Domain, error) {
+func (s *DnsDomainService) Renew(context context.Context, params RenewDnsDomainParams) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/renew", &data, params)
@@ -229,10 +229,10 @@ func (s *DomainService) Renew(context context.Context, params RenewDomainParams)
 }
 
 // SetAutoRenew - Set a domain to renew automatically
-func (s *DomainService) SetAutoRenew(context context.Context, params SetAutoRenewParams) (*Domain, error) {
+func (s *DnsDomainService) SetAutoRenew(context context.Context, params SetAutoRenewParams) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/setautorenew", &data, params)
@@ -240,10 +240,10 @@ func (s *DomainService) SetAutoRenew(context context.Context, params SetAutoRene
 }
 
 // Transfer - Transfer a domain
-func (s *DomainService) Transfer(context context.Context, params RegisterDomainParams) (*Domain, error) {
+func (s *DnsDomainService) Transfer(context context.Context, params RegisterDnsDomainParams) (*DnsDomain, error) {
 	data := struct {
 		Response struct {
-			Domain Domain
+			Domain DnsDomain
 		}
 	}{}
 	err := s.client.post(context, "domain/transfer", &data, params)
@@ -251,10 +251,10 @@ func (s *DomainService) Transfer(context context.Context, params RegisterDomainP
 }
 
 // ListRecords - return a list of all records for domain
-func (s *DomainService) ListRecords(context context.Context, domainname string) (*[]DomainRecord, error) {
+func (s *DnsDomainService) ListRecords(context context.Context, domainname string) (*[]DnsDomainRecord, error) {
 	data := struct {
 		Response struct {
-			Records []DomainRecord
+			Records []DnsDomainRecord
 		}
 	}{}
 	err := s.client.post(context, "domain/listrecords", &data, struct {
@@ -264,10 +264,10 @@ func (s *DomainService) ListRecords(context context.Context, domainname string) 
 }
 
 // AddRecord - add a domain record
-func (s *DomainService) AddRecord(context context.Context, params AddRecordParams) (*DomainRecord, error) {
+func (s *DnsDomainService) AddRecord(context context.Context, params AddRecordParams) (*DnsDomainRecord, error) {
 	data := struct {
 		Response struct {
-			Record DomainRecord
+			Record DnsDomainRecord
 		}
 	}{}
 	err := s.client.post(context, "domain/addrecord", &data, params)
@@ -275,10 +275,10 @@ func (s *DomainService) AddRecord(context context.Context, params AddRecordParam
 }
 
 // UpdateRecord - update a domain record
-func (s *DomainService) UpdateRecord(context context.Context, params UpdateRecordParams) (*DomainRecord, error) {
+func (s *DnsDomainService) UpdateRecord(context context.Context, params UpdateRecordParams) (*DnsDomainRecord, error) {
 	data := struct {
 		Response struct {
-			Record DomainRecord
+			Record DnsDomainRecord
 		}
 	}{}
 	err := s.client.post(context, "domain/updaterecord", &data, params)
@@ -286,13 +286,13 @@ func (s *DomainService) UpdateRecord(context context.Context, params UpdateRecor
 }
 
 // DeleteRecord deletes a record
-func (s *DomainService) DeleteRecord(context context.Context, recordID int) error {
+func (s *DnsDomainService) DeleteRecord(context context.Context, recordID int) error {
 	return s.client.post(context, "domain/deleterecord", nil, struct {
 		RecordID int `json:"recordid"`
 	}{recordID})
 }
 
 // ChangeNameservers - change the nameservers for domain
-func (s *DomainService) ChangeNameservers(context context.Context, params ChangeNameserverParams) error {
+func (s *DnsDomainService) ChangeNameservers(context context.Context, params ChangeNameserverParams) error {
 	return s.client.post(context, "domain/changenameservers", nil, params)
 }
