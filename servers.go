@@ -27,7 +27,7 @@ type Server struct {
 // User represents a system user when creating servers (currently supported in KVM)
 type User struct {
 	Username     string   `json:"username"`
-	PublicKeys   []string `json:"sshkeys"`
+	PublicKeys   []string `json:"sshkeys,omitempty"`
 	Password     string   `json:"password"`
 }
 
