@@ -6,11 +6,12 @@ import (
 	"strings"
 )
 
-// EmailService provides functions to interact with the Email api
-type EmailService struct {
+// EmailDomainService provides functions to interact with the Email api
+type EmailDomainService struct {
 	client clientInterface
 }
 
+// EmailOverviewDomain represents a single email domain
 type EmailOverviewDomain struct {
 	DomainName  string `json:"domainname"`
 	DisplayName string `json:"displayname"`
@@ -18,6 +19,7 @@ type EmailOverviewDomain struct {
 	Aliases     int    `json:"aliases"`
 }
 
+// EmailOverviewSummary represents limits for the current project
 type EmailOverviewSummary struct {
 	Accounts    int `json:"accounts"`
 	MaxAccounts int `json:"maxaccounts"`
@@ -25,6 +27,7 @@ type EmailOverviewSummary struct {
 	MaxAliases  int `json:"maxaliases"`
 }
 
+// EmailOverviewMeta is used to paginate the results
 type EmailOverviewMeta struct {
 	Page    int `json:"page"`
 	Total   int `json:"total"`
@@ -44,6 +47,7 @@ type OverviewParams struct {
 	Page   int    `json:"page,omitempty"`
 }
 
+// EmailGlobalQuota represents the global quota and usage
 type EmailGlobalQuota struct {
 	Usage int `json:"usage"`
 	Max   int `json:"max"`
@@ -54,11 +58,13 @@ type GlobalQuotaParams struct {
 	GlobalQuota int `json:"globalquota,omitempty"`
 }
 
+// EmailAccountQuota represents quota for a single email account
 type EmailAccountQuota struct {
 	Max  int    `json:"max"`
 	Unit string `json:"unit"`
 }
 
+// EmailAccount represents a single email account
 type EmailAccount struct {
 	EmailAccount         string            `json:"emailaccount"`
 	DisplayName          string            `json:"displayname"`
@@ -73,22 +79,26 @@ type EmailAccount struct {
 	Modified             string            `json:"modified,omitempty"`
 }
 
+// EmailAlias represents a single email alias
 type EmailAlias struct {
 	EmailAlias  string `json:"emailalias"`
 	DisplayName string `json:"displayname"`
 	GoTo        string `json:"goto"`
 }
 
+// EmailList holds arrays of email accounts and aliases
 type EmailList struct {
 	EmailAccounts []EmailAccount `json:"emailaccounts"`
 	EmailAliases  []EmailAlias   `json:"emailaliases"`
 }
 
+// EmailAccountQuotaUsed the quota used
 type EmailAccountQuotaUsed struct {
 	Amount int    `json:"amount"`
 	Unit   string `json:"unit"`
 }
 
+// EmailQuota represents a quota object for a single email account
 type EmailQuota struct {
 	EmailAccount string                `json:"emailaccount"`
 	Used         EmailAccountQuotaUsed `json:"used"`
@@ -129,16 +139,19 @@ type EmailAliasParams struct {
 	GoTo       string `json:"goto"`
 }
 
+// EmailCostEntity represents the amount and currency or a cost
 type EmailCostEntity struct {
 	Amount   int    `json:"amount"`
 	Currency string `json:"currency"`
 }
 
+// EmailCostsEntry represents a cost object
 type EmailCostsEntry struct {
 	Amount int             `json:"amount"`
 	Cost   EmailCostEntity `json:"cost"`
 }
 
+// EmailQuotaPricelist is the pricelist for quota options
 type EmailQuotaPricelist struct {
 	Amount     string `json:"amount"`
 	Currency   string `json:"currency"`
@@ -146,6 +159,7 @@ type EmailQuotaPricelist struct {
 	FreeAmount int    `json:"freeamount"`
 }
 
+// EmailAccountsPricelist is the pricelist for email
 type EmailAccountsPricelist struct {
 	Amount     int    `json:"amount"`
 	Currency   string `json:"currency"`
@@ -153,23 +167,26 @@ type EmailAccountsPricelist struct {
 	FreeAmount int    `json:"freeamount"`
 }
 
+// EmailCostsContainer contains quota and accounts for email costs
 type EmailCostsContainer struct {
 	Quota    EmailCostsEntry `json:"quota"`
 	Accounts EmailCostsEntry `json:"accounts"`
 }
 
+// EmailPricelistContainer contains quota and accounts for pricelist
 type EmailPricelistContainer struct {
 	Quota    EmailQuotaPricelist    `json:"quota"`
 	Accounts EmailAccountsPricelist `json:"accounts"`
 }
 
+// EmailCosts represents a email cost object
 type EmailCosts struct {
 	Costs     EmailCostsContainer     `json:"costs"`
 	PriceList EmailPricelistContainer `json:"pricelist"`
 }
 
 // Overview fetches a summary of the email accounts and domains on the account.
-func (em *EmailService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
+func (em *EmailDomainService) Overview(context context.Context, params OverviewParams) (*EmailOverview, error) {
 
 	// String builder for creating the suffix based on the page and/or filter.
 	var suffixbuilder strings.Builder
@@ -198,8 +215,8 @@ func (em *EmailService) Overview(context context.Context, params OverviewParams)
 	return &data.Response.Overview, err
 }
 
-// GlobalQuoata enables the user to set and get the global quota.
-func (em *EmailService) GlobalQuota(context context.Context, params GlobalQuotaParams) (*EmailGlobalQuota, error) {
+// GlobalQuota enables the user to set and get the global quota.
+func (em *EmailDomainService) GlobalQuota(context context.Context, params GlobalQuotaParams) (*EmailGlobalQuota, error) {
 	data := struct {
 		Response struct {
 			GlobalQuota EmailGlobalQuota
@@ -214,7 +231,7 @@ func (em *EmailService) GlobalQuota(context context.Context, params GlobalQuotaP
 }
 
 // List Gets a list of all accounts and aliases of a domain with full details.
-func (em *EmailService) List(context context.Context, domain string, params ListEmailsParams) (*EmailList, error) {
+func (em *EmailDomainService) List(context context.Context, domain string, params ListEmailsParams) (*EmailList, error) {
 	data := struct {
 		Response struct {
 			List EmailList
@@ -230,7 +247,7 @@ func (em *EmailService) List(context context.Context, domain string, params List
 }
 
 // EditAccount allows you to Edit an email account's parameters.
-func (em *EmailService) EditAccount(context context.Context, emailAccount string, params EditAccountParams) (*EmailAccount, error) {
+func (em *EmailDomainService) EditAccount(context context.Context, emailAccount string, params EditAccountParams) (*EmailAccount, error) {
 	data := struct {
 		Response struct {
 			EmailAccount EmailAccount
@@ -246,14 +263,14 @@ func (em *EmailService) EditAccount(context context.Context, emailAccount string
 }
 
 // Delete allows you to remove an email account or alias.
-func (em *EmailService) Delete(context context.Context, email string) error {
+func (em *EmailDomainService) Delete(context context.Context, email string) error {
 	return em.client.post(context, "email/delete", nil, struct {
 		Email string `json:"email"`
 	}{email})
 }
 
 // CreateAccount allows you to create an email account.
-func (em *EmailService) CreateAccount(context context.Context, params CreateAccountParams) (*EmailAccount, error) {
+func (em *EmailDomainService) CreateAccount(context context.Context, params CreateAccountParams) (*EmailAccount, error) {
 	data := struct {
 		Response struct {
 			EmailAccount EmailAccount
@@ -268,7 +285,7 @@ func (em *EmailService) CreateAccount(context context.Context, params CreateAcco
 }
 
 // Quota returns the used and total quota for an email account.
-func (em *EmailService) Quota(context context.Context, emailaccount string) (*EmailQuota, error) {
+func (em *EmailDomainService) Quota(context context.Context, emailaccount string) (*EmailQuota, error) {
 	data := struct {
 		Response struct {
 			Quota EmailQuota
@@ -283,7 +300,7 @@ func (em *EmailService) Quota(context context.Context, emailaccount string) (*Em
 }
 
 // CreateAlias sets up a new alias.
-func (em *EmailService) CreateAlias(context context.Context, params EmailAliasParams) (*EmailAlias, error) {
+func (em *EmailDomainService) CreateAlias(context context.Context, params EmailAliasParams) (*EmailAlias, error) {
 	data := struct {
 		Response struct {
 			Alias EmailAlias
@@ -298,7 +315,7 @@ func (em *EmailService) CreateAlias(context context.Context, params EmailAliasPa
 }
 
 // EditAlias updates an already existing alias.
-func (em *EmailService) EditAlias(context context.Context, params EmailAliasParams) (*EmailAlias, error) {
+func (em *EmailDomainService) EditAlias(context context.Context, params EmailAliasParams) (*EmailAlias, error) {
 	data := struct {
 		Response struct {
 			Alias EmailAlias
@@ -313,7 +330,7 @@ func (em *EmailService) EditAlias(context context.Context, params EmailAliasPara
 }
 
 // Costs returns the email related costs and the current pricelist.
-func (em *EmailService) Costs(context context.Context) (*EmailCosts, error) {
+func (em *EmailDomainService) Costs(context context.Context) (*EmailCosts, error) {
 	data := struct {
 		Response struct {
 			Costs     EmailCostsContainer

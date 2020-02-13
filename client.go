@@ -30,8 +30,8 @@ type Client struct {
 	project    string
 	userAgent  string
 
-	DnsDomains      *DnsDomainService
-	EmailDomains    *EmailService
+	DNSDomains      *DNSDomainService
+	EmailDomains    *EmailDomainService
 	IPs             *IPService
 	LoadBalancers   *LoadBalancerService
 	Servers         *ServerService
@@ -52,9 +52,8 @@ func NewClient(project, apiKey, userAgent string) *Client {
 		userAgent:  userAgent,
 	}
 
-
-	c.DnsDomains = &DnsDomainService{client: c}
-	c.EmailDomains = &EmailService{client: c}
+	c.DNSDomains = &DNSDomainService{client: c}
+	c.EmailDomains = &EmailDomainService{client: c}
 	c.IPs = &IPService{client: c}
 	c.LoadBalancers = &LoadBalancerService{client: c}
 	c.Servers = &ServerService{client: c}
