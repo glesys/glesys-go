@@ -28,7 +28,7 @@ type Server struct {
 type User struct {
 	Username     string   `json:"username"`
 	PublicKeys   []string `json:"sshkeys,omitempty"`
-	Password     string   `json:"password"`
+	Password     string   `json:"password,omitempty"`
 }
 
 // ServerDetails is a more complete representation of a server
