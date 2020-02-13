@@ -7,7 +7,7 @@ import (
 	glesys "github.com/glesys/glesys-go"
 )
 
-func ExampleEmailService_Overview() {
+func ExampleEmailDomainService_Overview() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: All parameters in OverviewParams are optional and can be omitted.
@@ -19,7 +19,7 @@ func ExampleEmailService_Overview() {
 	fmt.Printf("%#v", overview)
 }
 
-func ExampleEmailService_GlobalQuota() {
+func ExampleEmailDomainService_GlobalQuota() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The GlobalQuota parameter can be omitted to only fetch the current value.
@@ -31,7 +31,7 @@ func ExampleEmailService_GlobalQuota() {
 	fmt.Println(globalquota.Max)
 }
 
-func ExampleEmailService_List() {
+func ExampleEmailDomainService_List() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The filter in ListEmailsParams is optional and can be omitted.
@@ -42,7 +42,7 @@ func ExampleEmailService_List() {
 	fmt.Printf("%#v\n", list)
 }
 
-func ExampleEmailService_EditAccount() {
+func ExampleEmailDomainService_EditAccount() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: All parameters are optional and can be omitted.
@@ -59,14 +59,14 @@ func ExampleEmailService_EditAccount() {
 	fmt.Printf("%#v\n", editaccount)
 }
 
-func ExampleEmailService_Delete() {
+func ExampleEmailDomainService_Delete() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: The email parameter can be both an account and an alias.
 	client.EmailDomains.Delete(context.Background(), "user@example.com")
 }
 
-func ExampleEmailService_CreateAccount() {
+func ExampleEmailDomainService_CreateAccount() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	// NOTE: All parameters except for EmailAccount and Password are optional and can be omitted.
@@ -92,7 +92,7 @@ func ExampleEmailQuota() {
 	fmt.Printf("%#v\n", quota)
 }
 
-func ExampleEmailCreateAlias() {
+func ExampleEmailDomainService_CreateAlias() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	alias, _ := client.EmailDomains.CreateAlias(context.Background(), glesys.EmailAliasParams{
@@ -103,7 +103,7 @@ func ExampleEmailCreateAlias() {
 	fmt.Printf("%#v\n", alias)
 }
 
-func ExampleEmailEditAlias() {
+func ExampleEmailDomainService_EditAlias() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	alias, _ := client.EmailDomains.EditAlias(context.Background(), glesys.EmailAliasParams{
@@ -114,7 +114,7 @@ func ExampleEmailEditAlias() {
 	fmt.Printf("%#v\n", alias)
 }
 
-func ExampleEmailCosts() {
+func ExampleEmailDomainService_Costs() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	costs, _ := client.EmailDomains.Costs(context.Background())
@@ -186,7 +186,7 @@ func ExampleLoadBalancerService_Details() {
 	fmt.Println(loadbalancer.Name)
 }
 
-func ExampleLoadBalancer_AddBackend() {
+func ExampleLoadBalancerService_AddBackend() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	loadbalancer, _ := client.LoadBalancers.AddBackend(context.Background(), "lb123456",
@@ -202,7 +202,7 @@ func ExampleLoadBalancer_AddBackend() {
 	}
 }
 
-func ExampleLoadBalancer_AddTarget() {
+func ExampleLoadBalancerService_AddTarget() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	loadbalancer, _ := client.LoadBalancers.AddTarget(context.Background(), "lb123456",
@@ -222,7 +222,7 @@ func ExampleLoadBalancer_AddTarget() {
 	}
 }
 
-func ExampleLoadBalancer_DisableTarget() {
+func ExampleLoadBalancerService_DisableTarget() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	loadbalancer, _ := client.LoadBalancers.DisableTarget(context.Background(), "lb123456",
@@ -239,7 +239,7 @@ func ExampleLoadBalancer_DisableTarget() {
 	}
 }
 
-func ExampleLoadBalancer_AddFrontend() {
+func ExampleLoadBalancerService_AddFrontend() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	loadbalancer, _ := client.LoadBalancers.AddFrontend(context.Background(), "lb123456",
@@ -258,7 +258,7 @@ func ExampleLoadBalancer_AddFrontend() {
 	}
 }
 
-func ExampleLoadBalancer_AddCertificate() {
+func ExampleLoadBalancerService_AddCertificate() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	mybase64pem := "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCm15Y2VydAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLQpteWtleQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg=="
@@ -269,7 +269,7 @@ func ExampleLoadBalancer_AddCertificate() {
 	})
 }
 
-func ExampleLoadBalancer_ListCertificate() {
+func ExampleLoadBalancerService_ListCertificates() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	certlist, _ := client.LoadBalancers.ListCertificates(context.Background(), "lb123456")
@@ -279,7 +279,7 @@ func ExampleLoadBalancer_ListCertificate() {
 	}
 }
 
-func ExampleLoadBalancer_RemoveCertificate() {
+func ExampleLoadBalancerService_RemoveCertificate() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	err := client.LoadBalancers.RemoveCertificate(context.Background(), "lb123456", "mycert")
