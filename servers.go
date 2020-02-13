@@ -73,7 +73,7 @@ type CreateServerParams struct {
 	PublicKey    string `json:"sshkey,omitempty"`
 	Storage      int    `json:"disksize"`
 	Template     string `json:"templatename"`
-	Users        []User `json:"users"`
+	Users        []User `json:"users,omitempty"`
 }
 
 // EditServerParams is used when editing an existing server
