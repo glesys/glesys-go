@@ -24,6 +24,13 @@ type Server struct {
 	Platform   string `json:"platform"`
 }
 
+// User represents a system user when creating servers (currently supported in KVM)
+type User struct {
+	Username     string   `json:"username"`
+	PublicKeys   []string `json:"sshkeys,omitempty"`
+	Password     string   `json:"password,omitempty"`
+}
+
 // ServerDetails is a more complete representation of a server
 type ServerDetails struct {
 	CPU         int    `json:"cpucores"`
@@ -66,6 +73,7 @@ type CreateServerParams struct {
 	PublicKey    string `json:"sshkey,omitempty"`
 	Storage      int    `json:"disksize"`
 	Template     string `json:"templatename"`
+	Users        []User `json:"users,omitempty"`
 }
 
 // EditServerParams is used when editing an existing server
@@ -94,6 +102,18 @@ func (p CreateServerParams) WithDefaults() CreateServerParams {
 		Template:   "Debian 8 64-bit",
 	}
 	mergo.Merge(&p, defaults)
+	return p
+}
+
+// WithUser populates the Users parameter of CreateServerParams for platforms with user support eg. KVM
+// Existing parameters will not be overwritten.
+func (p CreateServerParams) WithUser(username string, publicKeys []string, password string) CreateServerParams {
+
+	p.Users = append(p.Users , User{
+		username,
+		publicKeys,
+		password,
+	})
 	return p
 }
 

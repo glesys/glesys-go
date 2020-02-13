@@ -7,6 +7,121 @@ import (
 	glesys "github.com/glesys/glesys-go"
 )
 
+func ExampleEmailService_Overview() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: All parameters in OverviewParams are optional and can be omitted.
+	overview, _ := client.EmailDomains.Overview(context.Background(), glesys.OverviewParams{
+		Filter: "example.com",
+		Page:   1,
+	})
+
+	fmt.Printf("%#v", overview)
+}
+
+func ExampleEmailService_GlobalQuota() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: The GlobalQuota parameter can be omitted to only fetch the current value.
+	globalquota, _ := client.EmailDomains.GlobalQuota(context.Background(), glesys.GlobalQuotaParams{
+		GlobalQuota: 20480,
+	})
+
+	fmt.Println(globalquota.Usage)
+	fmt.Println(globalquota.Max)
+}
+
+func ExampleEmailService_List() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: The filter in ListEmailsParams is optional and can be omitted.
+	list, _ := client.EmailDomains.List(context.Background(), "example.com", glesys.ListEmailsParams{
+		Filter: "user@example.com",
+	})
+
+	fmt.Printf("%#v\n", list)
+}
+
+func ExampleEmailService_EditAccount() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: All parameters are optional and can be omitted.
+	editaccount, _ := client.EmailDomains.EditAccount(context.Background(), "user@example.com", glesys.EditAccountParams{
+		AntiSpamLevel:      3,
+		AntiVirus:          "yes",
+		Password:           "SuperSecretPassword",
+		AutoRespond:        "yes",
+		AutoRespondMessage: "Your Automatic Response",
+		Quota:              400,
+		RejectSpam:         "yes",
+	})
+
+	fmt.Printf("%#v\n", editaccount)
+}
+
+func ExampleEmailService_Delete() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: The email parameter can be both an account and an alias.
+	client.EmailDomains.Delete(context.Background(), "user@example.com")
+}
+
+func ExampleEmailService_CreateAccount() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	// NOTE: All parameters except for EmailAccount and Password are optional and can be omitted.
+	createaccount, _ := client.EmailDomains.CreateAccount(context.Background(), glesys.CreateAccountParams{
+		EmailAccount:       "new_user@example.com",
+		Password:           "SuperSecretPassword",
+		AntiSpamLevel:      3,
+		AntiVirus:          "yes",
+		AutoRespond:        "yes",
+		AutoRespondMessage: "Your Automatic Response",
+		Quota:              400,
+		RejectSpam:         "yes",
+	})
+
+	fmt.Printf("%#v\n", createaccount)
+}
+
+func ExampleEmailQuota() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	quota, _ := client.EmailDomains.Quota(context.Background(), "user@example.com")
+
+	fmt.Printf("%#v\n", quota)
+}
+
+func ExampleEmailCreateAlias() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	alias, _ := client.EmailDomains.CreateAlias(context.Background(), glesys.EmailAliasParams{
+		EmailAlias: "alias@example.com",
+		GoTo:       "user@example.com",
+	})
+
+	fmt.Printf("%#v\n", alias)
+}
+
+func ExampleEmailEditAlias() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	alias, _ := client.EmailDomains.EditAlias(context.Background(), glesys.EmailAliasParams{
+		EmailAlias: "alias@example.com",
+		GoTo:       "another_user@example.com",
+	})
+
+	fmt.Printf("%#v\n", alias)
+}
+
+func ExampleEmailCosts() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	costs, _ := client.EmailDomains.Costs(context.Background())
+
+	fmt.Printf("%#v\n", costs)
+}
+
 func ExampleIPService_Available() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
