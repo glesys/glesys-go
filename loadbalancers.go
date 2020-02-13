@@ -17,6 +17,7 @@ type LoadBalancer struct {
 	Name       string `json:"name"`
 }
 
+// LoadBalancerDetails represents the detailed version of a load balancer
 type LoadBalancerDetails struct {
 	BackendsList  []LoadBalancerBackend  `json:"backends"`
 	Blacklists    []string               `json:"blacklist"`
@@ -27,6 +28,7 @@ type LoadBalancerDetails struct {
 	Name          string                 `json:"name"`
 }
 
+// LoadBalancerIP represents a single load balancer IP
 type LoadBalancerIP struct {
 	Address         string `json:"ipaddress"`
 	Cost            int    `json:"cost"`
@@ -81,7 +83,7 @@ type RemoveBackendParams struct {
 	Name string `json:"backendname"`
 }
 
-// AddCertificateParams
+// AddCertificateParams represents a certificate name and content
 type AddCertificateParams struct {
 	Name        string `json:"certificatename"`
 	Certificate string `json:"certificate"`
@@ -122,7 +124,7 @@ type RemoveFrontendParams struct {
 	Name string `json:"frontendname"`
 }
 
-// Targets used in backends
+// Target is used in backends
 type Target struct {
 	Enabled  bool   `json:"enabled"`
 	Name     string `json:"name"`

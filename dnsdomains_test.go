@@ -11,14 +11,14 @@ func TestDnsDomainsAdd(t *testing.T) {
 	c := &mockClient{body: `{"response": {"domain": {"domainname": "example.com",
 	  "createtime": "2019-07-02T21:55:18+02:00", "displayname": "example.com",
 	  "recordcount": 9, "registrarinfo": "None", "usingglesysnameserver": "no"}}}`}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
-	params := AddDnsDomainParams{
+	params := AddDNSDomainParams{
 		Name:          "example.com",
 		CreateRecords: false,
 	}
 
-	domain, _ := d.AddDnsDomain(context.Background(), params)
+	domain, _ := d.AddDNSDomain(context.Background(), params)
 
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "domain/add", c.lastPath, "path used is correct")
@@ -29,9 +29,9 @@ func TestDnsDomainsAdd(t *testing.T) {
 
 func TestDnsDomainsDeleteDomain(t *testing.T) {
 	c := &mockClient{}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
-	params := DeleteDnsDomainParams{
+	params := DeleteDNSDomainParams{
 		Name: "example.com",
 	}
 
@@ -50,9 +50,9 @@ func TestDnsDomainsEdit(t *testing.T) {
           "ttl": 3600, "refresh": 10800, "retry": 2400, "expire": 1814400, "minimum": 10800,
           "contactinfo": "None", "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
             "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
-	params := EditDnsDomainParams{
+	params := EditDNSDomainParams{
 		Name:  "example.com",
 		Retry: 2400,
 	}
@@ -70,7 +70,7 @@ func TestDnsDomainsAvailable(t *testing.T) {
 	   "available": true,
 	   "prices": [{"amount": 123, "currency": "SEK", "years": 1}, {"amount": 1230, "currency": "SEK", "years": 10}]
            }]}}`}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	domains, _ := d.Available(context.Background(), "example.com")
 
@@ -89,7 +89,7 @@ func TestDnsDomainsDetails(t *testing.T) {
           "ttl": 3600, "refresh": 10800, "retry": 2700, "expire": 1814400, "minimum": 10800,
           "contactinfo": "None", "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
             "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	domain, _ := d.Details(context.Background(), "example.com")
 
@@ -106,7 +106,7 @@ func TestDnsDomainsList(t *testing.T) {
           "recordcount": 4, "registrarinfo": {"state": "OK", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}]}}`}
 
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	domains, _ := d.List(context.Background())
 
@@ -123,8 +123,8 @@ func TestDnsDomainsRegister(t *testing.T) {
           "recordcount": 4, "registrarinfo": {"state": "REGISTER", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DnsDomainService{client: c}
-	params := RegisterDnsDomainParams{
+	d := DNSDomainService{client: c}
+	params := RegisterDNSDomainParams{
 		Name:               "example.com",
 		Firstname:          "Alice",
 		Lastname:           "Smith",
@@ -150,8 +150,8 @@ func TestDnsDomainsRenew(t *testing.T) {
           "recordcount": 4, "registrarinfo": {"state": "RENEW", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DnsDomainService{client: c}
-	params := RenewDnsDomainParams{
+	d := DNSDomainService{client: c}
+	params := RenewDNSDomainParams{
 		Name:     "example.com",
 		NumYears: 1,
 	}
@@ -169,7 +169,7 @@ func TestDnsDomainsSetAutoRenew(t *testing.T) {
           "recordcount": 4, "registrarinfo": {"state": "RENEW", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 	params := SetAutoRenewParams{
 		Name:         "example.com",
 		SetAutoRenew: "yes",
@@ -188,8 +188,8 @@ func TestDnsDomainsTransfer(t *testing.T) {
           "recordcount": 4, "registrarinfo": {"state": "TRANSFER", "statedescription": "", "expire": "2038-01-19",
           "autorenew": "yes", "tld": "com", "invoicenumber": "None"}}}}`}
 
-	d := DnsDomainService{client: c}
-	params := RegisterDnsDomainParams{
+	d := DNSDomainService{client: c}
+	params := RegisterDNSDomainParams{
 		Name:               "example.com",
 		Firstname:          "Alice",
 		Lastname:           "Smith",
@@ -221,7 +221,7 @@ func TestDnsDomainsAddRecord(t *testing.T) {
 		Type:       "A",
 	}
 
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	record, _ := d.AddRecord(context.Background(), params)
 
@@ -237,7 +237,7 @@ func TestDnsDomainsListRecords(t *testing.T) {
           {"recordid": 1234568, "domainname": "example.com", "host": "mail", "type": "A", "data": "127.0.0.3", "ttl": 3600}
 	]}}`}
 
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	records, _ := d.ListRecords(context.Background(), "example.com")
 
@@ -257,7 +257,7 @@ func TestDnsDomainsUpdateRecord(t *testing.T) {
 		Data:     "127.0.0.3",
 	}
 
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	record, _ := d.UpdateRecord(context.Background(), params)
 
@@ -269,7 +269,7 @@ func TestDnsDomainsUpdateRecord(t *testing.T) {
 
 func TestDnsDomainsDeleteRecord(t *testing.T) {
 	c := &mockClient{}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	d.DeleteRecord(context.Background(), 1234567)
 
@@ -279,7 +279,7 @@ func TestDnsDomainsDeleteRecord(t *testing.T) {
 
 func TestDnsDomainsChangeNameservers(t *testing.T) {
 	c := &mockClient{}
-	d := DnsDomainService{client: c}
+	d := DNSDomainService{client: c}
 
 	params := ChangeNameserverParams{
 		DomainName: "example.com",

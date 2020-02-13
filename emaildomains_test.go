@@ -9,7 +9,7 @@ import (
 
 func TestEmailsOverview(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":1,"total":1,"perpage":1}}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	emailoverview, _ := s.Overview(context.Background(), OverviewParams{})
 	emaildomains := &emailoverview.Domains
@@ -33,7 +33,7 @@ func TestEmailsOverview(t *testing.T) {
 
 func TestEmailsOverviewWithFilterParameter(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":1,"total":1,"perpage":1}}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	emailoverview, _ := s.Overview(context.Background(), OverviewParams{Filter: "example.com"})
 	emaildomains := &emailoverview.Domains
@@ -57,7 +57,7 @@ func TestEmailsOverviewWithFilterParameter(t *testing.T) {
 
 func TestEmailsOverviewWithPageParameter(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":2,"total":31,"perpage":30}}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 	emailoverview, _ := s.Overview(context.Background(), OverviewParams{Page: 2})
 	emaildomains := &emailoverview.Domains
 	emailsummary := &emailoverview.Summary
@@ -80,7 +80,7 @@ func TestEmailsOverviewWithPageParameter(t *testing.T) {
 
 func TestEmailsOverviewWithFilterAndPageParameter(t *testing.T) {
 	c := &mockClient{body: `{"response":{"overview":{"summary":{"accounts":0,"maxaccounts":2000,"aliases":0,"maxaliases":10000},"domains":[{"domainname":"example.com","displayname":"example.com","accounts":0,"aliases":0}],"meta":{"page":1,"total":1,"perpage":1}}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	emailoverview, _ := s.Overview(context.Background(), OverviewParams{Filter: "example.com", Page: 1})
 	emaildomains := &emailoverview.Domains
@@ -104,7 +104,7 @@ func TestEmailsOverviewWithFilterAndPageParameter(t *testing.T) {
 
 func TestEmailsGlobalQuotaWithoutNewParam(t *testing.T) {
 	c := &mockClient{body: `{"response":{"globalquota":{"usage":0,"max":10240}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	emailglobalquota, _ := s.GlobalQuota(context.Background(), GlobalQuotaParams{})
 
@@ -116,7 +116,7 @@ func TestEmailsGlobalQuotaWithoutNewParam(t *testing.T) {
 
 func TestEmailsGlobalQuotaWithNewParam(t *testing.T) {
 	c := &mockClient{body: `{"response":{"globalquota":{"usage":0,"max":20480}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	emailglobalquota, _ := s.GlobalQuota(context.Background(), GlobalQuotaParams{GlobalQuota: 20480})
 
@@ -128,7 +128,7 @@ func TestEmailsGlobalQuotaWithNewParam(t *testing.T) {
 
 func TestEmailsList(t *testing.T) {
 	c := &mockClient{body: `{"response":{"list":{"emailaccounts":[{"emailaccount":"user@example.com","displayname":"user@example.com","quota":{"max":200,"unit":"MB"},"antispamlevel":3,"antivirus":"yes","autorespond":"yes","autorespondmessage":"This is not the account you are looking for.\n\nMove along, move along.","autorespondsaveemail":"yes","rejectspam":"no","created":"2019-10-26T13:07:13+02:00","modified":"2019-10-26T15:38:51+02:00"}],"emailaliases":[{"emailalias":"alias@example.com","displayname":"alias@example.com","goto":"user@example.com"}]}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	emaillist, _ := s.List(context.Background(), "example.com", ListEmailsParams{})
 	emailaccounts := &emaillist.EmailAccounts
@@ -157,7 +157,7 @@ func TestEmailsList(t *testing.T) {
 
 func TestEmailEditAccount(t *testing.T) {
 	c := &mockClient{body: `{"response":{"emailaccount":{"emailaccount":"user@example.com","displayname":"user@example.com","quota":{"max":200,"unit":"MB"},"antispamlevel":3,"antivirus":"yes","autorespond":"yes","autorespondmessage":"This is not the account you are looking for.\n\nMove along, move along.","autorespondsaveemail":"yes","rejectspam":"no","created":"2019-10-26T13:07:13+02:00","modified":"2019-11-10T22:09:14+01:00"}}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	editaccount, _ := s.EditAccount(context.Background(), "user@example.com", EditAccountParams{Quota: 200})
 
@@ -179,7 +179,7 @@ func TestEmailEditAccount(t *testing.T) {
 
 func TestEmailDelete(t *testing.T) {
 	c := &mockClient{body: `{"response": {}}`}
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	s.Delete(context.Background(), "user@example.com")
 
@@ -190,7 +190,7 @@ func TestEmailDelete(t *testing.T) {
 func TestCreateAccount(t *testing.T) {
 	c := &mockClient{body: `{"response":{"emailaccount":{"emailaccount":"new_user@example.com","displayname":"new_user@example.com","quota":{"max":200,"unit":"MB"},"antispamlevel":3,"antivirus":"yes","autorespond":"no","autorespondmessage":null,"autorespondsaveemail":"yes","rejectspam":"no","created":"2019-11-29T21:31:28+01:00","modified":null}}}`}
 
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	createaccount, _ := s.CreateAccount(context.Background(), CreateAccountParams{EmailAccount: "new_user@example.com", Password: "SuperSecretPassword"})
 
@@ -213,7 +213,7 @@ func TestCreateAccount(t *testing.T) {
 func TestQuota(t *testing.T) {
 	c := &mockClient{body: `{"response":{"quota":{"emailaccount":"user@example.com","used":{"amount":0,"unit":"MB"},"total":{"max":400,"unit":"MB"}}}}`}
 
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	quota, _ := s.Quota(context.Background(), "user@example.com")
 
@@ -229,7 +229,7 @@ func TestQuota(t *testing.T) {
 func TestCreateAlias(t *testing.T) {
 	c := &mockClient{body: `{"response":{"alias":{"emailalias":"alias@example.com","displayname":"alias@example.com","goto":"user@example.com"}}}`}
 
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	alias, _ := s.CreateAlias(context.Background(), EmailAliasParams{EmailAlias: "alias@example.com", GoTo: "user@example.com"})
 
@@ -243,7 +243,7 @@ func TestCreateAlias(t *testing.T) {
 func TestEditAlias(t *testing.T) {
 	c := &mockClient{body: `{"response":{"alias":{"emailalias":"alias@example.com","displayname":"alias@example.com","goto":"anotheruser@example.com"}}}`}
 
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	alias, _ := s.CreateAlias(context.Background(), EmailAliasParams{EmailAlias: "alias@example.com", GoTo: "user@example.com"})
 
@@ -257,7 +257,7 @@ func TestEditAlias(t *testing.T) {
 func TestCosts(t *testing.T) {
 	c := &mockClient{body: `{"response":{"costs":{"quota":{"amount":10,"cost":{"amount":0,"currency":"SEK"}},"accounts":{"amount":3,"cost":{"amount":0,"currency":"SEK"}}},"pricelist":{"quota":{"amount":"1.00","currency":"SEK","unit":"GB","freeamount":10},"accounts":{"amount":50,"currency":"SEK","unit":"accounts","freeamount":50}}}}`}
 
-	s := EmailService{client: c}
+	s := EmailDomainService{client: c}
 
 	costs, _ := s.Costs(context.Background())
 	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
