@@ -33,18 +33,23 @@ type User struct {
 
 // ServerDetails is a more complete representation of a server
 type ServerDetails struct {
-	CPU         int    `json:"cpucores"`
-	Bandwidth   int    `json:"bandwidth"`
-	DataCenter  string `json:"datacenter"`
-	Description string `json:"description"`
-	Hostname    string `json:"hostname"`
-	ID          string `json:"serverid"`
-	IPList      []IP   `json:"iplist"`
-	Platform    string `json:"platform"`
-	Memory      int    `json:"memorysize"`
-	State       string `json:"state"`
-	Storage     int    `json:"disksize"`
-	Template    string `json:"templatename"`
+	CPU         int          `json:"cpucores"`
+	Bandwidth   int          `json:"bandwidth"`
+	DataCenter  string       `json:"datacenter"`
+	Description string       `json:"description"`
+	Hostname    string       `json:"hostname"`
+	ID          string       `json:"serverid"`
+	IPList      []ServerIP   `json:"iplist"`
+	Platform    string       `json:"platform"`
+	Memory      int          `json:"memorysize"`
+	State       string       `json:"state"`
+	Storage     int          `json:"disksize"`
+	Template    string       `json:"templatename"`
+}
+
+type ServerIP struct {
+	Address         string   `json:"ipaddress"`
+	Version         int      `json:"version,omitempty"`
 }
 
 // IsLocked returns true if the server is currently locked, false otherwise
