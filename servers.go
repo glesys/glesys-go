@@ -26,9 +26,9 @@ type Server struct {
 
 // User represents a system user when creating servers (currently supported in KVM)
 type User struct {
-	Username     string   `json:"username"`
-	PublicKeys   []string `json:"sshkeys,omitempty"`
-	Password     string   `json:"password,omitempty"`
+	Username   string   `json:"username"`
+	PublicKeys []string `json:"sshkeys,omitempty"`
+	Password   string   `json:"password,omitempty"`
 }
 
 // ServerDetails is a more complete representation of a server
@@ -109,7 +109,7 @@ func (p CreateServerParams) WithDefaults() CreateServerParams {
 // Existing parameters will not be overwritten.
 func (p CreateServerParams) WithUser(username string, publicKeys []string, password string) CreateServerParams {
 
-	p.Users = append(p.Users , User{
+	p.Users = append(p.Users, User{
 		username,
 		publicKeys,
 		password,
