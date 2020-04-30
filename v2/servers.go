@@ -47,6 +47,7 @@ type ServerDetails struct {
 	Template    string     `json:"templatename"`
 }
 
+// ServerIP is a simple representation of the IP address used in a server.
 type ServerIP struct {
 	Address string `json:"ipaddress"`
 	Version int    `json:"version,omitempty"`
