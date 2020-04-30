@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.1] - 2020-04-30
+### Changed
+- v2 dir for proper Go module versioning support. - @larsdunemark
+- New `ServerIP` struct instead of using IP objects. - @larsdunemark
+
 ## [2.4.0] - 2020-02-13
 ### Changed
 - `DNSDomainService` resource (#18). - @norrland
