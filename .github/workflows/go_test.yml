@@ -1,10 +1,10 @@
 ---
-name: static check
+name: Go testing
 on: pull_request
 
 jobs:
-  lint:
-    name: Lint
+  go_test:
+    name: Go test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,13 +22,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
-      - name: Fetch golint
-        run: go get -u golang.org/x/lint/golint
-      - name: Test
-        run: golint -set_exit_status ./...
+      - name: Test old
+        run: go test
 
-  vet:
-    name: Go Vet
+  go_test_v2:
+    name: Go test v2
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,5 +44,5 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
-      - name: Test
-        run: go vet ./...
+      - name: Test old
+        run: "cd v2 && go test"
