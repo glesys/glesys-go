@@ -44,5 +44,5 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
-      - name: Test old
+      - name: Test v2
         run: "cd v2 && go test"
