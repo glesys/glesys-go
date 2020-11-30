@@ -26,3 +26,25 @@ jobs:
         run: go get -u golang.org/x/lint/golint
       - name: Test
         run: golint -set_exit_status ./...
+
+  vet:
+    name: Go Vet
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go:
+          - 1.11
+          - 1.12
+          - 1.13
+          - 1.14
+          - 1.15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Test
+        run: go vet ./...
