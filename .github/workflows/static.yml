@@ -48,3 +48,27 @@ jobs:
           go-version: ${{ matrix.go }}
       - name: Test
         run: go vet ./...
+
+  go_test:
+    name: Go test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go:
+          - 1.11
+          - 1.12
+          - 1.13
+          - 1.14
+          - 1.15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Test old
+        run: go test
+      - name: Test v2
+        run: "cd v2 && go test ./..."
