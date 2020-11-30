@@ -7,7 +7,7 @@ This is the official client library for interacting with the
 
 ## Requirements
 
-- Go 1.7 or higher (relies on [context](https://golang.org/pkg/context/))
+- Go 1.11 or higher. Required for modules support, older versions may still build but are not guaranteed to work.
 
 ## Getting Started
 
