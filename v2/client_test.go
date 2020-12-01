@@ -55,7 +55,7 @@ func TestGetResponseErrorMessage(t *testing.T) {
 		StatusCode: 400,
 	}
 	err := client.handleResponseError(&response)
-	assert.Equal(t, "Request failed with HTTP error: 400 (Unauthorized)", err.Error(), "error message is correct")
+	assert.Equal(t, "request failed with HTTP error: 400 (Unauthorized)", err.Error(), "error message is correct")
 }
 
 func TestDoDoesNotReturnErrorIfStatusIs200(t *testing.T) {
