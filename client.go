@@ -140,7 +140,7 @@ func (c *Client) handleResponseError(response *http.Response) error {
 		return err
 	}
 
-	return fmt.Errorf("Request failed with HTTP error: %v (%v)", response.StatusCode, strings.TrimSpace(data.Response.Status.Text))
+	return fmt.Errorf("request failed with HTTP error: %v (%v)", response.StatusCode, strings.TrimSpace(data.Response.Status.Text))
 }
 
 func (c *Client) parseResponseBody(response *http.Response, v interface{}) error {
