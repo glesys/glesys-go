@@ -29,8 +29,9 @@ type ObjectStorageCredential struct {
 
 // CreateObjectStorageInstanceParams is used when creating a new instance
 type CreateObjectStorageInstanceParams struct {
-	DataCenter  string `json:"datacenter"`
-	Description string `json:"description,omitempty"`
+	CreateInitialBucket bool   `json:"createinitialbucket,omitempty"`
+	DataCenter          string `json:"datacenter"`
+	Description         string `json:"description,omitempty"`
 }
 
 // EditObjectStorageInstanceParams is used when editing an existing instance
