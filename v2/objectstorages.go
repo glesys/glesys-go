@@ -18,7 +18,7 @@ type ObjectStorageInstance struct {
 	InstanceID  string                    `json:"id"`
 }
 
-// ObjectStorageCredential represents a credential for an Object Storage Instance
+// ObjectStorageCredential represents a credential for an Object Storage credential
 type ObjectStorageCredential struct {
 	AccessKey    string `json:"accesskey"`
 	Created      string `json:"created"`
