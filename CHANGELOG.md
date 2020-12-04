@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.0] - 2020-12-04
+### Changed
+- Implement ObjectStorage
+
 ## [2.4.2] - 2020-05-07
+### Changed
 - Use string type for CreateRecords. - @norrland
 - Properly comment ServerIP struct - @norrland
-### Changed
 ## [2.4.1] - 2020-04-30
 ### Changed
 - v2 dir for proper Go module versioning support. - @larsdunemark
