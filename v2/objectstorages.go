@@ -45,7 +45,7 @@ type CreateObjectStorageCredentialParams struct {
 	Description string `json:"description,omitempty"`
 }
 
-// DeleteObjectStorageCredentialParams is used when creating a new credential
+// DeleteObjectStorageCredentialParams is used when deleting an existing credential
 type DeleteObjectStorageCredentialParams struct {
 	InstanceID   string `json:"instanceid"`
 	CredentialID string `json:"credentialid"`
@@ -96,7 +96,7 @@ func (s *ObjectStorageService) EditInstance(context context.Context, params Edit
 	return &data.Response.Instance, err
 }
 
-// ListInstances returns a list of Object Storage Instances  available under your account
+// ListInstances returns a list of Object Storage Instances available under your account
 func (s *ObjectStorageService) ListInstances(context context.Context) (*[]ObjectStorageInstance, error) {
 	data := struct {
 		Response struct {
