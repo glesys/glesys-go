@@ -33,18 +33,26 @@ type User struct {
 
 // ServerDetails is a more complete representation of a server
 type ServerDetails struct {
-	CPU         int        `json:"cpucores"`
-	Bandwidth   int        `json:"bandwidth"`
-	DataCenter  string     `json:"datacenter"`
-	Description string     `json:"description"`
-	Hostname    string     `json:"hostname"`
-	ID          string     `json:"serverid"`
-	IPList      []ServerIP `json:"iplist"`
-	Platform    string     `json:"platform"`
-	Memory      int        `json:"memorysize"`
-	State       string     `json:"state"`
-	Storage     int        `json:"disksize"`
-	Template    string     `json:"templatename"`
+	CPU             int                   `json:"cpucores"`
+	Bandwidth       int                   `json:"bandwidth"`
+	DataCenter      string                `json:"datacenter"`
+	Description     string                `json:"description"`
+	Hostname        string                `json:"hostname"`
+	ID              string                `json:"serverid"`
+	InitialTemplate ServerTemplateDetails `json:"initialtemplate,omitempty"`
+	IPList          []ServerIP            `json:"iplist"`
+	Platform        string                `json:"platform"`
+	Memory          int                   `json:"memorysize"`
+	State           string                `json:"state"`
+	Storage         int                   `json:"disksize"`
+	Template        string                `json:"templatename"`
+}
+
+// ServerTemplateDetails represents initialtemplate for a KVM server.
+type ServerTemplateDetails struct {
+	ID          string   `json:"id"`
+	CurrentTags []string `json:"currenttags,omitempty"`
+	Name        string   `json:"name"`
 }
 
 // ServerIP is a simple representation of the IP address used in a server.
