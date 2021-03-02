@@ -15,7 +15,7 @@ func TestDnsDomainsAdd(t *testing.T) {
 
 	params := AddDNSDomainParams{
 		Name:          "example.com",
-		CreateRecords: false,
+		CreateRecords: "no",
 	}
 
 	domain, _ := d.AddDNSDomain(context.Background(), params)

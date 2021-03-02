@@ -39,7 +39,7 @@ type DNSDomainPrice struct {
 // use CreateRecords = false to not create additional records.
 type AddDNSDomainParams struct {
 	Name              string `json:"domainname"`
-	CreateRecords     bool   `json:"createrecords,omitempty"`
+	CreateRecords     string `json:"createrecords,omitempty"`
 	Expire            int    `json:"expire,omitempty"`
 	Minimum           int    `json:"minimum,omitempty"`
 	PrimaryNameServer string `json:"primarynameserver,omitempty"`

@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-const version = "2.4.0"
+const version = "2.5.0"
 
 type httpClientInterface interface {
 	Do(*http.Request) (*http.Response, error)
@@ -34,6 +34,7 @@ type Client struct {
 	EmailDomains    *EmailDomainService
 	IPs             *IPService
 	LoadBalancers   *LoadBalancerService
+	ObjectStorages  *ObjectStorageService
 	Servers         *ServerService
 	Networks        *NetworkService
 	NetworkAdapters *NetworkAdapterService
@@ -56,6 +57,7 @@ func NewClient(project, apiKey, userAgent string) *Client {
 	c.EmailDomains = &EmailDomainService{client: c}
 	c.IPs = &IPService{client: c}
 	c.LoadBalancers = &LoadBalancerService{client: c}
+	c.ObjectStorages = &ObjectStorageService{client: c}
 	c.Servers = &ServerService{client: c}
 	c.Networks = &NetworkService{client: c}
 	c.NetworkAdapters = &NetworkAdapterService{client: c}

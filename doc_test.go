@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	glesys "github.com/glesys/glesys-go"
+	glesys "github.com/glesys/glesys-go/v2"
 )
 
 func ExampleEmailDomainService_Overview() {
@@ -462,4 +462,86 @@ func ExampleServerService_Stop() {
 	client.Servers.Stop(context.Background(), "vz12345", glesys.StopServerParams{
 		Type: "reboot", // Type "soft", "hard" and "reboot" available
 	})
+}
+
+func ExampleObjectStorageService_CreateInstance() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.CreateObjectStorageInstanceParams{
+		DataCenter:  "dc-sto1",
+		Description: "My ObjectStorage",
+	}
+
+	instance, _ := client.ObjectStorages.CreateInstance(context.Background(), params)
+
+	fmt.Println(instance.InstanceID)
+}
+
+func ExampleObjectStorageService_InstanceDetails() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	instance, _ := client.ObjectStorages.InstanceDetails(context.Background(), "os-ab123")
+
+	fmt.Println(instance.InstanceID)
+}
+
+func ExampleObjectStorageService_DeleteInstance() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.ObjectStorages.DeleteInstance(context.Background(), "os-ab123")
+
+	if err != nil {
+		fmt.Printf("Error removing objectstorage instance: %s", err)
+	}
+}
+
+func ExampleObjectStorageService_ListInstances() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	instances, _ := client.ObjectStorages.ListInstances(context.Background())
+
+	for _, instance := range *instances {
+		fmt.Println(instance.InstanceID)
+	}
+}
+
+func ExampleObjectStorageService_EditInstance() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.EditObjectStorageInstanceParams{
+		InstanceID:  "os-ab123",
+		Description: "My ObjectStorage New",
+	}
+
+	instance, _ := client.ObjectStorages.EditInstance(context.Background(), params)
+
+	fmt.Println(instance.Description)
+}
+
+func ExampleObjectStorageService_CreateCredential() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.CreateObjectStorageCredentialParams{
+		InstanceID:  "os-ab123",
+		Description: "New Key 1",
+	}
+
+	credential, _ := client.ObjectStorages.CreateCredential(context.Background(), params)
+
+	fmt.Println(credential.AccessKey)
+}
+
+func ExampleObjectStorageService_DeleteCredential() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.DeleteObjectStorageCredentialParams{
+		InstanceID:   "os-ab123",
+		CredentialID: "16df46b3-b2f0-471b-81bf-56c26fff7c4d",
+	}
+
+	err := client.ObjectStorages.DeleteCredential(context.Background(), params)
+
+	if err != nil {
+		fmt.Printf("Error removing objectstorage credential: %s", err)
+	}
 }
