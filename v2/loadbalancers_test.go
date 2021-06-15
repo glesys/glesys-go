@@ -45,7 +45,8 @@ func TestLoadBalancersDestroy(t *testing.T) {
 func TestLoadBalancersDetails(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
 	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
-	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
+	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4, "lockedtoaccount": false, "cost": 20,
+	"currency": "SEK"}],
 	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
 	lb := LoadBalancerService{client: c}
 
@@ -55,6 +56,8 @@ func TestLoadBalancersDetails(t *testing.T) {
 	assert.Equal(t, "loadbalancer/details/loadbalancerid/lb123456", c.lastPath, "path used is correct")
 	assert.Equal(t, "myloadbalancer", loadbalancer.Name, "loadbalancer Name is correct")
 	assert.Equal(t, "Falkenberg", loadbalancer.DataCenter, "loadbalancer DataCenter is correct")
+	assert.Equal(t, "SEK", loadbalancer.IPList[0].Currency, "loadbalancer ip currency is correct")
+	assert.Equal(t, 20, loadbalancer.IPList[0].Cost, "loadbalancer ip cost is correct")
 }
 
 func TestLoadlancersEdit(t *testing.T) {
