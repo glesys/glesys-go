@@ -30,9 +30,9 @@ type DNSDomain struct {
 
 // DNSDomainPrice represents the price for a single domain
 type DNSDomainPrice struct {
-	Amount   int    `json:"amount"`
-	Currency string `json:"currency"`
-	Years    int    `json:"years"`
+	Amount   float64 `json:"amount"`
+	Currency string  `json:"currency"`
+	Years    int     `json:"years"`
 }
 
 // AddDNSDomainParams - used for adding existing domains to GleSYS
