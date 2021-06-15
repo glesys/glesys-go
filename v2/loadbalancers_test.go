@@ -12,7 +12,8 @@ func TestLoadBalancersCreate(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
 	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
-	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
+	"name": "myloadbalancer", "loadbalancerid": "lb123456",
+	"cost": {"amount": 200, "currency": "SEK", "timeperiod": "month"} }}}`}
 	lb := LoadBalancerService{client: c}
 
 	params := CreateLoadBalancerParams{
@@ -29,6 +30,34 @@ func TestLoadBalancersCreate(t *testing.T) {
 	assert.Equal(t, "Falkenberg", loadbalancer.DataCenter, "loadbalancer DataCenter is correct")
 	assert.Equal(t, "myloadbalancer", loadbalancer.Name, "loadbalancer Name is correct")
 	assert.Equal(t, "192.168.0.1", loadbalancer.IPList[0].Address, "loadbalancer ip is correct")
+	assert.Equal(t, 200.00, loadbalancer.Cost.Amount, "loadbalancer cost amount is correct")
+	assert.Equal(t, "SEK", loadbalancer.Cost.Currency, "loadbalancer cost currency is correct")
+}
+
+func TestLoadBalancersCreate_eur(t *testing.T) {
+	c := &mockClient{body: `{ "response": { "loadbalancer":
+	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
+	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
+	"name": "myloadbalancer", "loadbalancerid": "lb123456",
+	"cost": {"amount": 20.00, "currency": "EUR", "timeperiod": "month"} }}}`}
+	lb := LoadBalancerService{client: c}
+
+	params := CreateLoadBalancerParams{
+		DataCenter: "Falkenberg",
+		IPv4:       "192.168.0.1",
+		Name:       "myloadbalancer",
+	}
+
+	loadbalancer, _ := lb.Create(context.Background(), params)
+
+	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
+	assert.Equal(t, "loadbalancer/create", c.lastPath, "path used is correct")
+	assert.Equal(t, "lb123456", loadbalancer.ID, "loadbalancer ID is correct")
+	assert.Equal(t, "Falkenberg", loadbalancer.DataCenter, "loadbalancer DataCenter is correct")
+	assert.Equal(t, "myloadbalancer", loadbalancer.Name, "loadbalancer Name is correct")
+	assert.Equal(t, "192.168.0.1", loadbalancer.IPList[0].Address, "loadbalancer ip is correct")
+	assert.Equal(t, 20.00, loadbalancer.Cost.Amount, "loadbalancer cost amount is correct")
+	assert.Equal(t, "EUR", loadbalancer.Cost.Currency, "loadbalancer cost currency is correct")
 }
 
 func TestLoadBalancersDestroy(t *testing.T) {
@@ -47,7 +76,8 @@ func TestLoadBalancersDetails(t *testing.T) {
 	{ "backends": [], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4, "lockedtoaccount": false, "cost": 20,
 	"currency": "SEK"}],
-	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
+	"name": "myloadbalancer", "loadbalancerid": "lb123456",
+	"cost": {"amount": 200, "currency": "SEK", "timeperiod": "month"} }}}`}
 	lb := LoadBalancerService{client: c}
 
 	loadbalancer, _ := lb.Details(context.Background(), "lb123456")
@@ -58,6 +88,8 @@ func TestLoadBalancersDetails(t *testing.T) {
 	assert.Equal(t, "Falkenberg", loadbalancer.DataCenter, "loadbalancer DataCenter is correct")
 	assert.Equal(t, "SEK", loadbalancer.IPList[0].Currency, "loadbalancer ip currency is correct")
 	assert.Equal(t, 20, loadbalancer.IPList[0].Cost, "loadbalancer ip cost is correct")
+	assert.Equal(t, 200.00, loadbalancer.Cost.Amount, "loadbalancer cost currency is correct")
+	assert.Equal(t, "SEK", loadbalancer.Cost.Currency, "loadbalancer cost currency is correct")
 }
 
 func TestLoadlancersEdit(t *testing.T) {

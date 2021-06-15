@@ -21,11 +21,19 @@ type LoadBalancer struct {
 type LoadBalancerDetails struct {
 	BackendsList  []LoadBalancerBackend  `json:"backends"`
 	Blacklists    []string               `json:"blacklist"`
+	Cost          LoadBalancerCost       `json:"cost"`
 	DataCenter    string                 `json:"datacenter"`
 	FrontendsList []LoadBalancerFrontend `json:"frontends"`
 	ID            string                 `json:"loadbalancerid"`
 	IPList        []LoadBalancerIP       `json:"ipaddress"`
 	Name          string                 `json:"name"`
+}
+
+// LoadBalancerCost represents the cost details for a load balancer
+type LoadBalancerCost struct {
+	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"`
+	Timeperiod string  `json:"timeperiod"`
 }
 
 // LoadBalancerIP represents a single load balancer IP
