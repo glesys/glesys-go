@@ -32,6 +32,7 @@ type LoadBalancerDetails struct {
 type LoadBalancerIP struct {
 	Address         string `json:"ipaddress"`
 	Cost            int    `json:"cost"`
+	Currency        string `json:"currency"`
 	LockedToAccount bool   `json:"lockedtoaccount"`
 	Version         int    `json:"version"`
 }
