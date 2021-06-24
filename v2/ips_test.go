@@ -61,7 +61,7 @@ func TestIPsDetails(t *testing.T) {
 	assert.Equal(t, "OpenVZ", (*ip).Platform, "platform is correct")
 	assert.Equal(t, "Falkenberg", (*ip).DataCenter, "datacenter is correct")
 	assert.Equal(t, "1.0.0.127-static.example.com.", (*ip).PTR, "ptr is correct")
-	assert.Equal(t, 1, (*ip).Cost.Amount, "cost amount is correct")
+	assert.Equal(t, 1.00, (*ip).Cost.Amount, "cost amount is correct")
 }
 
 func TestIPsReserved(t *testing.T) {

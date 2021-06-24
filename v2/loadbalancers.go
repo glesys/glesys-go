@@ -38,11 +38,11 @@ type LoadBalancerCost struct {
 
 // LoadBalancerIP represents a single load balancer IP
 type LoadBalancerIP struct {
-	Address         string `json:"ipaddress"`
-	Cost            int    `json:"cost"`
-	Currency        string `json:"currency"`
-	LockedToAccount bool   `json:"lockedtoaccount"`
-	Version         int    `json:"version"`
+	Address         string  `json:"ipaddress"`
+	Cost            float64 `json:"cost"`
+	Currency        string  `json:"currency"`
+	LockedToAccount bool    `json:"lockedtoaccount"`
+	Version         int     `json:"version"`
 }
 
 // CreateLoadBalancerParams is used when creating a new loadbalancer

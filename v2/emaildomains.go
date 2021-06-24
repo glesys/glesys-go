@@ -141,30 +141,30 @@ type EmailAliasParams struct {
 
 // EmailCostEntity represents the amount and currency or a cost
 type EmailCostEntity struct {
-	Amount   int    `json:"amount"`
-	Currency string `json:"currency"`
+	Amount   float64 `json:"amount"`
+	Currency string  `json:"currency"`
 }
 
 // EmailCostsEntry represents a cost object
 type EmailCostsEntry struct {
-	Amount int             `json:"amount"`
+	Amount float64         `json:"amount"`
 	Cost   EmailCostEntity `json:"cost"`
 }
 
 // EmailQuotaPricelist is the pricelist for quota options
 type EmailQuotaPricelist struct {
-	Amount     string `json:"amount"`
-	Currency   string `json:"currency"`
-	Unit       string `json:"unit"`
-	FreeAmount int    `json:"freeamount"`
+	Amount     string  `json:"amount"`
+	Currency   string  `json:"currency"`
+	Unit       string  `json:"unit"`
+	FreeAmount float64 `json:"freeamount"`
 }
 
 // EmailAccountsPricelist is the pricelist for email
 type EmailAccountsPricelist struct {
-	Amount     int    `json:"amount"`
-	Currency   string `json:"currency"`
-	Unit       string `json:"unit"`
-	FreeAmount int    `json:"freeamount"`
+	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"`
+	Unit       string  `json:"unit"`
+	FreeAmount float64 `json:"freeamount"`
 }
 
 // EmailCostsContainer contains quota and accounts for email costs
