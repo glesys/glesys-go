@@ -87,7 +87,7 @@ func TestLoadBalancersDetails(t *testing.T) {
 	assert.Equal(t, "myloadbalancer", loadbalancer.Name, "loadbalancer Name is correct")
 	assert.Equal(t, "Falkenberg", loadbalancer.DataCenter, "loadbalancer DataCenter is correct")
 	assert.Equal(t, "SEK", loadbalancer.IPList[0].Currency, "loadbalancer ip currency is correct")
-	assert.Equal(t, 20, loadbalancer.IPList[0].Cost, "loadbalancer ip cost is correct")
+	assert.Equal(t, 20.00, loadbalancer.IPList[0].Cost, "loadbalancer ip cost is correct")
 	assert.Equal(t, 200.00, loadbalancer.Cost.Amount, "loadbalancer cost currency is correct")
 	assert.Equal(t, "SEK", loadbalancer.Cost.Currency, "loadbalancer cost currency is correct")
 }
