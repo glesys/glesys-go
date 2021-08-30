@@ -30,16 +30,16 @@ type DNSDomain struct {
 
 // DNSDomainPrice represents the price for a single domain
 type DNSDomainPrice struct {
-	Amount   int    `json:"amount"`
-	Currency string `json:"currency"`
-	Years    int    `json:"years"`
+	Amount   float64 `json:"amount"`
+	Currency string  `json:"currency"`
+	Years    int     `json:"years"`
 }
 
 // AddDNSDomainParams - used for adding existing domains to GleSYS
 // use CreateRecords = false to not create additional records.
 type AddDNSDomainParams struct {
 	Name              string `json:"domainname"`
-	CreateRecords     bool   `json:"createrecords,omitempty"`
+	CreateRecords     string `json:"createrecords,omitempty"`
 	Expire            int    `json:"expire,omitempty"`
 	Minimum           int    `json:"minimum,omitempty"`
 	PrimaryNameServer string `json:"primarynameserver,omitempty"`

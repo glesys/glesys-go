@@ -21,6 +21,7 @@ type LoadBalancer struct {
 type LoadBalancerDetails struct {
 	BackendsList  []LoadBalancerBackend  `json:"backends"`
 	Blacklists    []string               `json:"blacklist"`
+	Cost          LoadBalancerCost       `json:"cost"`
 	DataCenter    string                 `json:"datacenter"`
 	FrontendsList []LoadBalancerFrontend `json:"frontends"`
 	ID            string                 `json:"loadbalancerid"`
@@ -28,12 +29,20 @@ type LoadBalancerDetails struct {
 	Name          string                 `json:"name"`
 }
 
+// LoadBalancerCost represents the cost details for a load balancer
+type LoadBalancerCost struct {
+	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"`
+	Timeperiod string  `json:"timeperiod"`
+}
+
 // LoadBalancerIP represents a single load balancer IP
 type LoadBalancerIP struct {
-	Address         string `json:"ipaddress"`
-	Cost            int    `json:"cost"`
-	LockedToAccount bool   `json:"lockedtoaccount"`
-	Version         int    `json:"version"`
+	Address         string  `json:"ipaddress"`
+	Cost            float64 `json:"cost"`
+	Currency        string  `json:"currency"`
+	LockedToAccount bool    `json:"lockedtoaccount"`
+	Version         int     `json:"version"`
 }
 
 // CreateLoadBalancerParams is used when creating a new loadbalancer

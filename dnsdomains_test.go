@@ -15,7 +15,7 @@ func TestDnsDomainsAdd(t *testing.T) {
 
 	params := AddDNSDomainParams{
 		Name:          "example.com",
-		CreateRecords: false,
+		CreateRecords: "no",
 	}
 
 	domain, _ := d.AddDNSDomain(context.Background(), params)
@@ -77,7 +77,7 @@ func TestDnsDomainsAvailable(t *testing.T) {
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "domain/available", c.lastPath, "path used is correct")
 	assert.Equal(t, true, (*domains)[0].Available, "Domain is available")
-	assert.Equal(t, 1230, (*domains)[0].Prices[1].Amount, "Domain amount is correct")
+	assert.Equal(t, 1230.00, (*domains)[0].Prices[1].Amount, "Domain amount is correct")
 }
 
 func TestDnsDomainsDetails(t *testing.T) {
