@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
-## [3.0.0] - 2021-11-xx
+
+## [3.0.0] - 2021-11-11
 ### Changed
 - **BREAKING:** - Cost and Amount changed from int to float64. - @norrland
 - Code now in base directory of project.
