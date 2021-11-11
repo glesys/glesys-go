@@ -38,9 +38,9 @@ type AvailableIPsParams struct {
 
 // IPCost is used to show cost details for a IP address
 type IPCost struct {
-	Amount     int    `json:"amount"`
-	Currency   string `json:"currency"`
-	TimePeriod string `json:"timeperiod"`
+	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"`
+	TimePeriod string  `json:"timeperiod"`
 }
 
 // Available returns a list of IP addresses available for reservation
