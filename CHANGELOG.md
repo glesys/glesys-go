@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [3.1.0] - Unreleased
+### Changed
+- **BREAKING:** - server IsRunning() and IsLocked() functions deprecated.
+- New fields in ServerDetails: IsRunning & IsLocked to match new fields returned
+  by API.
+
 ## [3.0.0] - 2021-11-11
 ### Changed
 - **BREAKING:** - Cost and Amount changed from int to float64. - @norrland

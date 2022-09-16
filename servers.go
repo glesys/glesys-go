@@ -41,6 +41,8 @@ type ServerDetails struct {
 	ID              string                `json:"serverid"`
 	InitialTemplate ServerTemplateDetails `json:"initialtemplate,omitempty"`
 	IPList          []ServerIP            `json:"iplist"`
+	IsRunning       bool                  `json:"isrunning"`
+	IsLocked        bool                  `json:"islocked"`
 	Platform        string                `json:"platform"`
 	Memory          int                   `json:"memorysize"`
 	State           string                `json:"state"`
@@ -59,16 +61,6 @@ type ServerTemplateDetails struct {
 type ServerIP struct {
 	Address string `json:"ipaddress"`
 	Version int    `json:"version,omitempty"`
-}
-
-// IsLocked returns true if the server is currently locked, false otherwise
-func (sd *ServerDetails) IsLocked() bool {
-	return sd.State == "locked"
-}
-
-// IsRunning returns true if the server is currently running, false otherwise
-func (sd *ServerDetails) IsRunning() bool {
-	return sd.State == "running"
 }
 
 // CreateServerParams is used when creating a new server
