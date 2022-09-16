@@ -10,19 +10,19 @@ import (
 func TestServerDetailsIsLocked(t *testing.T) {
 	serverDetails := ServerDetails{}
 
-	assert.Equal(t, false, serverDetails.IsLocked(), "should not be locked")
+	assert.Equal(t, false, serverDetails.IsLocked, "should not be locked")
 
-	serverDetails.State = "locked"
-	assert.Equal(t, true, serverDetails.IsLocked(), "should be locked")
+	serverDetails.IsLocked = true
+	assert.Equal(t, true, serverDetails.IsLocked, "should be locked")
 }
 
 func TestServerDetailsIsRunning(t *testing.T) {
 	serverDetails := ServerDetails{}
 
-	assert.Equal(t, false, serverDetails.IsRunning(), "should not be running")
+	assert.Equal(t, false, serverDetails.IsRunning, "should not be running")
 
-	serverDetails.State = "running"
-	assert.Equal(t, true, serverDetails.IsRunning(), "should be running")
+	serverDetails.IsRunning = true
+	assert.Equal(t, true, serverDetails.IsRunning, "should be running")
 }
 
 func TestCreateServerParamsWithDefaults(t *testing.T) {
