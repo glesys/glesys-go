@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	glesys "github.com/glesys/glesys-go/v3"
+	glesys "github.com/glesys/glesys-go/v4"
 )
 
 func ExampleEmailDomainService_Overview() {
