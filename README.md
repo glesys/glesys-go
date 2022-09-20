@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/glesys/glesys-go.svg?branch=master)](https://travis-ci.org/glesys/glesys-go)
-
 # glesys-go
 
 This is the official client library for interacting with the
