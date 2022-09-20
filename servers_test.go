@@ -171,6 +171,34 @@ func TestServersStop(t *testing.T) {
 	assert.Equal(t, "server/stop", c.lastPath, "path used is correct")
 }
 
+func TestServersTemplates(t *testing.T) {
+	c := &mockClient{body: `{"response":{ "templates": { "KVM": [{"id": "ac7c05f1-4cb6-4330-a0a2-d1f2e6244b21",
+     "name": "AlmaLinux 8", "minimumdisksize": 5, "minimummemorysize": 512, "operatingsystem": "linux", "platform": "KVM",
+     "instancecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"},
+     "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "CLOUD_INIT"},
+    {"id": "2563b4d0-ea80-4aef-8f77-f9b9e479a008", "name": "AlmaLinux 9", "minimumdisksize": 5, "minimummemorysize": 512,
+     "operatingsystem": "linux", "platform": "KVM", "instancecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"},
+     "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "CLOUD_INIT"}],
+   "VMware": [{"id": "420fe17c-bc03-4b2c-a741-7a790e5f21ad", "name": "Alma Linux 8", "minimumdisksize": 5, "minimummemorysize": 512,
+     "operatingsystem": "linux", "platform": "VMware", "instancecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"},
+     "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "DEPLOY_SCRIPT"},
+    {"id": "dbbca8a7-1e26-4b76-8bb4-8d56dae59039", "name": "Alma Linux 9", "minimumdisksize": 5, "minimummemorysize": 512,
+     "operatingsystem": "linux", "platform": "VMware", "instancecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"},
+     "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "CLOUD_INIT"}]}}}`}
+	s := ServerService{client: c}
+
+	templates, _ := s.Templates(context.Background())
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "server/templates", c.lastPath, "path used is correct")
+	assert.Equal(t, 512, templates.KVM[0].MinMemSize, "template minmemsize is correct")
+	assert.Equal(t, "CLOUD_INIT", templates.KVM[0].BootstrapMethod, "template bootstrapmethod is correct")
+	assert.Equal(t, "Alma Linux 8", templates.VMware[0].Name, "template name is correct")
+	assert.Equal(t, "DEPLOY_SCRIPT", templates.VMware[0].BootstrapMethod, "template bootstrapmethod is correct")
+	assert.Equal(t, 0, templates.VMware[0].LicenseCost.Amount, "template licensecost amount is correct")
+	assert.Equal(t, "month", templates.VMware[0].LicenseCost.Timeperiod, "template licensecost timeperiod is correct")
+}
+
 func TestGenerateHostnameReturnsAHostnameInTheCorrectFormat(t *testing.T) {
 	hostname := generateHostname()
 	assert.Regexp(t, "^\\w+-\\w+-\\d{3}$", hostname, "Hostname is dasherized and contains two words followed by a number")

@@ -57,6 +57,40 @@ type ServerTemplateDetails struct {
 	Name        string   `json:"name"`
 }
 
+// ServerPlatformTemplates
+type ServerPlatformTemplates struct {
+	KVM    []ServerPlatformTemplateDetails `json:"KVM"`
+	OpenVZ []ServerPlatformTemplateDetails `json:"OpenVZ"`
+	VMware []ServerPlatformTemplateDetails `json:"VMware"`
+}
+
+// ServerTemplateInstanceCost
+type ServerTemplateInstanceCost struct {
+	Amount     int    `json:"amount"`
+	Currency   string `json:"currency"`
+	Timeperiod string `json:"timeperiod"`
+}
+
+// ServerTemplateLicenseCost
+type ServerTemplateLicenseCost struct {
+	Amount     int    `json:"amount"`
+	Currency   string `json:"currency"`
+	Timeperiod string `json:"timeperiod"`
+}
+
+// ServerPlatformTemplateDetails represents a supported template.
+type ServerPlatformTemplateDetails struct {
+	ID              string                     `json:"id"`
+	InstanceCost    ServerTemplateInstanceCost `json:"instancecost"`
+	LicenseCost     ServerTemplateLicenseCost  `json:"licensecost"`
+	Name            string                     `json:"name"`
+	MinDiskSize     int                        `json:"minimumdisksize"`
+	MinMemSize      int                        `json:"minimummemorysize"`
+	OS              string                     `json:"operatingsystem"`
+	Platform        string                     `json:"platform"`
+	BootstrapMethod string                     `json:"bootstrapmethod"`
+}
+
 // ServerIP is a simple representation of the IP address used in a server.
 type ServerIP struct {
 	Address string `json:"ipaddress"`
@@ -187,6 +221,17 @@ func (s *ServerService) List(context context.Context) (*[]Server, error) {
 	}{}
 	err := s.client.get(context, "server/list", &data)
 	return &data.Response.Servers, err
+}
+
+// Templates lists all supported templates per platform
+func (s *ServerService) Templates(context context.Context) (*ServerPlatformTemplates, error) {
+	data := struct {
+		Response struct {
+			Templates ServerPlatformTemplates
+		}
+	}{}
+	err := s.client.post(context, "server/templates", &data, nil)
+	return &data.Response.Templates, err
 }
 
 // Start turns on a server
