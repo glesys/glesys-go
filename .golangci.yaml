@@ -1,0 +1,12 @@
+---
+linters:
+  disable-all: false
+  enable:
+    - gofmt
+  disable:
+    - errcheck
+
+linters-settings:
+  staticcheck:
+    checks:
+      - all
