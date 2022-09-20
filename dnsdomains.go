@@ -9,7 +9,7 @@ type DNSDomainService struct {
 	client clientInterface
 }
 
-//DNSDomain represents a domain
+// DNSDomain represents a domain
 type DNSDomain struct {
 	Name                  string           `json:"domainname"`
 	Available             bool             `json:"available,omitempty"`
