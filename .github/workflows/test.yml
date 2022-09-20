@@ -1,0 +1,58 @@
+---
+# This GitHub action runs your tests for each commit push and/or PR. Optionally
+# you can turn it on using a cron schedule for regular testing.
+#
+name: Tests
+on:
+  pull_request:
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'README.md'
+  push:
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'README.md'
+
+jobs:
+  # ensure the code builds...
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        go:
+          - 1.18.x
+          - 1.19.x
+
+    name: Go ${{ matrix.go }} Build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+        id: go
+
+      - name: Get dependencies
+        run: |
+          go mod download
+
+      - name: Build
+        run: |
+          go build -v .
+  test:
+    name: test
+    strategy:
+      matrix:
+        go:
+          - 1.18.x
+          - 1.19.x
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: go test
+        run: go test -v .
