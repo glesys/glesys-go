@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
-## [4.0.0] - Unreleased
+## [4.0.0] - 2022-09-20
 ### Changed
 - **BREAKING:** - server IsRunning() and IsLocked() functions deprecated.
 - New fields in ServerDetails: IsRunning & IsLocked to match new fields returned
