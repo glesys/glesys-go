@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [4.0.1] - 2022-09-20
+### Change
+- Fix module version in go.mod
+- Bump version number after release
+
 ## [4.0.0] - 2022-09-20
 ### Changed
 - **BREAKING:** - server IsRunning() and IsLocked() functions deprecated.
