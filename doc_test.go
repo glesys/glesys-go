@@ -452,6 +452,16 @@ func ExampleServerService_Stop() {
 	})
 }
 
+func ExampleServerService_Templates() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	templates, _ := client.Servers.Templates(context.Background())
+
+	for _, template := range templates.KVM {
+		fmt.Println(template.Name)
+	}
+}
+
 func ExampleObjectStorageService_CreateInstance() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
