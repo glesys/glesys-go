@@ -215,21 +215,6 @@ func (em *EmailDomainService) Overview(context context.Context, params OverviewP
 	return &data.Response.Overview, err
 }
 
-// GlobalQuota enables the user to set and get the global quota.
-func (em *EmailDomainService) GlobalQuota(context context.Context, params GlobalQuotaParams) (*EmailGlobalQuota, error) {
-	data := struct {
-		Response struct {
-			GlobalQuota EmailGlobalQuota
-		}
-	}{}
-
-	err := em.client.post(context, "email/globalquota", &data, struct {
-		GlobalQuotaParams
-	}{params})
-
-	return &data.Response.GlobalQuota, err
-}
-
 // List Gets a list of all accounts and aliases of a domain with full details.
 func (em *EmailDomainService) List(context context.Context, domain string, params ListEmailsParams) (*EmailList, error) {
 	data := struct {
