@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [x.y.z] - yyyy-mm-dd
+### Changed
+- **BREAKING:** - EmailDomains GlobalQuota deprecated.
+- **BREAKING:** - EmailDomains EmailQuota struct 'Used' and 'Total' fields deprecated.
+  Use 'UsedInMiB' and 'QuotaInGiB'
+
 ## [4.0.1] - 2022-09-20
 ### Change
 - Fix module version in go.mod
