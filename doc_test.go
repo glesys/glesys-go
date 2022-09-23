@@ -40,7 +40,7 @@ func ExampleEmailDomainService_EditAccount() {
 		Password:           "SuperSecretPassword",
 		AutoRespond:        "yes",
 		AutoRespondMessage: "Your Automatic Response",
-		Quota:              400,
+		QuotaInGiB:         10,
 		RejectSpam:         "yes",
 	})
 
@@ -65,7 +65,7 @@ func ExampleEmailDomainService_CreateAccount() {
 		AntiVirus:          "yes",
 		AutoRespond:        "yes",
 		AutoRespondMessage: "Your Automatic Response",
-		Quota:              400,
+		QuotaInGiB:         10,
 		RejectSpam:         "yes",
 	})
 
