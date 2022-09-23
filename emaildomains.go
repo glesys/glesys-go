@@ -47,36 +47,19 @@ type OverviewParams struct {
 	Page   int    `json:"page,omitempty"`
 }
 
-// EmailGlobalQuota represents the global quota and usage
-type EmailGlobalQuota struct {
-	Usage int `json:"usage"`
-	Max   int `json:"max"`
-}
-
-// GlobalQuotaParams is used for updating the global quota for email accounts.
-type GlobalQuotaParams struct {
-	GlobalQuota int `json:"globalquota,omitempty"`
-}
-
-// EmailAccountQuota represents quota for a single email account
-type EmailAccountQuota struct {
-	Max  int    `json:"max"`
-	Unit string `json:"unit"`
-}
-
 // EmailAccount represents a single email account
 type EmailAccount struct {
-	EmailAccount         string            `json:"emailaccount"`
-	DisplayName          string            `json:"displayname"`
-	Quota                EmailAccountQuota `json:"quota"`
-	AntiSpamLevel        int               `json:"antispamlevel"`
-	AntiVirus            string            `json:"antivirus"`
-	AutoRespond          string            `json:"autorespond"`
-	AutoRespondMessage   string            `json:"autorespondmessage,omitempty"`
-	AutoRespondSaveEmail string            `json:"autorespondsaveemail"`
-	RejectSpam           string            `json:"rejectspam"`
-	Created              string            `json:"created"`
-	Modified             string            `json:"modified,omitempty"`
+	EmailAccount         string `json:"emailaccount"`
+	DisplayName          string `json:"displayname"`
+	QuotaInGiB           int    `json:"quotaingib"`
+	AntiSpamLevel        int    `json:"antispamlevel"`
+	AntiVirus            string `json:"antivirus"`
+	AutoRespond          string `json:"autorespond"`
+	AutoRespondMessage   string `json:"autorespondmessage,omitempty"`
+	AutoRespondSaveEmail string `json:"autorespondsaveemail"`
+	RejectSpam           string `json:"rejectspam"`
+	Created              string `json:"created"`
+	Modified             string `json:"modified,omitempty"`
 }
 
 // EmailAlias represents a single email alias
@@ -92,17 +75,11 @@ type EmailList struct {
 	EmailAliases  []EmailAlias   `json:"emailaliases"`
 }
 
-// EmailAccountQuotaUsed the quota used
-type EmailAccountQuotaUsed struct {
-	Amount int    `json:"amount"`
-	Unit   string `json:"unit"`
-}
-
 // EmailQuota represents a quota object for a single email account
 type EmailQuota struct {
-	EmailAccount string                `json:"emailaccount"`
-	Used         EmailAccountQuotaUsed `json:"used"`
-	Total        EmailAccountQuota     `json:"total"`
+	EmailAccount string `json:"emailaccount"`
+	UsedInMiB    int    `json:"usedquotainmib"`
+	QuotaInGiB   int    `json:"quotaingib"`
 }
 
 // ListEmailsParams is used for filtering when listing emails for a domain.
@@ -117,7 +94,7 @@ type EditAccountParams struct {
 	Password           string `json:"password,omitempty"`
 	AutoRespond        string `json:"autorespond,omitempty"`
 	AutoRespondMessage string `json:"autorespondmessage,omitempty"`
-	Quota              int    `json:"quota,omitempty"`
+	QuotaInGiB         int    `json:"quotaingib,omitempty"`
 	RejectSpam         string `json:"rejectspam,omitempty"`
 }
 
@@ -129,7 +106,7 @@ type CreateAccountParams struct {
 	AntiVirus          string `json:"antivirus,omitempty"`
 	AutoRespond        string `json:"autorespond,omitempty"`
 	AutoRespondMessage string `json:"autorespondmessage,omitempty"`
-	Quota              int    `json:"quota,omitempty"`
+	QuotaInGiB         int    `json:"quotaingib,omitempty"`
 	RejectSpam         string `json:"rejectspam,omitempty"`
 }
 
