@@ -73,17 +73,17 @@ type RegistrarInfo struct {
 
 // RegisterDNSDomainParams - parameters used when registering a domain
 type RegisterDNSDomainParams struct {
-	Name               string `json:"domainname"`
-	Address            string `json:"address"`
-	City               string `json:"city"`
-	Country            string `json:"country"`
-	Email              string `json:"email"`
-	Firstname          string `json:"firstname"`
-	Lastname           string `json:"lastname"`
-	OrganizationNumber int    `json:"organizationnumber"`
-	Organization       string `json:"organization"`
-	PhoneNumber        string `json:"phonenumber"`
-	ZipCode            string `json:"zipcode"`
+	Name         string `json:"domainname"`
+	Address      string `json:"address"`
+	City         string `json:"city"`
+	Country      string `json:"country"`
+	Email        string `json:"email"`
+	Firstname    string `json:"firstname"`
+	Lastname     string `json:"lastname"`
+	NationalID   int    `json:"nationalid"`
+	Organization string `json:"organization"`
+	PhoneNumber  string `json:"phonenumber"`
+	ZipCode      string `json:"zipcode"`
 
 	FaxNumber string `json:"fax,omitempty"`
 	NumYears  int    `json:"numyears,omitempty"`

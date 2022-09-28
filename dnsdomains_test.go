@@ -125,16 +125,16 @@ func TestDnsDomainsRegister(t *testing.T) {
 
 	d := DNSDomainService{client: c}
 	params := RegisterDNSDomainParams{
-		Name:               "example.com",
-		Firstname:          "Alice",
-		Lastname:           "Smith",
-		Email:              "alice@example.com",
-		Address:            "Badhusvägen 45",
-		City:               "Falkenberg",
-		ZipCode:            "31132",
-		Country:            "SE",
-		Organization:       "Internetz",
-		OrganizationNumber: 13337,
+		Name:         "example.com",
+		Firstname:    "Alice",
+		Lastname:     "Smith",
+		Email:        "alice@example.com",
+		Address:      "Badhusvägen 45",
+		City:         "Falkenberg",
+		ZipCode:      "31132",
+		Country:      "SE",
+		Organization: "Internetz",
+		NationalID:   13337,
 	}
 
 	domain, _ := d.Register(context.Background(), params)
@@ -190,16 +190,16 @@ func TestDnsDomainsTransfer(t *testing.T) {
 
 	d := DNSDomainService{client: c}
 	params := RegisterDNSDomainParams{
-		Name:               "example.com",
-		Firstname:          "Alice",
-		Lastname:           "Smith",
-		Email:              "alice@example.com",
-		Address:            "Badhusvägen 45",
-		City:               "Falkenberg",
-		ZipCode:            "31132",
-		Country:            "SE",
-		Organization:       "Internetz",
-		OrganizationNumber: 13337,
+		Name:         "example.com",
+		Firstname:    "Alice",
+		Lastname:     "Smith",
+		Email:        "alice@example.com",
+		Address:      "Badhusvägen 45",
+		City:         "Falkenberg",
+		ZipCode:      "31132",
+		Country:      "SE",
+		Organization: "Internetz",
+		NationalID:   13337,
 	}
 
 	domain, _ := d.Transfer(context.Background(), params)
