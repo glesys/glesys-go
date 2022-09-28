@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - **BREAKING:** - EmailDomains GlobalQuota deprecated.
 - **BREAKING:** - EmailDomains EmailQuota struct 'Used' and 'Total' fields deprecated.
   Use 'UsedInMiB' and 'QuotaInGiB'
+- **BREAKING:** - LoadBalancers 'AddtoBlacklist' 'RemoveFromBlacklist' deprecated.
+  Use 'AddToBlocklist' and 'RemoveFromBlocklist' instead.
 ### Added
 - Implement Server Templates endpoint.
 

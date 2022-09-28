@@ -20,7 +20,7 @@ type LoadBalancer struct {
 // LoadBalancerDetails represents the detailed version of a load balancer
 type LoadBalancerDetails struct {
 	BackendsList  []LoadBalancerBackend  `json:"backends"`
-	Blacklists    []string               `json:"blacklist"`
+	Blocklists    []string               `json:"blocklist"`
 	Cost          LoadBalancerCost       `json:"cost"`
 	DataCenter    string                 `json:"datacenter"`
 	FrontendsList []LoadBalancerFrontend `json:"frontends"`
@@ -167,8 +167,8 @@ type RemoveTargetParams struct {
 	Name    string `json:"name"`
 }
 
-// BlacklistParams set prefix to add/delete
-type BlacklistParams struct {
+// BlocklistParams set prefix to add/delete
+type BlocklistParams struct {
 	Prefix string `json:"prefix"`
 }
 
@@ -403,29 +403,29 @@ func (lb *LoadBalancerService) RemoveTarget(context context.Context, loadbalance
 	}{params, loadbalancerID})
 }
 
-// AddToBlacklist adds a prefix to loadbalancer blacklist
-func (lb *LoadBalancerService) AddToBlacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
+// AddToBlocklist adds a prefix to loadbalancer blocklist
+func (lb *LoadBalancerService) AddToBlocklist(context context.Context, loadbalancerID string, params BlocklistParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
 			LoadBalancer LoadBalancerDetails
 		}
 	}{}
-	err := lb.client.post(context, "loadbalancer/addtoblacklist", &data, struct {
-		BlacklistParams
+	err := lb.client.post(context, "loadbalancer/addtoblocklist", &data, struct {
+		BlocklistParams
 		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 	return &data.Response.LoadBalancer, err
 }
 
-// RemoveFromBlacklist deletes a prefix from the LoadBalancer blacklist
-func (lb *LoadBalancerService) RemoveFromBlacklist(context context.Context, loadbalancerID string, params BlacklistParams) (*LoadBalancerDetails, error) {
+// RemoveFromBlocklist deletes a prefix from the LoadBalancer blocklist
+func (lb *LoadBalancerService) RemoveFromBlocklist(context context.Context, loadbalancerID string, params BlocklistParams) (*LoadBalancerDetails, error) {
 	data := struct {
 		Response struct {
 			LoadBalancer LoadBalancerDetails
 		}
 	}{}
-	err := lb.client.post(context, "loadbalancer/removefromblacklist", &data, struct {
-		BlacklistParams
+	err := lb.client.post(context, "loadbalancer/removefromblocklist", &data, struct {
+		BlocklistParams
 		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
 	return &data.Response.LoadBalancer, err
