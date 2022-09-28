@@ -341,43 +341,43 @@ func TestLoadBalancersRemoveTarget(t *testing.T) {
 	assert.Equal(t, "loadbalancer/removetarget", c.lastPath, "path used is correct")
 }
 
-func TestLoadBalancersAddToBlacklist(t *testing.T) {
+func TestLoadBalancersAddToBlocklist(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancer":
-	{ "backends": [], "blacklist": ["10.0.0.10/32"], "datacenter": "Falkenberg", "frontends": [],
+	{ "backends": [], "blocklist": ["10.0.0.10/32"], "datacenter": "Falkenberg", "frontends": [],
 	"ipaddress": [{"ipaddress": "192.168.0.1", "version": 4}],
 	"name": "myloadbalancer", "loadbalancerid": "lb123456" }}}`}
 
 	lb := LoadBalancerService{client: c}
 
-	params := BlacklistParams{
+	params := BlocklistParams{
 		Prefix: "10.0.0.10/32",
 	}
 
-	lbd, _ := lb.AddToBlacklist(context.Background(), "lb123456", params)
-	myprefix := strings.Join(lbd.Blacklists, " ")
+	lbd, _ := lb.AddToBlocklist(context.Background(), "lb123456", params)
+	myprefix := strings.Join(lbd.Blocklists, " ")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
-	assert.Equal(t, "loadbalancer/addtoblacklist", c.lastPath, "path used is correct")
+	assert.Equal(t, "loadbalancer/addtoblocklist", c.lastPath, "path used is correct")
 	assert.Equal(t, "10.0.0.10/32", myprefix, "prefix set correct")
 }
 
-func TestLoadBalancersRemoveFromBlacklist(t *testing.T) {
+func TestLoadBalancersRemoveFromBlocklist(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "loadbalancers": {
-		"backends": [{'name': 'my-backend'}], "blacklist": [],
+		"backends": [{'name': 'my-backend'}], "blocklist": [],
 		"name": "myloadbalancer", "loadbalancerid": "lb123456" }
 	}}`}
 
 	lb := LoadBalancerService{client: c}
 
-	params := BlacklistParams{
+	params := BlocklistParams{
 		Prefix: "10.0.0.10/32",
 	}
 
-	lbd, _ := lb.RemoveFromBlacklist(context.Background(), "lb123456", params)
-	myprefix := strings.Join(lbd.Blacklists, " ")
+	lbd, _ := lb.RemoveFromBlocklist(context.Background(), "lb123456", params)
+	myprefix := strings.Join(lbd.Blocklists, " ")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
-	assert.Equal(t, "loadbalancer/removefromblacklist", c.lastPath, "path used is correct")
+	assert.Equal(t, "loadbalancer/removefromblocklist", c.lastPath, "path used is correct")
 	assert.Equal(t, "", myprefix, "prefix correctly absent")
 }
 
