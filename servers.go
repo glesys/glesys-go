@@ -60,7 +60,6 @@ type ServerTemplateDetails struct {
 // ServerPlatformTemplates
 type ServerPlatformTemplates struct {
 	KVM    []ServerPlatformTemplateDetails `json:"KVM"`
-	OpenVZ []ServerPlatformTemplateDetails `json:"OpenVZ"`
 	VMware []ServerPlatformTemplateDetails `json:"VMware"`
 }
 
