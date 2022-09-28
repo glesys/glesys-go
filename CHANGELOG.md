@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   Use 'UsedInMiB' and 'QuotaInGiB'
 - **BREAKING:** - LoadBalancers 'AddtoBlacklist' 'RemoveFromBlacklist' deprecated.
   Use 'AddToBlocklist' and 'RemoveFromBlocklist' instead.
+- **BREAKING:** - DNSDomains OrganizationNumber deprecated. Use 'NationalID'
+  instead.
 ### Added
 - Implement Server Templates endpoint.
 
