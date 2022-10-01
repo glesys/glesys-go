@@ -7,6 +7,14 @@ import (
 	glesys "github.com/glesys/glesys-go/v4"
 )
 
+func ExampleAccountService_Info() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	account, _ := client.Account.Info(context.Background())
+
+	fmt.Printf("%#v\n", account)
+}
+
 func ExampleEmailDomainService_Overview() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 

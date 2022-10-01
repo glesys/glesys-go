@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - **BREAKING:** - DNSDomains OrganizationNumber deprecated. Use 'NationalID'
   instead.
 ### Added
+- Implement Account endpoint.
 - Implement Server Templates endpoint.
 - Implement Server PreviewCloudConfig endpoint.
 
