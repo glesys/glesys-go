@@ -462,6 +462,24 @@ func ExampleServerService_Templates() {
 	}
 }
 
+func ExampleServerService_PreviewCloudConfig() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	cloudconfig := "## template: glesys\n#cloud-config\n{{>users}}"
+	users := []glesys.User{}
+	users = append(users, glesys.User{
+		Username:   "bob",
+		Password:   "hunter2!",
+		PublicKeys: []string{"ssh-ed25519 AAAAC3NKEY bob@bob-machine"},
+	})
+
+	preview, _ := client.Servers.PreviewCloudConfig(context.Background(), glesys.PreviewCloudConfigParams{
+		CloudConfig: cloudconfig,
+		Users:       users,
+	})
+
+	fmt.Println(preview.Context.Users[0].Username)
+}
 func ExampleObjectStorageService_CreateInstance() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
