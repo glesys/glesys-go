@@ -102,6 +102,34 @@ func TestServersCreate(t *testing.T) {
 	assert.Equal(t, "vz12345", server.ID, "server ID is correct")
 }
 
+func TestServersPreviewCloudConfig(t *testing.T) {
+	c := &mockClient{body: `{"response":{
+			"cloudconfig":{
+				"preview": "#cloud-config\nusers:\n    -\n        name: bob\n        shell: /bin/bash\n        lock_passwd: false\n        sudo: 'ALL=(ALL) PASSWD:ALL'\n        passwd: $6$ecb46c3c2a73263f$wYkIrbHQzZ0zZvsb7PxdhIbskjOA4Ti5NnDe7EBBP.1SDAfborckfDcuYsqDmdgbGMFJgBzQMjXgJ4qHbLV5s.\n        ssh_authorized_keys: ['ssh-ed25519 AAAAKEY bob@bob-machine']\nssh_pwauth: false\nchpasswd:\n    expire: false\n",
+			    "context": {"params": [],
+							"users": [{"username": "bob", "password": "hunter333", "sshKeys": ["ssh-ed25519 AAAAKEY bob@bob-machine"]}]
+						   }
+			}}}`}
+	s := ServerService{client: c}
+
+	users := []User{}
+	users = append(users, User{
+		Username:   "bob",
+		Password:   "hunter333",
+		PublicKeys: []string{"ssh-ed25519 AAAAKEY bob@bob-machine"},
+	})
+	params := PreviewCloudConfigParams{
+		CloudConfig: "## template: glesys\n#cloud-config\n{{>users}}\n",
+		Users:       users,
+	}
+
+	preview, _ := s.PreviewCloudConfig(context.Background(), params)
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "server/previewcloudconfig", c.lastPath, "path used is correct")
+	assert.Equal(t, "bob", preview.Context.Users[0].Username, "Preview contains user")
+}
+
 func TestServersDestroy(t *testing.T) {
 	c := &mockClient{}
 	s := ServerService{client: c}

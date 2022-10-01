@@ -167,6 +167,24 @@ type StopServerParams struct {
 	Type string `json:"type"`
 }
 
+// PreviewCloudConfigParams
+type PreviewCloudConfigParams struct {
+	CloudConfig string `json:"cloudconfig"`
+	Users       []User `json:"users,omitempty"`
+}
+
+// PreviewContext
+type PreviewContext struct {
+	Params []string `json:"params,omitempty"`
+	Users  []User   `json:"users"`
+}
+
+// CloudConfigPreview is returned when calling PreviewCloudConfig
+type CloudConfigPreview struct {
+	Preview string         `json:"preview"`
+	Context PreviewContext `json:"context"`
+}
+
 // Create creates a new server
 func (s *ServerService) Create(context context.Context, params CreateServerParams) (*ServerDetails, error) {
 	data := struct {
@@ -220,6 +238,19 @@ func (s *ServerService) List(context context.Context) (*[]Server, error) {
 	}{}
 	err := s.client.get(context, "server/list", &data)
 	return &data.Response.Servers, err
+}
+
+// PreviewCloudConfig preview a cloud config mustache template.
+func (s *ServerService) PreviewCloudConfig(context context.Context, params PreviewCloudConfigParams) (*CloudConfigPreview, error) {
+	data := struct {
+		Response struct {
+			Cloudconfig CloudConfigPreview
+		}
+	}{}
+	err := s.client.post(context, "server/previewcloudconfig", &data, struct {
+		PreviewCloudConfigParams
+	}{params})
+	return &data.Response.Cloudconfig, err
 }
 
 // Templates lists all supported templates per platform
