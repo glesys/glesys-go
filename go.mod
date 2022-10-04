@@ -1,4 +1,4 @@
-module github.com/glesys/glesys-go/v4
+module github.com/glesys/glesys-go/v5
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

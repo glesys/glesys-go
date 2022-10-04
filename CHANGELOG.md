@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
-## [x.y.z] - yyyy-mm-dd
+## [5.0.0] - 2022-10-06
 ### Changed
 - **BREAKING:** - EmailDomains GlobalQuota deprecated.
 - **BREAKING:** - EmailDomains EmailQuota struct 'Used' and 'Total' fields deprecated.
