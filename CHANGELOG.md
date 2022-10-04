@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   instead.
 ### Added
 - Implement Server Templates endpoint.
+- Implement Server PreviewCloudConfig endpoint.
 
 ## [4.0.1] - 2022-09-20
 ### Change
