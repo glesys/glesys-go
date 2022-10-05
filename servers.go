@@ -98,21 +98,23 @@ type ServerIP struct {
 
 // CreateServerParams is used when creating a new server
 type CreateServerParams struct {
-	Bandwidth    int    `json:"bandwidth"`
-	CampaignCode string `json:"campaigncode,omitempty"`
-	CPU          int    `json:"cpucores"`
-	DataCenter   string `json:"datacenter"`
-	Description  string `json:"description,omitempty"`
-	Hostname     string `json:"hostname"`
-	IPv4         string `json:"ip"`
-	IPv6         string `json:"ipv6"`
-	Memory       int    `json:"memorysize"`
-	Password     string `json:"rootpassword,omitempty"`
-	Platform     string `json:"platform"`
-	PublicKey    string `json:"sshkey,omitempty"`
-	Storage      int    `json:"disksize"`
-	Template     string `json:"templatename"`
-	Users        []User `json:"users,omitempty"`
+	Bandwidth         int    `json:"bandwidth"`
+	CampaignCode      string `json:"campaigncode,omitempty"`
+	CloudConfig       string `json:"cloudconfig,omitempty"`
+	CloudConfigParams string `json:"cloudconfigparams,omitempty"`
+	CPU               int    `json:"cpucores"`
+	DataCenter        string `json:"datacenter"`
+	Description       string `json:"description,omitempty"`
+	Hostname          string `json:"hostname"`
+	IPv4              string `json:"ip"`
+	IPv6              string `json:"ipv6"`
+	Memory            int    `json:"memorysize"`
+	Password          string `json:"rootpassword,omitempty"`
+	Platform          string `json:"platform"`
+	PublicKey         string `json:"sshkey,omitempty"`
+	Storage           int    `json:"disksize"`
+	Template          string `json:"templatename"`
+	Users             []User `json:"users,omitempty"`
 }
 
 // EditServerParams is used when editing an existing server
