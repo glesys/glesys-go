@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   Use 'AddToBlocklist' and 'RemoveFromBlocklist' instead.
 - **BREAKING:** - DNSDomains OrganizationNumber deprecated. Use 'NationalID'
   instead.
+- Add `CloudConfig` and `CloudConfigParams` field to `CreateServerParams`
 ### Added
 - Implement Server Templates endpoint.
 - Implement Server PreviewCloudConfig endpoint.
