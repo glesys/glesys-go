@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [6.0.0] - 2022-10-28
+### Changed
+- **BREAKING:** - Go1.18 Required.
+- Fix `CloudConfigParams` in Servers. (#67)
+- Remove redundant WithContext call. (#69)
+- Remove unused data struct from LoadBalancer `AddCertificate` function. (#70)
+- Remove deprecated io/ioutil calls. (#72)
+
 ## [5.0.0] - 2022-10-06
 ### Changed
 - **BREAKING:** - EmailDomains GlobalQuota deprecated.
