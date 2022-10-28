@@ -100,14 +100,13 @@ func (c *Client) newRequest(ctx context.Context, method, path string, params int
 		}
 	}
 
-	request, err := http.NewRequest(method, u.String(), buffer)
+	request, err := http.NewRequestWithContext(ctx, method, u.String(), buffer)
 	if err != nil {
 		return nil, err
 	}
 
 	userAgent := strings.TrimSpace(fmt.Sprintf("%s glesys-go/%s", c.userAgent, version))
 
-	request = request.WithContext(ctx)
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("User-Agent", userAgent)
 	request.SetBasicAuth(c.project, c.apiKey)
