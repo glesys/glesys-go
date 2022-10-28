@@ -306,12 +306,7 @@ func (lb *LoadBalancerService) RemoveFrontend(context context.Context, loadbalan
 
 // AddCertificate adds a certificate to the loadbalancer specified
 func (lb *LoadBalancerService) AddCertificate(context context.Context, loadbalancerID string, params AddCertificateParams) error {
-	data := struct {
-		Response struct {
-			LoadBalancer LoadBalancerDetails
-		}
-	}{}
-	return lb.client.post(context, "loadbalancer/addcertificate", &data, struct {
+	return lb.client.post(context, "loadbalancer/addcertificate", nil, struct {
 		AddCertificateParams
 		LoadBalancerID string `json:"loadbalancerid"`
 	}{params, loadbalancerID})
