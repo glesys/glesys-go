@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -20,7 +20,7 @@ type mockHTTPClient struct {
 func (c *mockHTTPClient) Do(request *http.Request) (*http.Response, error) {
 	response := http.Response{
 		StatusCode: c.statusCode,
-		Body:       ioutil.NopCloser(bytes.NewBufferString(c.body)),
+		Body:       io.NopCloser(bytes.NewBufferString(c.body)),
 	}
 	c.lastRequest = request
 	return &response, nil
@@ -51,7 +51,7 @@ func TestGetResponseErrorMessage(t *testing.T) {
 
 	json := `{ "response": {"status": { "code": 400, "text": "Unauthorized" } } }`
 	response := http.Response{
-		Body:       ioutil.NopCloser(bytes.NewBufferString(json)),
+		Body:       io.NopCloser(bytes.NewBufferString(json)),
 		StatusCode: 400,
 	}
 	err := client.handleResponseError(&response)
