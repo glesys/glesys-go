@@ -1,4 +1,4 @@
-module github.com/glesys/glesys-go/v5
+module github.com/glesys/glesys-go/v6
 
 require (
 	github.com/imdario/mergo v0.3.13

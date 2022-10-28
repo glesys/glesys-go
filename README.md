@@ -5,7 +5,7 @@ This is the official client library for interacting with the
 
 ## Requirements
 
-- Go 1.11 or higher. Required for modules support, older versions may still build but are not guaranteed to work.
+- Go 1.18 or higher. Required to build.
 
 ## Getting Started
 
