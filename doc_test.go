@@ -466,6 +466,7 @@ func ExampleServerService_PreviewCloudConfig() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	cloudconfig := "## template: glesys\n#cloud-config\n{{>users}}"
+	cloudConfigParams := map[string]any{"foo": "bar", "balloon": 99}
 	users := []glesys.User{}
 	users = append(users, glesys.User{
 		Username:   "bob",
@@ -474,11 +475,13 @@ func ExampleServerService_PreviewCloudConfig() {
 	})
 
 	preview, _ := client.Servers.PreviewCloudConfig(context.Background(), glesys.PreviewCloudConfigParams{
-		CloudConfig: cloudconfig,
-		Users:       users,
+		CloudConfig:       cloudconfig,
+		CloudConfigParams: cloudConfigParams,
+		Users:             users,
 	})
 
 	fmt.Println(preview.Context.Users[0].Username)
+	fmt.Printf("Number of balloons: %f\n", preview.Context.Params["balloon"])
 }
 func ExampleObjectStorageService_CreateInstance() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
