@@ -98,7 +98,7 @@ func TestDoDecodesTheJsonResponseIntoAStruct(t *testing.T) {
 func TestSetBaseURL(t *testing.T) {
 	client := NewClient("project-id", "api-key", "test-application/0.0.1")
 
-	url := "https://dev-api.glesys.local"
+	url := "https://dev-api.glesys.test"
 	err := client.SetBaseURL(url)
 	if err != nil {
 		t.Error(err.Error())
