@@ -25,7 +25,7 @@ type clientInterface interface {
 // Client is used to interact with the GleSYS API
 type Client struct {
 	apiKey     string
-	baseURL    *url.URL
+	BaseURL    *url.URL
 	httpClient httpClientInterface
 	project    string
 	userAgent  string
@@ -43,11 +43,11 @@ type Client struct {
 // NewClient creates a new Client for interacting with the GleSYS API. This is
 // the main entrypoint for API interactions.
 func NewClient(project, apiKey, userAgent string) *Client {
-	baseURL, _ := url.Parse("https://api.glesys.com")
+	BaseURL, _ := url.Parse("https://api.glesys.com")
 
 	c := &Client{
 		apiKey:     apiKey,
-		baseURL:    baseURL,
+		BaseURL:    BaseURL,
 		httpClient: http.DefaultClient,
 		project:    project,
 		userAgent:  userAgent,
@@ -87,8 +87,8 @@ func (c *Client) newRequest(ctx context.Context, method, path string, params int
 		return nil, err
 	}
 
-	if c.baseURL != nil {
-		u = c.baseURL.ResolveReference(u)
+	if c.BaseURL != nil {
+		u = c.BaseURL.ResolveReference(u)
 	}
 
 	buffer := new(bytes.Buffer)
