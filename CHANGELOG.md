@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [6.1.0] - 2022-10-31
+### Changed
+- BaseURL is now exposed. With a helper method `SetBaseURL`
+
 ## [6.0.0] - 2022-10-28
 ### Changed
 - **BREAKING:** - Go1.18 Required.
