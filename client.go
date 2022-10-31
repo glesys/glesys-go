@@ -65,6 +65,16 @@ func NewClient(project, apiKey, userAgent string) *Client {
 	return c
 }
 
+// SetBaseURL can be used to set a custom BaseURL
+func (c *Client) SetBaseURL(bu string) error {
+	url, err := url.Parse(bu)
+	if err != nil {
+		return err
+	}
+	c.BaseURL = url
+	return nil
+}
+
 func (c *Client) get(ctx context.Context, path string, v interface{}) error {
 	request, err := c.newRequest(ctx, "GET", path, nil)
 	if err != nil {
