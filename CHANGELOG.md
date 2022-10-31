@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   instead.
 - Add `CloudConfig` and `CloudConfigParams` field to `CreateServerParams`
 ### Added
+- Implement Account endpoint.
 - Implement Server Templates endpoint.
 - Implement Server PreviewCloudConfig endpoint.
 
