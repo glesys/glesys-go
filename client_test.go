@@ -95,6 +95,18 @@ func TestDoDecodesTheJsonResponseIntoAStruct(t *testing.T) {
 	assert.Equal(t, "Hello World", data.Response.Message, "JSON was parsed correctly")
 }
 
+func TestSetBaseURL(t *testing.T) {
+	client := NewClient("project-id", "api-key", "test-application/0.0.1")
+
+	url := "https://dev-api.glesys.local"
+	err := client.SetBaseURL(url)
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	assert.Equal(t, client.BaseURL.String(), url, "invalid baseurl returned")
+}
+
 func TestGet(t *testing.T) {
 	payload := `{ "response": { "message": "Hello World" } }`
 	mockClient := mockHTTPClient{body: payload, statusCode: 200}
