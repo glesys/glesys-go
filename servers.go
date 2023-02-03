@@ -34,6 +34,7 @@ type User struct {
 // ServerDetails is a more complete representation of a server
 type ServerDetails struct {
 	CPU             int                   `json:"cpucores"`
+	Backup          ServerBackupDetails   `json:"backup,omitempty"`
 	Bandwidth       int                   `json:"bandwidth"`
 	DataCenter      string                `json:"datacenter"`
 	Description     string                `json:"description"`
@@ -48,6 +49,18 @@ type ServerDetails struct {
 	State           string                `json:"state"`
 	Storage         int                   `json:"disksize"`
 	Template        string                `json:"templatename"`
+}
+
+// ServerBackupDetails represent the backups for a server
+type ServerBackupDetails struct {
+	Enabled   string                 `json:"enabled"`
+	Schedules []ServerBackupSchedule `json:"schedules,omitempty"`
+}
+
+// ServerBackupSchedule describes a backup schedule for a KVM server
+type ServerBackupSchedule struct {
+	Frequency            string `json:"frequency"`
+	Numberofimagestokeep int    `json:"numberofimagestokeep"`
 }
 
 // ServerTemplateDetails represents initialtemplate for a KVM server.
@@ -98,33 +111,35 @@ type ServerIP struct {
 
 // CreateServerParams is used when creating a new server
 type CreateServerParams struct {
-	Bandwidth         int            `json:"bandwidth"`
-	CampaignCode      string         `json:"campaigncode,omitempty"`
-	CloudConfig       string         `json:"cloudconfig,omitempty"`
-	CloudConfigParams map[string]any `json:"cloudconfigparams,omitempty"`
-	CPU               int            `json:"cpucores"`
-	DataCenter        string         `json:"datacenter"`
-	Description       string         `json:"description,omitempty"`
-	Hostname          string         `json:"hostname"`
-	IPv4              string         `json:"ip"`
-	IPv6              string         `json:"ipv6"`
-	Memory            int            `json:"memorysize"`
-	Password          string         `json:"rootpassword,omitempty"`
-	Platform          string         `json:"platform"`
-	PublicKey         string         `json:"sshkey,omitempty"`
-	Storage           int            `json:"disksize"`
-	Template          string         `json:"templatename"`
-	Users             []User         `json:"users,omitempty"`
+	Backup            []ServerBackupSchedule `json:"backupschedules,omitempty"`
+	Bandwidth         int                    `json:"bandwidth"`
+	CampaignCode      string                 `json:"campaigncode,omitempty"`
+	CloudConfig       string                 `json:"cloudconfig,omitempty"`
+	CloudConfigParams map[string]any         `json:"cloudconfigparams,omitempty"`
+	CPU               int                    `json:"cpucores"`
+	DataCenter        string                 `json:"datacenter"`
+	Description       string                 `json:"description,omitempty"`
+	Hostname          string                 `json:"hostname"`
+	IPv4              string                 `json:"ip"`
+	IPv6              string                 `json:"ipv6"`
+	Memory            int                    `json:"memorysize"`
+	Password          string                 `json:"rootpassword,omitempty"`
+	Platform          string                 `json:"platform"`
+	PublicKey         string                 `json:"sshkey,omitempty"`
+	Storage           int                    `json:"disksize"`
+	Template          string                 `json:"templatename"`
+	Users             []User                 `json:"users,omitempty"`
 }
 
 // EditServerParams is used when editing an existing server
 type EditServerParams struct {
-	Bandwidth   int    `json:"bandwidth,omitempty"`
-	CPU         int    `json:"cpucores,omitempty"`
-	Description string `json:"description,omitempty"`
-	Hostname    string `json:"hostname,omitempty"`
-	Memory      int    `json:"memorysize,omitempty"`
-	Storage     int    `json:"disksize,omitempty"`
+	Backup      []ServerBackupSchedule `json:"backupschedules,omitempty"`
+	Bandwidth   int                    `json:"bandwidth,omitempty"`
+	CPU         int                    `json:"cpucores,omitempty"`
+	Description string                 `json:"description,omitempty"`
+	Hostname    string                 `json:"hostname,omitempty"`
+	Memory      int                    `json:"memorysize,omitempty"`
+	Storage     int                    `json:"disksize,omitempty"`
 }
 
 // WithDefaults populates the parameters with default values. Existing
