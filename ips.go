@@ -36,6 +36,14 @@ type AvailableIPsParams struct {
 	Version    int    `json:"ipversion"`
 }
 
+// ReservedIPsParams is used to filter results when listing reserved IP addresses
+type ReservedIPsParams struct {
+	DataCenter string `json:"datacenter,omitempty"`
+	Platform   string `json:"platform,omitempty"`
+	Version    int    `json:"ipversion,omitempty"`
+	Used       string `json:"used,omitempty"`
+}
+
 // IPCost is used to show cost details for a IP address
 type IPCost struct {
 	Amount     float64 `json:"amount"`
@@ -106,13 +114,13 @@ func (s *IPService) Reserve(context context.Context, ipAddress string) (*IP, err
 }
 
 // Reserved returns a list of reserved IP addresses
-func (s *IPService) Reserved(context context.Context) (*[]IP, error) {
+func (s *IPService) Reserved(context context.Context, params ReservedIPsParams) (*[]IP, error) {
 	data := struct {
 		Response struct {
 			IPList []IP
 		}
 	}{}
-	err := s.client.get(context, "ip/listown", &data)
+	err := s.client.post(context, "ip/listown", &data, params)
 	return &data.Response.IPList, err
 }
 
