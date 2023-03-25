@@ -141,7 +141,7 @@ func ExampleIPService_Reserve() {
 func ExampleIPService_Reserved() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	ips, _ := client.IPs.Reserved(context.Background())
+	ips, _ := client.IPs.Reserved(context.Background(), glesys.ReservedIPsParams{})
 
 	for _, ip := range *ips {
 		fmt.Println(ip.Address)
