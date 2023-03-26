@@ -63,6 +63,15 @@ type ServerBackupSchedule struct {
 	Numberofimagestokeep int    `json:"numberofimagestokeep"`
 }
 
+// ServerConsoleDetails details for connecting to sever web console.
+type ServerConsoleDetails struct {
+	Host     string `json:"host,omitempty"`
+	Port     int    `json:"port,omitempty"`
+	Password string `json:"password,omitempty"`
+	Protocol string `json:"protocol,omitempty"`
+	URL      string `json:"url"`
+}
+
 // ServerTemplateDetails represents initialtemplate for a KVM server.
 type ServerTemplateDetails struct {
 	ID          string   `json:"id"`
@@ -212,6 +221,19 @@ func (s *ServerService) Create(context context.Context, params CreateServerParam
 	}{}
 	err := s.client.post(context, "server/create", &data, params)
 	return &data.Response.Server, err
+}
+
+// Console returns connection details for server web console
+func (s *ServerService) Console(context context.Context, serverID string) (*ServerConsoleDetails, error) {
+	data := struct {
+		Response struct {
+			Console ServerConsoleDetails
+		}
+	}{}
+	err := s.client.post(context, "server/console", &data, struct {
+		ServerID string `json:"serverid"`
+	}{serverID})
+	return &data.Response.Console, err
 }
 
 // Destroy deletes a server

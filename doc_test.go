@@ -397,6 +397,14 @@ func ExampleServerService_Create() {
 	fmt.Println(server2.ID)
 }
 
+func ExampleServerService_Console() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	console, _ := client.Servers.Console(context.Background(), "kvm12345")
+
+	fmt.Println(console.URL)
+}
+
 func ExampleServerService_Destroy() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
