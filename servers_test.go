@@ -34,9 +34,9 @@ func TestCreateServerParamsWithDefaults(t *testing.T) {
 	assert.Equal(t, "any", params.IPv4, "IPv4 has correct default value")
 	assert.Equal(t, "any", params.IPv6, "IPv6 has correct default value")
 	assert.Equal(t, 2048, params.Memory, "Memory has correct default value")
-	assert.Equal(t, "OpenVZ", params.Platform, "Platform has correct default value")
+	assert.Equal(t, "KVM", params.Platform, "Platform has correct default value")
 	assert.Equal(t, 50, params.Storage, "Storage has correct default value")
-	assert.Equal(t, "Debian 8 64-bit", params.Template, "Template has correct default value")
+	assert.Equal(t, "Debian 11 (Bullseye)", params.Template, "Template has correct default value")
 
 	assert.NotEmpty(t, params.Hostname, "Hostname has a default value")
 }
@@ -53,9 +53,9 @@ func TestCreateServerParamsCustomWithDefaults(t *testing.T) {
 	assert.Equal(t, "any", params.IPv4, "IPv4 has correct default value")
 	assert.Equal(t, "any", params.IPv6, "IPv6 has correct default value")
 	assert.Equal(t, 4096, params.Memory, "Memory has correct custom value")
-	assert.Equal(t, "OpenVZ", params.Platform, "Platform has correct default value")
+	assert.Equal(t, "KVM", params.Platform, "Platform has correct default value")
 	assert.Equal(t, 50, params.Storage, "Storage has correct default value")
-	assert.Equal(t, "Debian 8 64-bit", params.Template, "Template has correct default value")
+	assert.Equal(t, "Debian 11 (Bullseye)", params.Template, "Template has correct default value")
 }
 
 func TestCreateServerParamsWithUsers(t *testing.T) {

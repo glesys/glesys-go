@@ -162,9 +162,9 @@ func (p CreateServerParams) WithDefaults() CreateServerParams {
 		IPv4:       "any",
 		IPv6:       "any",
 		Memory:     2048,
-		Platform:   "OpenVZ",
+		Platform:   "KVM",
 		Storage:    50,
-		Template:   "Debian 8 64-bit",
+		Template:   "Debian 11 (Bullseye)",
 	}
 	mergo.Merge(&p, defaults)
 	return p
