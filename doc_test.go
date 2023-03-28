@@ -379,7 +379,7 @@ func ExampleServerService_Create() {
 		IPv6:         "any",
 		Memory:       2048,
 		Password:     "...",
-		Platform:     "OpenVZ",
+		Platform:     "VMware",
 		PublicKey:    "...",
 		Storage:      50,
 		Template:     "Debian 8 64-bit",
