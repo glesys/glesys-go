@@ -105,14 +105,14 @@ func TestServersCreate(t *testing.T) {
 func TestServersConsole(t *testing.T) {
 	c := &mockClient{body: `{"response": {"console": {
 		"host": "None", "password": "", "protocol": "",
-		"url": "https://console.glesys.com/view/abc123456-ff00-aabb-ccdd-xyz987654321"}}} `}
+		"url": "https://console.example.com/view/abc123456-ff00-aabb-ccdd-xyz987654321"}}} `}
 	s := ServerService{client: c}
 
 	console, _ := s.Console(context.Background(), "kvm123456")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/console", c.lastPath, "path used is correct")
-	assert.Equal(t, "https://console.glesys.com/view/abc123456-ff00-aabb-ccdd-xyz987654321", console.URL, "server console url is correct")
+	assert.Equal(t, "https://console.example.com/view/abc123456-ff00-aabb-ccdd-xyz987654321", console.URL, "server console url is correct")
 }
 
 func TestServersPreviewCloudConfig(t *testing.T) {
