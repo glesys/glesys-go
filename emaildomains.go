@@ -51,6 +51,7 @@ type OverviewParams struct {
 type EmailAccount struct {
 	EmailAccount         string `json:"emailaccount"`
 	DisplayName          string `json:"displayname"`
+	Password             string `json:"password,omitempty"`
 	QuotaInGiB           int    `json:"quotaingib"`
 	AntiSpamLevel        int    `json:"antispamlevel"`
 	AntiVirus            string `json:"antivirus"`
