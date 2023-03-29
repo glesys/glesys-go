@@ -37,7 +37,6 @@ func ExampleEmailDomainService_EditAccount() {
 	editaccount, _ := client.EmailDomains.EditAccount(context.Background(), "user@example.com", glesys.EditAccountParams{
 		AntiSpamLevel:      3,
 		AntiVirus:          "yes",
-		Password:           "SuperSecretPassword",
 		AutoRespond:        "yes",
 		AutoRespondMessage: "Your Automatic Response",
 		QuotaInGiB:         10,

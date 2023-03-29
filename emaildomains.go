@@ -91,7 +91,6 @@ type ListEmailsParams struct {
 type EditAccountParams struct {
 	AntiSpamLevel      int    `json:"antispamlevel,omitempty"`
 	AntiVirus          string `json:"antivirus,omitempty"`
-	Password           string `json:"password,omitempty"`
 	AutoRespond        string `json:"autorespond,omitempty"`
 	AutoRespondMessage string `json:"autorespondmessage,omitempty"`
 	QuotaInGiB         int    `json:"quotaingib,omitempty"`
