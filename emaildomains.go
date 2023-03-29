@@ -304,3 +304,18 @@ func (em *EmailDomainService) Costs(context context.Context) (*EmailCosts, error
 
 	return &EmailCosts{Costs: data.Response.Costs, PriceList: data.Response.PriceList}, err
 }
+
+// ResetPassword requests a new password from the API for emailaccount
+func (em *EmailDomainService) ResetPassword(context context.Context, emailaccount string) (string, error) {
+	data := struct {
+		Response struct {
+			Password string
+		}
+	}{}
+
+	err := em.client.post(context, "email/resetpassword", &data, struct {
+		EmailAccount string `json:"emailaccount"`
+	}{emailaccount})
+
+	return data.Response.Password, err
+}

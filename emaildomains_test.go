@@ -248,3 +248,15 @@ func TestCosts(t *testing.T) {
 	assert.Equal(t, "accounts", costs.PriceList.Accounts.Unit, "pricelist.accounts.unit is correct")
 	assert.Equal(t, 50.00, costs.PriceList.Accounts.FreeAmount, "pricelist.accounts.freeamount is correct")
 }
+
+func TestResetPassword(t *testing.T) {
+	c := &mockClient{body: `{"response": {"password": "S3cr3t}pw!"}}`}
+
+	s := EmailDomainService{client: c}
+
+	newPw, _ := s.ResetPassword(context.Background(), "alice@example.com")
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "email/resetpassword", c.lastPath, "path used is correct")
+	assert.Equal(t, "S3cr3t}pw!", newPw, "password is correct")
+}
