@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [7.0.0] - 2023-03-30
+### Added
+- Implement Server Console endpoint
+- Implement Email ResetPassword, obtain a new password for a specified email account.
+- Email `EmailAccount` type now contains `Password` for new accounts.
+- ServerDetails now has `ServerBackupDetails`.
+
+### Changed
+- **BREAKING:** - Email EditAccount has no parameter `Password`
+- **BREAKING:** - IPs `Reserved()` now requires `ReservedIPsParams{}` to allow
+  filtering on `datacenter`, `platform`, `used` and `version`.
+- Remove references to OpenVZ in Servers.
+- Servers `WithDefaults()` now uses KVM platform as default.
+- Bumped various dependencies..
+
 ## [6.1.0] - 2022-10-31
 ### Changed
 - BaseURL is now exposed. With a helper method `SetBaseURL`
