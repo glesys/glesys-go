@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [7.0.1] - 2023-03-30
+- Set correct major version in go.mod
+
 ## [7.0.0] - 2023-03-30
 ### Added
 - Implement Server Console endpoint
