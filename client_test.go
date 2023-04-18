@@ -47,14 +47,12 @@ func TestEmptyUserAgent(t *testing.T) {
 }
 
 func TestGetResponseErrorMessage(t *testing.T) {
-	client := NewClient("project-id", "api-key", "test-application/0.0.1")
-
 	json := `{ "response": {"status": { "code": 400, "text": "Unauthorized" } } }`
 	response := http.Response{
 		Body:       io.NopCloser(bytes.NewBufferString(json)),
 		StatusCode: 400,
 	}
-	err := client.handleResponseError(&response)
+	err := handleResponseError(&response)
 	assert.Equal(t, "Request failed with HTTP error: 400 (Unauthorized)", err.Error(), "error message is correct")
 }
 

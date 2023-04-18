@@ -131,13 +131,13 @@ func (c *Client) do(request *http.Request, v interface{}) error {
 	}
 
 	if response.StatusCode != http.StatusOK {
-		return c.handleResponseError(response)
+		return handleResponseError(response)
 	}
 
-	return c.parseResponseBody(response, v)
+	return parseResponseBody(response, v)
 }
 
-func (c *Client) handleResponseError(response *http.Response) error {
+func handleResponseError(response *http.Response) error {
 	data := struct {
 		Response struct {
 			Status struct {
@@ -146,7 +146,7 @@ func (c *Client) handleResponseError(response *http.Response) error {
 		} `json:"response"`
 	}{}
 
-	err := c.parseResponseBody(response, &data)
+	err := parseResponseBody(response, &data)
 	if err != nil {
 		return err
 	}
@@ -154,7 +154,7 @@ func (c *Client) handleResponseError(response *http.Response) error {
 	return fmt.Errorf("Request failed with HTTP error: %v (%v)", response.StatusCode, strings.TrimSpace(data.Response.Status.Text))
 }
 
-func (c *Client) parseResponseBody(response *http.Response, v interface{}) error {
+func parseResponseBody(response *http.Response, v interface{}) error {
 	if v == nil {
 		return nil
 	}
