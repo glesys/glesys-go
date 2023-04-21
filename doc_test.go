@@ -7,6 +7,35 @@ import (
 	glesys "github.com/glesys/glesys-go/v7"
 )
 
+func ExampleUserService_DoOTPLogin() {
+	userAgent := "MyGleSYSClient 0.0.1"
+	login := glesys.NewLogin(userAgent)
+
+	loginDetails, err := login.Users.DoOTPLogin(
+		context.Background(),
+		"user@example.com",
+		"VerySecretPassword123",
+		"abc123-otpstring")
+
+	if err != nil {
+		fmt.Printf("Error logging in %s\n", err)
+	}
+
+	// Set the temporary key to the Login object
+	login.Username = loginDetails.Username
+	login.APIKey = loginDetails.APIKey
+
+	// Now you can run user specific calls to the api
+	// list projects for organization 12345
+	projects, err := login.Users.ListCustomerProjects(context.Background(), "12345")
+	if err != nil {
+		fmt.Printf("Error listing projects %s\n", err)
+	}
+	for _, project := range *projects {
+		fmt.Printf("Name: %s, ProjectID: %s\n", project.Name, project.Accountname)
+	}
+}
+
 func ExampleEmailDomainService_Overview() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
