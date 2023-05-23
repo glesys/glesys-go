@@ -292,3 +292,14 @@ func TestDnsDomainsChangeNameservers(t *testing.T) {
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "domain/changenameservers", c.lastPath, "path used is correct")
 }
+
+func TestDnsDomainsGenerateAuthCode(t *testing.T) {
+	c := &mockClient{body: `{"response": { "authcode": "abcxy123-=%" }}`}
+	d := DNSDomainService{client: c}
+
+	authcode, _ := d.GenerateAuthCode(context.Background(), "example.com")
+
+	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
+	assert.Equal(t, "domain/generateauthcode", c.lastPath, "path used is correct")
+	assert.Equal(t, "abcxy123-=%", authcode, "correct return data")
+}

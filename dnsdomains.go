@@ -207,6 +207,19 @@ func (s *DNSDomainService) List(context context.Context) (*[]DNSDomain, error) {
 	return &data.Response.Domains, err
 }
 
+// GenerateAuthCode - return a authcode for the domain
+func (s *DNSDomainService) GenerateAuthCode(context context.Context, domainname string) (string, error) {
+	data := struct {
+		Response struct {
+			Authcode string
+		}
+	}{}
+	err := s.client.post(context, "domain/generateauthcode", &data, struct {
+		Name string `json:"domainname"`
+	}{domainname})
+	return data.Response.Authcode, err
+}
+
 // Register - Register a domain
 func (s *DNSDomainService) Register(context context.Context, params RegisterDNSDomainParams) (*DNSDomain, error) {
 	data := struct {
