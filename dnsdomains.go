@@ -196,6 +196,19 @@ func (s *DNSDomainService) Edit(context context.Context, params EditDNSDomainPar
 	return &data.Response.Domain, err
 }
 
+// Export - return the zonefile for the domain
+func (s *DNSDomainService) Export(context context.Context, domainname string) (string, error) {
+	data := struct {
+		Response struct {
+			Zonefile string
+		}
+	}{}
+	err := s.client.post(context, "domain/export", &data, struct {
+		Name string `json:"domainname"`
+	}{domainname})
+	return data.Response.Zonefile, err
+}
+
 // List - return a list of all domains in your account
 func (s *DNSDomainService) List(context context.Context) (*[]DNSDomain, error) {
 	data := struct {

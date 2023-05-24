@@ -303,3 +303,13 @@ func TestDnsDomainsGenerateAuthCode(t *testing.T) {
 	assert.Equal(t, "domain/generateauthcode", c.lastPath, "path used is correct")
 	assert.Equal(t, "abcxy123-=%", authcode, "correct return data")
 }
+
+func TestDnsDomainsExport(t *testing.T) {
+	c := &mockClient{}
+	d := DNSDomainService{client: c}
+
+	d.Export(context.Background(), "example.com")
+
+	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
+	assert.Equal(t, "domain/export", c.lastPath, "path used is correct")
+}
