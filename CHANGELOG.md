@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [7.1.0] - 2023-05-25
+### Added
+- Implement user/login
+- Implement DNSDomains Export
+- Implement DNSDomains GenerateAuthCode
+
+### Changed
+- Tweaking http functions to work with user/login
+- Update dependencies
+- Update Go version for GH Actions
+
 ## [7.0.1] - 2023-03-30
 - Set correct major version in go.mod
 
