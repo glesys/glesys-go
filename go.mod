@@ -1,7 +1,7 @@
 module github.com/glesys/glesys-go/v7
 
 require (
-	github.com/imdario/mergo v0.3.15
+	github.com/imdario/mergo v0.3.16
 	github.com/stretchr/testify v1.8.3
 )
 
