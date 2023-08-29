@@ -87,16 +87,16 @@ type ServerPlatformTemplates struct {
 
 // ServerTemplateInstanceCost
 type ServerTemplateInstanceCost struct {
-	Amount     int    `json:"amount"`
-	Currency   string `json:"currency"`
-	Timeperiod string `json:"timeperiod"`
+	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"`
+	Timeperiod string  `json:"timeperiod"`
 }
 
 // ServerTemplateLicenseCost
 type ServerTemplateLicenseCost struct {
-	Amount     int    `json:"amount"`
-	Currency   string `json:"currency"`
-	Timeperiod string `json:"timeperiod"`
+	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"`
+	Timeperiod string  `json:"timeperiod"`
 }
 
 // ServerPlatformTemplateDetails represents a supported template.
