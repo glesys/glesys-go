@@ -232,7 +232,11 @@ func TestServersTemplates(t *testing.T) {
      "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "DEPLOY_SCRIPT"},
     {"id": "dbbca8a7-1e26-4b76-8bb4-8d56dae59039", "name": "Alma Linux 9", "minimumdisksize": 5, "minimummemorysize": 512,
      "operatingsystem": "linux", "platform": "VMware", "instancecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"},
-     "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "CLOUD_INIT"}]}}}`}
+     "licensecost": {"amount": 0, "currency": "SEK", "timeperiod": "month"}, "bootstrapmethod": "CLOUD_INIT"},
+    {"id": "d924551c-0a0d-43ba-abcd-aoeuqwer1234", "name": "Windows Server 2022 Standard LTSC", "minimumdisksize": 30,
+     "minimummemorysize": 1024, "operatingsystem": "windows", "platform": "VMware", "instancecost":
+     {"amount": 999.10, "currency": "SEK", "timeperiod": "month"}, "licensecost": {"amount": 123.4, "currency": "SEK",
+     "timeperiod": "month"}, "bootstrapmethod": "DEPLOY_SCRIPT"}]}}}`}
 	s := ServerService{client: c}
 
 	templates, _ := s.Templates(context.Background())
@@ -243,8 +247,11 @@ func TestServersTemplates(t *testing.T) {
 	assert.Equal(t, "CLOUD_INIT", templates.KVM[0].BootstrapMethod, "template bootstrapmethod is correct")
 	assert.Equal(t, "Alma Linux 8", templates.VMware[0].Name, "template name is correct")
 	assert.Equal(t, "DEPLOY_SCRIPT", templates.VMware[0].BootstrapMethod, "template bootstrapmethod is correct")
-	assert.Equal(t, 0, templates.VMware[0].LicenseCost.Amount, "template licensecost amount is correct")
+	assert.Equal(t, 0.0, templates.VMware[0].LicenseCost.Amount, "template licensecost amount is correct")
 	assert.Equal(t, "month", templates.VMware[0].LicenseCost.Timeperiod, "template licensecost timeperiod is correct")
+	assert.Equal(t, 999.1, templates.VMware[2].InstanceCost.Amount, "template instancecost amount is correct")
+	assert.Equal(t, 123.4, templates.VMware[2].LicenseCost.Amount, "template licensecost amount is correct")
+	assert.Equal(t, "month", templates.VMware[2].LicenseCost.Timeperiod, "template licensecost timeperiod is correct")
 }
 
 func TestGenerateHostnameReturnsAHostnameInTheCorrectFormat(t *testing.T) {
