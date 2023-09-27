@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+### Added
+- ServerDisks - Implement `/serverdisk` endpoint.
+
 ## [8.0.0] - 2023-11-20
 ### Changed
 - **BREAKING** - Server Templates cost float64
