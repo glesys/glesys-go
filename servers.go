@@ -33,6 +33,7 @@ type User struct {
 
 // ServerDetails is a more complete representation of a server
 type ServerDetails struct {
+	AdditionalDisks []ServerDiskDetails   `json:"additionaldisks,omitempty"`
 	CPU             int                   `json:"cpucores"`
 	Backup          ServerBackupDetails   `json:"backup,omitempty"`
 	Bandwidth       int                   `json:"bandwidth"`

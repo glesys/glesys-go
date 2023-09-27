@@ -519,6 +519,81 @@ func ExampleServerService_PreviewCloudConfig() {
 	fmt.Println(preview.Context.Users[0].Username)
 	fmt.Printf("Number of balloons: %f\n", preview.Context.Params["balloon"])
 }
+
+func ExampleServerDisksService_Create() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.CreateServerDiskParams{
+		ServerID:  "wps123456",
+		SizeInGIB: 125,
+		Name:      "Extra disk",
+	}
+
+	_, _ = client.ServerDisks.Create(context.Background(), params)
+
+	server, _ := client.Servers.Details(context.Background(), "wps123456")
+
+	for _, disk := range server.AdditionalDisks {
+		fmt.Printf("Disk%d: %s - %d\n", disk.SCSIID, disk.Name, disk.SizeInGIB)
+	}
+}
+
+func ExampleServerDisksService_Delete() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	diskid := "abc1234-zxy987-cccbbbaaa"
+	err := client.ServerDisks.Delete(context.Background(), diskid)
+
+	if err != nil {
+		fmt.Println("Error deleting disk", err)
+	}
+}
+
+func ExampleServerDisksService_UpdateName() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.EditServerDiskParams{
+		ID:   "abc1234-zxy987-cccbbbaaa",
+		Name: "new name",
+	}
+
+	_, err := client.ServerDisks.UpdateName(context.Background(), params)
+
+	if err != nil {
+		fmt.Println("Error renaming disk", err)
+	}
+}
+
+func ExampleServerDisksService_Reconfigure() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.EditServerDiskParams{
+		ID:        "abc1234-zxy987-cccbbbaaa",
+		SizeInGIB: 120,
+	}
+
+	_, err := client.ServerDisks.Reconfigure(context.Background(), params)
+
+	if err != nil {
+		fmt.Println("Error updating disk size", err)
+	}
+}
+
+func ExampleServerDisksService_Limits() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	serverid := "wps123456"
+	limits, _ := client.ServerDisks.Limits(context.Background(), serverid)
+
+	fmt.Printf("Limits (%s): Min size: %d, Max size %d, Current number of disks: %d, Max number of disks: %d\n",
+		serverid,
+		limits.MinSizeInGIB,
+		limits.MaxSizeInGIB,
+		limits.CurrentNumDisks,
+		limits.MaxNumDisks,
+	)
+}
+
 func ExampleObjectStorageService_CreateInstance() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
