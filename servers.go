@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/imdario/mergo"
+	"dario.cat/mergo"
 )
 
 // ServerService provides functions to interact with servers
