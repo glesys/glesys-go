@@ -337,12 +337,12 @@ func generateHostname() string {
 		"water", "resonance", "sun", "wood", "dream", "cherry", "tree", "fog",
 		"frost", "voice", "paper", "frog", "smoke", "star"}
 
-	rand.Seed(time.Now().UTC().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
 
 	sections := []string{
-		adjectives[rand.Intn(len(adjectives))],
-		nouns[rand.Intn(len(nouns))],
-		strconv.Itoa(100 + rand.Intn(899)),
+		adjectives[r.Intn(len(adjectives))],
+		nouns[r.Intn(len(nouns))],
+		strconv.Itoa(100 + r.Intn(899)),
 	}
 
 	return strings.Join(sections, "-")
