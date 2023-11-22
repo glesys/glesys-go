@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	glesys "github.com/glesys/glesys-go/v7"
+	glesys "github.com/glesys/glesys-go/v8"
 )
 
 func ExampleUserService_DoOTPLogin() {

@@ -1,4 +1,4 @@
-module github.com/glesys/glesys-go/v7
+module github.com/glesys/glesys-go/v8
 
 require (
 	dario.cat/mergo v1.0.0
