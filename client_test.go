@@ -33,7 +33,7 @@ func TestRequestHasCorrectHeaders(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "application/json", request.Header.Get("Content-Type"), "header Content-Type is correct")
-	assert.Equal(t, "test-application/0.0.1 glesys-go/7.1.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
+	assert.Equal(t, "test-application/0.0.1 glesys-go/8.0.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
 
 	assert.NotEmpty(t, request.Header.Get("Authorization"), "header Authorization is not empty")
 }
@@ -43,7 +43,7 @@ func TestEmptyUserAgent(t *testing.T) {
 
 	request, err := client.newRequest(context.Background(), "GET", "/", nil)
 	assert.NoError(t, err)
-	assert.Equal(t, "glesys-go/7.1.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
+	assert.Equal(t, "glesys-go/8.0.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
 }
 
 func TestGetResponseErrorMessage(t *testing.T) {

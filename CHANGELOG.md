@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
+## [8.0.0] - 2023-11-20
+### Changed
+- **BREAKING** - Server Templates cost float64
+- Fixed rand.Seed deprecation
+- Updated mergo dependency
 ## [7.1.0] - 2023-05-25
 ### Added
 - Implement user/login
