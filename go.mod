@@ -2,7 +2,7 @@ module github.com/glesys/glesys-go/v8
 
 require (
 	dario.cat/mergo v1.0.0
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
