@@ -393,6 +393,25 @@ func ExampleNetworkService_List() {
 	}
 }
 
+func ExampleNetworkCircuitService_Details() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	ic, _ := client.NetworkCircuits.Details(context.Background(), "ic123456")
+
+	fmt.Println(ic.Type)
+}
+
+func ExampleNetworkCircuitService_List() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	ics, _ := client.NetworkCircuits.List(context.Background())
+
+	for _, ic := range *ics {
+		fmt.Println(ic.ID)
+		fmt.Println(ic.Type)
+	}
+}
+
 func ExampleServerService_Create() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
