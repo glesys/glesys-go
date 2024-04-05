@@ -28,20 +28,20 @@ func TestNetworkAdapterIsReady(t *testing.T) {
 func TestNetworkAdaptersCreate(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "networkadapter":
 	{ "adaptertype": "E1000", "bandwidth": 10, "name": "Network Adapter 2", "networkid": "mynetwork",
-	"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789", "serverid": "vz123456" }}}`}
+	"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789", "serverid": "wps123456" }}}`}
 	n := NetworkAdapterService{client: c}
 
 	params := CreateNetworkAdapterParams{
 		Bandwidth: 10,
 		NetworkID: "mynetwork",
-		ServerID:  "vz123456",
+		ServerID:  "wps123456",
 	}
 
 	networkadapter, _ := n.Create(context.Background(), params)
 
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "networkadapter/create", c.lastPath, "path used is correct")
-	assert.Equal(t, "vz123456", networkadapter.ServerID, "networkadapter ServerID is correct")
+	assert.Equal(t, "wps123456", networkadapter.ServerID, "networkadapter ServerID is correct")
 	assert.Equal(t, "Network Adapter 2", networkadapter.Name, "networkadapter Name is correct")
 	assert.Equal(t, "mynetwork", networkadapter.NetworkID, "networkadapter Description is correct")
 }
@@ -63,7 +63,7 @@ func TestNetworkAdaptersDetails(t *testing.T) {
 		"name": "My Network Adapter",
 		"adaptertype": "VMXNET 3",
 		"state": "ready",
-		"serverid": "vz123456",
+		"serverid": "wps123456",
 		"networkid": "internet-fbg"
 		} } }`}
 	s := NetworkAdapterService{client: c}
@@ -77,14 +77,14 @@ func TestNetworkAdaptersDetails(t *testing.T) {
 	assert.Equal(t, "9ac61694-eb4d-4011-9d10-c395ba5f7269", networkAdapter.ID, "network adapter Bandwidth is correct")
 	assert.Equal(t, "My Network Adapter", networkAdapter.Name, "network adapter Bandwidth is correct")
 	assert.Equal(t, "internet-fbg", networkAdapter.NetworkID, "network adapter Bandwidth is correct")
-	assert.Equal(t, "vz123456", networkAdapter.ServerID, "network adapter Bandwidth is correct")
+	assert.Equal(t, "wps123456", networkAdapter.ServerID, "network adapter Bandwidth is correct")
 	assert.Equal(t, "ready", networkAdapter.State, "network adapter Bandwidth is correct")
 }
 
 func TestNetworkAdaptersEdit(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "networkadapter":
 	{ "adaptertype": "E1000", "bandwidth": 100, "name": "Network Adapter 2", "networkid": "mynewnetwork",
-	"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789", "serverid": "vz123456" }}}`}
+	"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789", "serverid": "wps123456" }}}`}
 	n := NetworkAdapterService{client: c}
 
 	params := EditNetworkAdapterParams{
