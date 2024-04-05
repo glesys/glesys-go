@@ -47,9 +47,9 @@ func TestIPsIsIPv6(t *testing.T) {
 func TestIPsDetails(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "details": { "ipaddress": "127.0.0.1",
 		"netmask": "None", "broadcast": "None", "gateway": "None", "nameservers": ["127.255.255.1"],
-		"platform": "OpenVZ", "platforms": ["OpenVZ"],
+		"platform": "KVM", "platforms": ["KVM"],
 		"cost": {"amount":1, "currency": "SEK", "timeperiod": "month"},
-		"datacenter": "Falkenberg", "ipversion": 4, "serverid": "vz123456", "reserved": "yes",
+		"datacenter": "Falkenberg", "ipversion": 4, "serverid": "kvm123456", "reserved": "yes",
 		"lockedtoaccount": "no", "ptr": "1.0.0.127-static.example.com."} } }`}
 	s := IPService{client: c}
 
@@ -58,7 +58,7 @@ func TestIPsDetails(t *testing.T) {
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "ip/details", c.lastPath, "path used is correct")
 	assert.Equal(t, "127.0.0.1", (*ip).Address, "one ip was returned")
-	assert.Equal(t, "OpenVZ", (*ip).Platform, "platform is correct")
+	assert.Equal(t, "KVM", (*ip).Platform, "platform is correct")
 	assert.Equal(t, "Falkenberg", (*ip).DataCenter, "datacenter is correct")
 	assert.Equal(t, "1.0.0.127-static.example.com.", (*ip).PTR, "ptr is correct")
 	assert.Equal(t, 1.00, (*ip).Cost.Amount, "cost amount is correct")
@@ -107,9 +107,9 @@ func TestIPService_Release(t *testing.T) {
 func TestIPs_SetPTR(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "details": { "ipaddress": "127.0.0.1",
 		"netmask": "None", "broadcast": "None", "gateway": "None", "nameservers": ["127.255.255.1"],
-		"platform": "OpenVZ", "platforms": ["OpenVZ"],
+		"platform": "KVM", "platforms": ["KVM"],
 		"cost": {"amount":1, "currency": "SEK", "timeperiod": "month"},
-		"datacenter": "Falkenberg", "ipversion": 4, "serverid": "vz123456", "reserved": "yes",
+		"datacenter": "Falkenberg", "ipversion": 4, "serverid": "kvm123456", "reserved": "yes",
 		"lockedtoaccount": "no", "ptr": "ptr.parker.example.com."} } }`}
 	s := IPService{client: c}
 
@@ -124,9 +124,9 @@ func TestIPs_SetPTR(t *testing.T) {
 func TestIPs_ResetPTR(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "details": { "ipaddress": "127.0.0.1",
 		"netmask": "None", "broadcast": "None", "gateway": "None", "nameservers": ["127.255.255.1"],
-		"platform": "OpenVZ", "platforms": ["OpenVZ"],
+		"platform": "KVM", "platforms": ["KVM"],
 		"cost": {"amount":1, "currency": "SEK", "timeperiod": "month"},
-		"datacenter": "Falkenberg", "ipversion": 4, "serverid": "vz123456", "reserved": "yes",
+		"datacenter": "Falkenberg", "ipversion": 4, "serverid": "kvm123456", "reserved": "yes",
 		"lockedtoaccount": "no", "ptr": "1-0-0-127-static.glesys.net."} } }`}
 	s := IPService{client: c}
 

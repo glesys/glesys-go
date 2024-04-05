@@ -143,7 +143,7 @@ func ExampleIPService_Available() {
 
 	ips, _ := client.IPs.Available(context.Background(), glesys.AvailableIPsParams{
 		DataCenter: "Falkenberg",
-		Platform:   "OpenVZ",
+		Platform:   "KVM",
 		Version:    4,
 	})
 
@@ -455,7 +455,7 @@ func ExampleServerService_Console() {
 func ExampleServerService_Destroy() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	client.Servers.Destroy(context.Background(), "vz12345", glesys.DestroyServerParams{
+	client.Servers.Destroy(context.Background(), "kvm12345", glesys.DestroyServerParams{
 		KeepIP: true, // KeepIP defaults to false
 	})
 }
@@ -463,7 +463,7 @@ func ExampleServerService_Destroy() {
 func ExampleServerService_Details() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	server, _ := client.Servers.Details(context.Background(), "vz12345")
+	server, _ := client.Servers.Details(context.Background(), "kvm12345")
 
 	fmt.Println(server.Hostname)
 }
@@ -471,7 +471,7 @@ func ExampleServerService_Details() {
 func ExampleServerService_Edit() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	server, _ := client.Servers.Edit(context.Background(), "vz12345", glesys.EditServerParams{
+	server, _ := client.Servers.Edit(context.Background(), "kvm12345", glesys.EditServerParams{
 		Bandwidth:   100,
 		CPU:         4,
 		Description: "Web Server",
@@ -496,13 +496,13 @@ func ExampleServerService_List() {
 func ExampleServerService_Start() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	client.Servers.Start(context.Background(), "vz12345")
+	client.Servers.Start(context.Background(), "kvm12345")
 }
 
 func ExampleServerService_Stop() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
-	client.Servers.Stop(context.Background(), "vz12345", glesys.StopServerParams{
+	client.Servers.Stop(context.Background(), "kvm12345", glesys.StopServerParams{
 		Type: "reboot", // Type "soft", "hard" and "reboot" available
 	})
 }
