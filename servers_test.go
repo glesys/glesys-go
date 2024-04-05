@@ -92,14 +92,14 @@ func TestCreateServerParamsWithUsers(t *testing.T) {
 }
 
 func TestServersCreate(t *testing.T) {
-	c := &mockClient{body: `{ "response": { "server": { "serverid": "vz12345" } } }`}
+	c := &mockClient{body: `{ "response": { "server": { "serverid": "kvm12345" } } }`}
 	s := ServerService{client: c}
 
 	server, _ := s.Create(context.Background(), CreateServerParams{})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/create", c.lastPath, "path used is correct")
-	assert.Equal(t, "vz12345", server.ID, "server ID is correct")
+	assert.Equal(t, "kvm12345", server.ID, "server ID is correct")
 }
 
 func TestServersConsole(t *testing.T) {
@@ -150,7 +150,7 @@ func TestServersDestroy(t *testing.T) {
 	c := &mockClient{}
 	s := ServerService{client: c}
 
-	s.Destroy(context.Background(), "vz123456", DestroyServerParams{})
+	s.Destroy(context.Background(), "kvm123456", DestroyServerParams{})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/destroy", c.lastPath, "path used is correct")
@@ -182,28 +182,28 @@ func TestServersEdit(t *testing.T) {
 	c := &mockClient{}
 	s := ServerService{client: c}
 
-	s.Edit(context.Background(), "vz123456", EditServerParams{})
+	s.Edit(context.Background(), "kvm123456", EditServerParams{})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/edit", c.lastPath, "path used is correct")
 }
 
 func TestServersList(t *testing.T) {
-	c := &mockClient{body: `{ "response": { "servers": [{ "serverid": "vz12345" }] } }`}
+	c := &mockClient{body: `{ "response": { "servers": [{ "serverid": "kvm12345" }] } }`}
 	s := ServerService{client: c}
 
 	servers, _ := s.List(context.Background())
 
 	assert.Equal(t, "GET", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/list", c.lastPath, "path used is correct")
-	assert.Equal(t, "vz12345", (*servers)[0].ID, "one server was returned")
+	assert.Equal(t, "kvm12345", (*servers)[0].ID, "one server was returned")
 }
 
 func TestServersStart(t *testing.T) {
 	c := &mockClient{}
 	s := ServerService{client: c}
 
-	s.Start(context.Background(), "vz123456")
+	s.Start(context.Background(), "kvm123456")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/start", c.lastPath, "path used is correct")
@@ -213,7 +213,7 @@ func TestServersStop(t *testing.T) {
 	c := &mockClient{}
 	s := ServerService{client: c}
 
-	s.Stop(context.Background(), "vz123456", StopServerParams{})
+	s.Stop(context.Background(), "kvm123456", StopServerParams{})
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "server/stop", c.lastPath, "path used is correct")
