@@ -42,7 +42,7 @@ func (s *NetworkCircuitService) Details(context context.Context, circuitID strin
 	return &data.Response.NetworkCircuit, err
 }
 
-// List returns a list of NetworkCircuits available under your account
+// List returns a list of NetworkCircuits available under your project
 func (s *NetworkCircuitService) List(context context.Context) (*[]NetworkCircuit, error) {
 	data := struct {
 		Response struct {
