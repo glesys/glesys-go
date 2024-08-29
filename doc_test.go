@@ -412,6 +412,115 @@ func ExampleNetworkCircuitService_List() {
 	}
 }
 
+func ExamplePrivateNetworkService_Create() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	privnet, _ := client.PrivateNetworks.Create(context.Background(), "my-network")
+
+	fmt.Printf("ID: %s - Name: %s - IPv6: %s\n", privnet.ID, privnet.Name, privnet.IPv6Aggregate)
+}
+
+func ExamplePrivateNetworkService_Destroy() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.PrivateNetworks.Destroy(context.Background(), "pn-123ab")
+
+	if err != nil {
+		fmt.Printf("Cannot remove private network. Error: %s", err)
+	}
+}
+
+func ExamplePrivateNetworkService_Details() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	privnet, _ := client.PrivateNetworks.Details(context.Background(), "pn-123ab")
+
+	fmt.Printf("ID: %s - Name: %s - IPv6: %s\n", privnet.ID, privnet.Name, privnet.IPv6Aggregate)
+}
+
+func ExamplePrivateNetworkService_EstimatedCost() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	netCost, _ := client.PrivateNetworks.EstimatedCost(context.Background(), "pn-123ab")
+
+	fmt.Printf("Price: %.2f%s - Discount: %.2f - Total: %.2f\n", netCost.Price, netCost.Currency, netCost.Discount, netCost.Total)
+}
+
+func ExamplePrivateNetworkService_Edit() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.EditPrivateNetworkParams{
+		ID:   "pn-123ab",
+		Name: "new-network-name",
+	}
+
+	privnet, _ := client.PrivateNetworks.Edit(context.Background(), params)
+
+	fmt.Printf("ID: %s - Name: %s - IPv6: %s\n", privnet.ID, privnet.Name, privnet.IPv6Aggregate)
+}
+
+func ExamplePrivateNetworkService_List() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	privnet, _ := client.PrivateNetworks.List(context.Background())
+
+	for _, net := range *privnet {
+		fmt.Printf("ID: %s - Name: %s - IPv6: %s\n", net.ID, net.Name, net.IPv6Aggregate)
+	}
+}
+
+func ExamplePrivateNetworkService_CreateSegment() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.CreatePrivateNetworkSegmentParams{
+		PrivateNetworkID: "pn-123ab",
+		Datacenter:       "dc-fbg1",
+		Name:             "kvm-segment",
+		Platform:         "kvm",
+		IPv4Subnet:       "192.168.0.0/24",
+	}
+
+	segment, _ := client.PrivateNetworks.CreateSegment(context.Background(), params)
+
+	fmt.Printf("ID: %s - Name: %s\nIPv6: %s\nIPv4: %s\nPlatform: %s\nDatacenter: %s\n",
+		segment.ID, segment.Name, segment.IPv6Subnet, segment.IPv4Subnet, segment.Platform, segment.Datacenter)
+}
+
+func ExamplePrivateNetworkService_EditSegment() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	params := glesys.EditPrivateNetworkSegmentParams{
+		ID:   "6f5cb761-163e-4a5f-b9da-98acbe68e28d",
+		Name: "updated-name",
+	}
+
+	segment, _ := client.PrivateNetworks.EditSegment(context.Background(), params)
+
+	fmt.Printf("ID: %s - Name: %s\nIPv6: %s\nIPv4: %s\nPlatform: %s\nDatacenter: %s\n",
+		segment.ID, segment.Name, segment.IPv6Subnet, segment.IPv4Subnet, segment.Platform, segment.Datacenter)
+}
+
+func ExamplePrivateNetworkService_ListSegments() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	segments, _ := client.PrivateNetworks.ListSegments(context.Background(), "pn-123ab")
+
+	for _, s := range *segments {
+		fmt.Printf("ID: %s - Name: %s\nIPv6: %s\nIPv4: %s\nPlatform: %s\nDatacenter: %s\n",
+			s.ID, s.Name, s.IPv6Subnet, s.IPv4Subnet, s.Platform, s.Datacenter)
+	}
+}
+
+func ExamplePrivateNetworkService_DestroySegment() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.PrivateNetworks.DestroySegment(context.Background(), "6f5cb761-163e-4a5f-b9da-98acbe68e28d")
+
+	if err != nil {
+		fmt.Printf("Cannot remove private network segment. Error: %s", err)
+	}
+}
+
 func ExampleServerService_Create() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
