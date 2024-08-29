@@ -477,7 +477,7 @@ func ExamplePrivateNetworkService_CreateSegment() {
 		Datacenter:       "dc-fbg1",
 		Name:             "kvm-segment",
 		Platform:         "kvm",
-		IPv4Subnet:       "192.168.0.0/24",
+		IPv4Subnet:       "192.0.2.0/24",
 	}
 
 	segment, _ := client.PrivateNetworks.CreateSegment(context.Background(), params)
