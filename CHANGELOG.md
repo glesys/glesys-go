@@ -5,7 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
+
+## [8.2.0] - 2024-09-04
+### Added
+- PrivateNetworks - Implement new endpoint `/privatenetwork/*`.
 - NetworkCircuits - Implement new endpoint `/networkcircuit/*`.
+### Changed
+- Removed OpenVZ references in code.
 
 ## [8.1.0] - 2024-01-15
 ### Added
