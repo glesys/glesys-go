@@ -15,6 +15,9 @@ type NetworkAdapter struct {
 	AdapterType string `json:"adaptertype,omitempty"`
 	Bandwidth   int    `json:"bandwidth"`
 	ID          string `json:"networkadapterid"`
+	IsConnected bool   `json:"isconnected,omitempty"`
+	IsPrimary   bool   `json:"isprimary,omitempty"`
+	MacAddress  string `json:"macaddress,omitempty"`
 	Name        string `json:"name"`
 	NetworkID   string `json:"networkid"`
 	ServerID    string `json:"serverid"`
@@ -35,6 +38,7 @@ func (na *NetworkAdapter) IsReady() bool {
 type CreateNetworkAdapterParams struct {
 	AdapterType string `json:"adaptertype,omitempty"`
 	Bandwidth   int    `json:"bandwidth,omitempty"`
+	Name        string `json:"name,omitempty"`
 	NetworkID   string `json:"networkid,omitempty"`
 	ServerID    string `json:"serverid"`
 }
@@ -42,6 +46,7 @@ type CreateNetworkAdapterParams struct {
 // EditNetworkAdapterParams is used when editing an existing network adapter
 type EditNetworkAdapterParams struct {
 	Bandwidth int    `json:"bandwidth,omitempty"`
+	Name      string `json:"name,omitempty"`
 	NetworkID string `json:"networkid,omitempty"`
 }
 
