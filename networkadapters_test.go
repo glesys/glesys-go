@@ -43,7 +43,7 @@ func TestNetworkAdaptersCreate(t *testing.T) {
 	assert.Equal(t, "networkadapter/create", c.lastPath, "path used is correct")
 	assert.Equal(t, "wps123456", networkadapter.ServerID, "networkadapter ServerID is correct")
 	assert.Equal(t, "Network Adapter 2", networkadapter.Name, "networkadapter Name is correct")
-	assert.Equal(t, "mynetwork", networkadapter.NetworkID, "networkadapter Description is correct")
+	assert.Equal(t, "mynetwork", networkadapter.NetworkID, "networkadapter NetworkID is correct")
 }
 
 func TestNetworkAdaptersCreate_KVM(t *testing.T) {
