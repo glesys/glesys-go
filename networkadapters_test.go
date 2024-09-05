@@ -46,6 +46,32 @@ func TestNetworkAdaptersCreate(t *testing.T) {
 	assert.Equal(t, "mynetwork", networkadapter.NetworkID, "networkadapter Description is correct")
 }
 
+func TestNetworkAdaptersCreate_KVM(t *testing.T) {
+	c := &mockClient{body: `{ "response": { "networkadapter":
+		{ "bandwidth": 1000, "name": "Adapter Example", "isprimary": false, "isconnected": true,
+		"networkid": "79c67265-a9a8-4607-b2b5-7377a6b6ebf7",
+		"networkadapterid": "ab12cd34-dcba-0123-abcd-abc123456789",
+		"serverid": "kvm123456" }}}`}
+	n := NetworkAdapterService{client: c}
+
+	params := CreateNetworkAdapterParams{
+		Bandwidth: 1000,
+		NetworkID: "79c67265-a9a8-4607-b2b5-7377a6b6ebf7",
+		ServerID:  "kvm123456",
+		Name:      "Adapter Example",
+	}
+
+	networkadapter, _ := n.Create(context.Background(), params)
+
+	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
+	assert.Equal(t, "networkadapter/create", c.lastPath, "path used is correct")
+	assert.Equal(t, "kvm123456", networkadapter.ServerID, "networkadapter ServerID is correct")
+	assert.Equal(t, "Adapter Example", networkadapter.Name, "networkadapter Name is correct")
+	assert.Equal(t, true, networkadapter.IsConnected, "networkadapter IsConnected is correct")
+	assert.Equal(t, false, networkadapter.IsPrimary, "networkadapter IsPrimary is correct")
+	assert.Equal(t, "79c67265-a9a8-4607-b2b5-7377a6b6ebf7", networkadapter.NetworkID, "networkadapter networkID is correct")
+}
+
 func TestNetworkAdaptersDestroy(t *testing.T) {
 	c := &mockClient{}
 	n := NetworkAdapterService{client: c}
