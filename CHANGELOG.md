@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
+- Server - Implement `server/networkadapters` endpoint.
 
 ## [8.2.0] - 2024-09-04
 ### Added

@@ -281,6 +281,19 @@ func (s *ServerService) List(context context.Context) (*[]Server, error) {
 	return &data.Response.Servers, err
 }
 
+// NetworkAdapters returns a list of NetworkAdapters for `serverID`
+func (s *ServerService) NetworkAdapters(context context.Context, serverID string) (*[]NetworkAdapter, error) {
+	data := struct {
+		Response struct {
+			NetworkAdapters []NetworkAdapter
+		}
+	}{}
+	err := s.client.post(context, "server/networkadapters", &data, struct {
+		ServerID string `json:"serverid"`
+	}{serverID})
+	return &data.Response.NetworkAdapters, err
+}
+
 // PreviewCloudConfig preview a cloud config mustache template.
 func (s *ServerService) PreviewCloudConfig(context context.Context, params PreviewCloudConfigParams) (*CloudConfigPreview, error) {
 	data := struct {

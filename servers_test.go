@@ -199,6 +199,46 @@ func TestServersList(t *testing.T) {
 	assert.Equal(t, "kvm12345", (*servers)[0].ID, "one server was returned")
 }
 
+func TestServersNetworkAdapters(t *testing.T) {
+	c := &mockClient{body: `{ "response": { "networkadapters": [{
+		"networkadapterid": "9ac61694-eb4d-4011-9d10-c395ba5f7269",
+		"bandwidth": 100,
+		"name": "My Network Adapter",
+		"adaptertype": "VMXNET 3",
+		"state": "ready",
+		"serverid": "wps123456",
+		"networkid": "internet-fbg"
+		},
+		{"networkadapterid": "9ac61694-eb4d-4011-9d10-c395ba5f7420",
+		"bandwidth": 500,
+		"name": "Network Adapter 2",
+		"adaptertype": "VMXNET 3",
+		"state": "ready",
+		"serverid": "wps123456",
+		"networkid": "vl123456"
+		}] } }`}
+	s := ServerService{client: c}
+
+	networkAdapters, _ := s.NetworkAdapters(context.Background(), "9ac61694-eb4d-4011-9d10-c395ba5f7269")
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "server/networkadapters", c.lastPath, "path used is correct")
+	assert.Equal(t, "VMXNET 3", (*networkAdapters)[0].AdapterType, "AdapterType is correct")
+	assert.Equal(t, 100, (*networkAdapters)[0].Bandwidth, "Bandwidth is correct")
+	assert.Equal(t, "9ac61694-eb4d-4011-9d10-c395ba5f7269", (*networkAdapters)[0].ID, "ID is correct")
+	assert.Equal(t, "My Network Adapter", (*networkAdapters)[0].Name, "Name is correct")
+	assert.Equal(t, "internet-fbg", (*networkAdapters)[0].NetworkID, "NetworkID is correct")
+	assert.Equal(t, "wps123456", (*networkAdapters)[0].ServerID, "ServerID is correct")
+	assert.Equal(t, "ready", (*networkAdapters)[0].State, "State is correct")
+	assert.Equal(t, "VMXNET 3", (*networkAdapters)[1].AdapterType, "AdapterType is correct")
+	assert.Equal(t, 500, (*networkAdapters)[1].Bandwidth, "Bandwidth is correct")
+	assert.Equal(t, "9ac61694-eb4d-4011-9d10-c395ba5f7420", (*networkAdapters)[1].ID, "ID is correct")
+	assert.Equal(t, "Network Adapter 2", (*networkAdapters)[1].Name, "Bandwidth is correct")
+	assert.Equal(t, "vl123456", (*networkAdapters)[1].NetworkID, "NetworkID is correct")
+	assert.Equal(t, "wps123456", (*networkAdapters)[1].ServerID, "ServerID is correct")
+	assert.Equal(t, "ready", (*networkAdapters)[1].State, "State is correct")
+}
+
 func TestServersStart(t *testing.T) {
 	c := &mockClient{}
 	s := ServerService{client: c}
