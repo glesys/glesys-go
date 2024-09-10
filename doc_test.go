@@ -602,6 +602,17 @@ func ExampleServerService_List() {
 	}
 }
 
+func ExampleServerService_NetworkAdapters() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	na, _ := client.Servers.NetworkAdapters(context.Background(), "wps123456")
+
+	for _, n := range *na {
+		fmt.Println(n.Name)
+		fmt.Println(n.ID)
+	}
+}
+
 func ExampleServerService_Start() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
