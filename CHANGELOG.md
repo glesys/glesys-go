@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
+
+## [8.3.0] - 2024-09-11
 ### Added
-- Server - Implement `server/networkadapters` endpoint.
+- Servers - Implement `server/networkadapters` endpoint.
+### Changed
+- NetworkAdapters - New attributes `IsConnected`, `IsPrimary` & `MacAddress`
 
 ## [8.2.0] - 2024-09-04
 ### Added
