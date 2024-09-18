@@ -62,7 +62,9 @@ func (s *PrivateNetworkService) Create(context context.Context, name string) (*P
 			PrivateNetwork PrivateNetwork
 		}
 	}{}
-	err := s.client.post(context, "privatenetwork/create", &data, name)
+	err := s.client.post(context, "privatenetwork/create", &data, struct {
+		Name string `json:"name"`
+	}{name})
 	return &data.Response.PrivateNetwork, err
 }
 
@@ -73,7 +75,9 @@ func (s *PrivateNetworkService) Details(context context.Context, privateNetworkI
 			PrivateNetwork PrivateNetwork
 		}
 	}{}
-	err := s.client.post(context, "privatenetwork/details", &data, privateNetworkID)
+	err := s.client.post(context, "privatenetwork/details", &data, struct {
+		PrivateNetworkID string `json:"privatenetworkid"`
+	}{privateNetworkID})
 	return &data.Response.PrivateNetwork, err
 }
 
