@@ -140,7 +140,7 @@ func TestPrivateNetworkSegmentsDestroy(t *testing.T) {
 	c := &mockClient{}
 	n := PrivateNetworkService{client: c}
 
-	n.DestroySegment(context.Background(), "pn-123ab")
+	n.DestroySegment(context.Background(), "266979ab-1e05-4fbc-b9e0-577f31c0d2e9")
 
 	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
 	assert.Equal(t, "privatenetwork/deletesegment", c.lastPath, "path used is correct")
