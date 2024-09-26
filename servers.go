@@ -45,6 +45,7 @@ type ServerDetails struct {
 	IPList          []ServerIP            `json:"iplist"`
 	IsRunning       bool                  `json:"isrunning"`
 	IsLocked        bool                  `json:"islocked"`
+	ISOFile         string                `json:"isofile,omitempty"`
 	Platform        string                `json:"platform"`
 	Memory          int                   `json:"memorysize"`
 	State           string                `json:"state"`
@@ -305,6 +306,33 @@ func (s *ServerService) PreviewCloudConfig(context context.Context, params Previ
 		PreviewCloudConfigParams
 	}{params})
 	return &data.Response.Cloudconfig, err
+}
+
+// ListISOs returns a list of ISO files available for `serverID`
+func (s *ServerService) ListISOs(context context.Context, serverID string) (*[]string, error) {
+	data := struct {
+		Response struct {
+			IsoFiles []string
+		}
+	}{}
+	err := s.client.post(context, "server/listiso", &data, struct {
+		ServerID string `json:"serverid"`
+	}{serverID})
+	return &data.Response.IsoFiles, err
+}
+
+// MountISO mounts the isoFile to the server.
+func (s *ServerService) MountISO(context context.Context, serverID string, isoFile string) (*ServerDetails, error) {
+	data := struct {
+		Response struct {
+			Server ServerDetails
+		}
+	}{}
+	err := s.client.post(context, "server/mountiso", &data, struct {
+		ServerID string `json:"serverid"`
+		ISOFile  string `json:"isofile"`
+	}{serverID, isoFile})
+	return &data.Response.Server, err
 }
 
 // Templates lists all supported templates per platform

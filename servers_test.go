@@ -259,6 +259,35 @@ func TestServersStop(t *testing.T) {
 	assert.Equal(t, "server/stop", c.lastPath, "path used is correct")
 }
 
+func TestServersListISO(t *testing.T) {
+	c := &mockClient{body: `{"response":{ "isofiles": ["OpenBSD/7.4/amd64/cd74.iso", "OpenBSD/7.4/amd64/install74.iso"] }}`}
+
+	s := ServerService{client: c}
+
+	isos, _ := s.ListISOs(context.Background(), "wps123456")
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "server/listiso", c.lastPath, "path used is correct")
+	assert.Equal(t, "OpenBSD/7.4/amd64/cd74.iso", (*isos)[0], "iso is correct")
+
+}
+
+func TestServersMountISO(t *testing.T) {
+	c := &mockClient{body: `{ "response": { "server": { "hostname": "my-server-123",
+		"bandwidth": 100,
+		"description": "MyServer",
+		"templatename": "None",
+		"isofile": "OpenBSD/7.4/amd64/cd74.iso"
+		} } }`}
+	s := ServerService{client: c}
+
+	detail, _ := s.MountISO(context.Background(), "wps123456", "OpenBSD/7.4/amd64/cd74.iso")
+
+	assert.Equal(t, "POST", c.lastMethod, "method used is correct")
+	assert.Equal(t, "server/mountiso", c.lastPath, "path used is correct")
+	assert.Equal(t, "OpenBSD/7.4/amd64/cd74.iso", detail.ISOFile, "iso is correct")
+}
+
 func TestServersTemplates(t *testing.T) {
 	c := &mockClient{body: `{"response":{ "templates": { "KVM": [{"id": "ac7c05f1-4cb6-4330-a0a2-d1f2e6244b21",
      "name": "AlmaLinux 8", "minimumdisksize": 5, "minimummemorysize": 512, "operatingsystem": "linux", "platform": "KVM",
