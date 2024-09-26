@@ -602,6 +602,24 @@ func ExampleServerService_List() {
 	}
 }
 
+func ExampleServerService_ListISOs() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	isos, _ := client.Servers.ListISOs(context.Background(), "wps123456")
+
+	for _, iso := range *isos {
+		fmt.Println(iso)
+	}
+}
+
+func ExampleServerService_MountISO() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	serverDetail, _ := client.Servers.MountISO(context.Background(), "wps123456", "OpenBSD/7.4/amd64/install74.iso")
+
+	fmt.Printf("ISO Mounted: %s\n", serverDetail.ISOFile)
+}
+
 func ExampleServerService_NetworkAdapters() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
