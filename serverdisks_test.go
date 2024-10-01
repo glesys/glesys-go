@@ -11,7 +11,8 @@ func TestServerDisk_Create(t *testing.T) {
 	c := &mockClient{body: `{ "response": { "disk": { "id": "aaaaa-bbbbbb-cccccc",
 		"sizeingib": 200,
 		"name": "Diskett",
-		"scsiid": 1
+		"scsiid": 1,
+		"type": "gold"
 		}}}`}
 	s := ServerDisksService{client: c}
 
@@ -26,6 +27,7 @@ func TestServerDisk_Create(t *testing.T) {
 	assert.Equal(t, "serverdisk/create", c.lastPath, "correct path is used")
 	assert.Equal(t, 200, disk.SizeInGIB, "size is correct")
 	assert.Equal(t, "Diskett", disk.Name, "correct name variable")
+	assert.Equal(t, "gold", disk.Type, "correct type variable")
 }
 
 func TestServerDisk_UpdateName(t *testing.T) {

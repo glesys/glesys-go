@@ -12,6 +12,7 @@ type CreateServerDiskParams struct {
 	Name      string `json:"name"`
 	ServerID  string `json:"serverid"`
 	SizeInGIB int    `json:"sizeingib"`
+	Type      string `json:"type,omitempty"`
 }
 
 // ServerDiskDetails represents any extra disks for a server
@@ -20,6 +21,7 @@ type ServerDiskDetails struct {
 	Name      string `json:"name,omitempty"`
 	SizeInGIB int    `json:"sizeingib"`
 	SCSIID    int    `json:"scsiid"`
+	Type      string `json:"type"`
 }
 
 // ServerDiskReconfigureParams parameters for updating a ServerDisk
