@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implemented `server/listiso` and `server/mountiso` endpoints.
 ### Changed
 - Add `ISOFile` attribute in `ServerDetails`.
+- Add `Type` attribute for disk policy in `ServerDiskDetails`.
 
 ## [8.3.1] - 2024-09-19
 ### Changed

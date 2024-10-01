@@ -684,6 +684,7 @@ func ExampleServerDisksService_Create() {
 		ServerID:  "wps123456",
 		SizeInGIB: 125,
 		Name:      "Extra disk",
+		Type:      "silver", // [gold|silver]
 	}
 
 	_, _ = client.ServerDisks.Create(context.Background(), params)
@@ -691,7 +692,7 @@ func ExampleServerDisksService_Create() {
 	server, _ := client.Servers.Details(context.Background(), "wps123456")
 
 	for _, disk := range server.AdditionalDisks {
-		fmt.Printf("Disk%d: %s - %d\n", disk.SCSIID, disk.Name, disk.SizeInGIB)
+		fmt.Printf("Disk%d: %s - %d - Type: %s\n", disk.SCSIID, disk.Name, disk.SizeInGIB, disk.Type)
 	}
 }
 
