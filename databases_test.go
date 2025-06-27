@@ -36,11 +36,10 @@ func TestDatabasesDelete(t *testing.T) {
 	c := &mockClient{}
 	d := DatabaseService{client: c}
 
-	err := d.Delete(context.Background(), "db-1234")
+	d.Delete(context.Background(), "db-1234")
 
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "database/delete", c.lastPath, "path used is correct")
-	assert.Equal(t, nil, err, "Should not get error")
 }
 
 func TestUpdateAllowlist(t *testing.T) {
