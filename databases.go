@@ -3,7 +3,6 @@ package glesys
 import (
 	"context"
 	"fmt"
-	//"fmt"
 )
 
 // DatabaseService provides functions to interact with Databases
@@ -77,7 +76,7 @@ type UpdateAllowlistParams struct {
 	AllowList []string `json:"allowlist"`
 }
 
-// ConnectionDetails returns the connectionstring
+// ConnectionDetails returns the connection string
 type ConnectionDetails struct {
 	ConnectionString string `json:"connectionstring"`
 }
@@ -87,7 +86,7 @@ type EstimatedCostParams struct {
 	PlanKey string `json:"plankey"`
 }
 
-// Creates a database
+// Create Creates a database
 func (db *DatabaseService) Create(context context.Context, params CreateDatabaseParams) (*DatabaseDetails, error) {
 	data := struct {
 		Response struct {
@@ -105,7 +104,7 @@ func (db *DatabaseService) Delete(context context.Context, databaseID string) er
 	}{databaseID})
 }
 
-// Update the allow list for a database instance
+// UpdateAllowlist Update the allow list for a database instance
 func (db *DatabaseService) UpdateAllowlist(context context.Context, params UpdateAllowlistParams) (*DatabaseDetails, error) {
 	data := struct {
 		Response struct {
@@ -127,7 +126,7 @@ func (db *DatabaseService) List(context context.Context) (*[]Database, error) {
 	return &data.Response.Databases, err
 }
 
-// Details returns a detailed information about one database
+// Details returns detailed information about one database
 func (db *DatabaseService) Details(context context.Context, databaseID string) (*DatabaseDetails, error) {
 	data := struct {
 		Response struct {
@@ -138,7 +137,7 @@ func (db *DatabaseService) Details(context context.Context, databaseID string) (
 	return &data.Response.Database, err
 }
 
-// Get the connection string for a database instance.
+// ConnectionString Get the connection string for a database instance.
 func (db *DatabaseService) ConnectionString(context context.Context, databaseID string) (*ConnectionDetails, error) {
 	data := struct {
 		Response struct {
@@ -149,7 +148,7 @@ func (db *DatabaseService) ConnectionString(context context.Context, databaseID 
 	return &data.Response.ConnectionDetails, err
 }
 
-// Get a list of available databases plans.
+// ListPlans Get a list of available databases plans.
 func (db *DatabaseService) ListPlans(context context.Context) (*[]DatabasePlan, error) {
 	data := struct {
 		Response struct {
@@ -160,7 +159,7 @@ func (db *DatabaseService) ListPlans(context context.Context) (*[]DatabasePlan, 
 	return &data.Response.Plans, err
 }
 
-// Estimate cost for a database instance, new or existing.
+// EstimatedCost Estimate cost for a database instance, new or existing.
 func (db *DatabaseService) EstimatedCost(context context.Context, params EstimatedCostParams) (*Billing, error) {
 	data := struct {
 		Response struct {
