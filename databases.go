@@ -63,11 +63,12 @@ type Billing struct {
 
 // CreateDatabaseParams is used when creating a new database
 type CreateDatabaseParams struct {
-	PlanKey       string `json:"plankey"`
-	Engine        string `json:"engine"`
-	EngineVersion string `json:"engineversion"`
-	DataCenterKey string `json:"datacenterkey"`
-	Name          string `json:"name"`
+	PlanKey       string   `json:"plankey"`
+	Engine        string   `json:"engine"`
+	EngineVersion string   `json:"engineversion"`
+	DataCenterKey string   `json:"datacenterkey"`
+	Name          string   `json:"name"`
+	AllowList     []string `json:"allowlist,omitempty"`
 }
 
 // UpdateAllowlistParams is used to update the allowlist for a database instance
