@@ -833,3 +833,83 @@ func ExampleObjectStorageService_DeleteCredential() {
 		fmt.Printf("Error removing objectstorage credential: %s", err)
 	}
 }
+
+func ExampleDatabaseService_Create() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	details, _ := client.Databases.Create(context.Background(), glesys.CreateDatabaseParams{
+		PlanKey:       "plan-1core-4gib-25gib",
+		Engine:        "mysql",
+		EngineVersion: "8.0",
+		DataCenterKey: "",
+		Name:          "My Database",
+	})
+	fmt.Printf("%#v\n", details)
+}
+
+func ExampleDatabaseService_Delete() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.Databases.Delete(context.Background(), "db-12345")
+
+	if err != nil {
+		fmt.Printf("Error removing database: %s", err)
+	}
+}
+
+func ExampleDatabaseService_UpdateAllowlist() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	plans, _ := client.Databases.UpdateAllowlist(context.Background(), glesys.UpdateAllowlistParams{
+		ID:        "db-12345",
+		AllowList: []string{"127.0.0.1", "127.0.0.2"},
+	})
+
+	fmt.Printf("%#v\n", plans)
+}
+
+func ExampleDatabaseService_List() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	list, _ := client.Databases.List(context.Background())
+
+	fmt.Printf("%#v\n", list)
+}
+
+func ExampleDatabaseService_Details() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	plans, _ := client.Databases.UpdateAllowlist(context.Background(), glesys.UpdateAllowlistParams{
+		ID:        "db-12345",
+		AllowList: []string{"127.0.0.1", "127.0.0.2"},
+	})
+
+	fmt.Printf("%#v\n", plans)
+}
+
+func ExampleDatabaseService_ConnectionString() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	connectionString, _ := client.Databases.ConnectionString(context.Background(), "db-12345")
+
+	fmt.Printf("%#v\n", connectionString)
+}
+
+func ExampleDatabaseService_ListPlans() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	plans, _ := client.Databases.ListPlans(context.Background())
+
+	fmt.Printf("%#v\n", plans)
+}
+
+func ExampleDatabaseService_EstimatedCost() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	billing, _ := client.Databases.EstimatedCost(context.Background(), glesys.EstimatedCostParams{
+		ID:      "db-12346",
+		PlanKey: "plan-1core-4gib-25gib",
+	})
+
+	fmt.Printf("%#v\n", billing)
+}
