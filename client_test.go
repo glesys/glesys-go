@@ -43,7 +43,7 @@ func TestEmptyUserAgent(t *testing.T) {
 
 	request, err := client.newRequest(context.Background(), "GET", "/", nil)
 	assert.NoError(t, err)
-	assert.Equal(t, "glesys-go/8.4.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
+	assert.Equal(t, "glesys-go/8.5.0", request.Header.Get("User-Agent"), "header User-Agent is correct")
 }
 
 func TestGetResponseErrorMessage(t *testing.T) {
