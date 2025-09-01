@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-const version = "8.4.0"
+const version = "8.5.0"
 
 type httpClientInterface interface {
 	Do(*http.Request) (*http.Response, error)
