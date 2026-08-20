@@ -94,10 +94,10 @@ type UserOrganization struct {
 	AllowedPaymentMethods             []string `json:"allowedpaymentmethods,omitempty"`
 	PaymentTermsnetdays               int      `json:"paymenttermsnetdays,omitempty"`
 	CanPayInvoicesManuallyUsingPaypal bool     `json:"canpayinvoicesmanuallyusingpaypal,omitempty"`
-	SlaCost                           int      `json:"slacost,omitempty"`
-	SlaLevel                          string   `json:"slalevel,omitempty"`
-	SlaPincode                        string   `json:"slapincode,omitempty"`
-	SlaPhonenumber                    string   `json:"slaphonenumber,omitempty"`
+	SLACost                           int      `json:"slacost,omitempty"`
+	SLALevel                          string   `json:"slalevel,omitempty"`
+	SLAPincode                        string   `json:"slapincode,omitempty"`
+	SLAPhonenumber                    string   `json:"slaphonenumber,omitempty"`
 }
 
 func (l *Login) do(request *http.Request, v interface{}) error {
