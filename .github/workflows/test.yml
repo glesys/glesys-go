@@ -21,8 +21,8 @@ jobs:
     strategy:
       matrix:
         go:
-          - 1.23.x
-          - 1.22.x
+          - stable
+          - oldstable
 
     name: Go ${{ matrix.go }} Build
     steps:
@@ -44,8 +44,8 @@ jobs:
     strategy:
       matrix:
         go:
-          - 1.23.x
-          - 1.22.x
+          - stable
+          - oldstable
 
     runs-on: ubuntu-latest
     steps:
