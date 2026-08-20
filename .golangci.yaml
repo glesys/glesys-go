@@ -1,12 +1,28 @@
----
+version: "2"
 linters:
-  disable-all: false
-  enable:
-    - gofmt
   disable:
     - errcheck
-
-linters-settings:
-  staticcheck:
-    checks:
-      - all
+  settings:
+    staticcheck:
+      checks:
+        - all
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

@@ -7,3 +7,11 @@ updates:
     schedule:
       interval: "weekly"
       day: "thursday"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    rebase-strategy: "disabled"
+    open-pull-requests-limit: 2
+    schedule:
+      interval: "weekly"
+      day: "thursday"
