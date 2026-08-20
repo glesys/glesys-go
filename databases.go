@@ -37,7 +37,7 @@ type DatabaseDetails struct {
 
 type DatabasePlan struct {
 	Key          string `json:"key"`
-	CpuCores     int    `json:"cpucores"`
+	CPUCores     int    `json:"cpucores"`
 	MemoryInGib  int    `json:"memoryingib"`
 	StorageInGib int    `json:"storageingib"`
 }
