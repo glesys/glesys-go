@@ -581,7 +581,6 @@ func ExampleServerService_Edit() {
 	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
 
 	server, _ := client.Servers.Edit(context.Background(), "kvm12345", glesys.EditServerParams{
-		Bandwidth:   100,
 		CPU:         4,
 		Description: "Web Server",
 		Hostname:    "example.com",
