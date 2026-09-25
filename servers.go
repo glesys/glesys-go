@@ -145,7 +145,6 @@ type CreateServerParams struct {
 // EditServerParams is used when editing an existing server
 type EditServerParams struct {
 	Backup      []ServerBackupSchedule `json:"backupschedules,omitempty"`
-	Bandwidth   int                    `json:"bandwidth,omitempty"`
 	CPU         int                    `json:"cpucores,omitempty"`
 	Description string                 `json:"description,omitempty"`
 	Hostname    string                 `json:"hostname,omitempty"`
