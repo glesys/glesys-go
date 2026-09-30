@@ -1,7 +1,7 @@
 # glesys-go
 
 This is the official client library for interacting with the
-[GleSYS API](https://github.com/GleSYS/API/).
+[GleSYS API](https://github.com/GleSYS/API-docs/wiki/API-Documentation).
 
 ## Requirements
 
