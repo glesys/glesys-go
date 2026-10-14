@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
+### Added
+- `Client.SetHTTPClient` and `Login.SetHTTPClient` to supply a custom `*http.Client`; `nil` restores the default.
 ### Changed
 - Servers `WithDefaults()` now uses the `debian-stable` template tag instead of the obsolete `Debian 11 (Bullseye)`.
+- The default HTTP client of `Client` and `Login` no longer follows redirects, to avoid forwarding credentials.
 
 ## [8.6.0] - 2026-11-04
 ### Added

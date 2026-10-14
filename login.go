@@ -172,12 +172,21 @@ func (l *Login) SetBaseURL(bu string) error {
 	return nil
 }
 
+// SetHTTPClient sets the HTTP client used for requests. See
+// Client.SetHTTPClient. A nil client restores the default.
+func (l *Login) SetHTTPClient(client *http.Client) {
+	if client == nil {
+		client = newDefaultHTTPClient()
+	}
+	l.httpClient = client
+}
+
 func NewLogin(useragent string) *Login {
 	BaseURL, _ := url.Parse("https://api.glesys.com")
 
 	l := &Login{
 		BaseURL:    BaseURL,
-		httpClient: http.DefaultClient,
+		httpClient: newDefaultHTTPClient(),
 		UserAgent:  strings.TrimSpace(fmt.Sprintf("%s glesys-go/%s", useragent, version)),
 	}
 
