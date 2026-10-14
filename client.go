@@ -30,18 +30,19 @@ type Client struct {
 	project    string
 	userAgent  string
 
-	Databases       *DatabaseService
-	DNSDomains      *DNSDomainService
-	EmailDomains    *EmailDomainService
-	IPs             *IPService
-	LoadBalancers   *LoadBalancerService
-	ObjectStorages  *ObjectStorageService
-	PrivateNetworks *PrivateNetworkService
-	Servers         *ServerService
-	ServerDisks     *ServerDisksService
-	Networks        *NetworkService
-	NetworkAdapters *NetworkAdapterService
-	NetworkCircuits *NetworkCircuitService
+	BlockStorageVolumes *BlockStorageService
+	Databases           *DatabaseService
+	DNSDomains          *DNSDomainService
+	EmailDomains        *EmailDomainService
+	IPs                 *IPService
+	LoadBalancers       *LoadBalancerService
+	ObjectStorages      *ObjectStorageService
+	PrivateNetworks     *PrivateNetworkService
+	Servers             *ServerService
+	ServerDisks         *ServerDisksService
+	Networks            *NetworkService
+	NetworkAdapters     *NetworkAdapterService
+	NetworkCircuits     *NetworkCircuitService
 }
 
 // NewClient creates a new Client for interacting with the GleSYS API. This is
@@ -57,6 +58,7 @@ func NewClient(project, apiKey, userAgent string) *Client {
 		userAgent:  userAgent,
 	}
 
+	c.BlockStorageVolumes = &BlockStorageService{client: c}
 	c.Databases = &DatabaseService{client: c}
 	c.DNSDomains = &DNSDomainService{client: c}
 	c.EmailDomains = &EmailDomainService{client: c}

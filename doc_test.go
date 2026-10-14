@@ -912,3 +912,81 @@ func ExampleDatabaseService_EstimatedCost() {
 
 	fmt.Printf("%#v\n", billing)
 }
+
+// BlockStorageVolumes
+func ExampleBlockStorageService_Create() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	details, _ := client.BlockStorageVolumes.Create(context.Background(), glesys.CreateBlockStorageParams{
+		Tier:       "velocity",
+		Datacenter: "dc-fbg1",
+		Name:       "datavolume",
+		SizeInGIB:  500,
+	})
+	fmt.Printf("%#v\n", details)
+}
+
+func ExampleBlockStorageService_Delete() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	err := client.BlockStorageVolumes.Delete(context.Background(), "bsv-ab123a")
+	if err != nil {
+		fmt.Printf("Error removing blockstorage volume: %s", err)
+	}
+}
+
+func ExampleBlockStorageService_Resize() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	detail, _ := client.BlockStorageVolumes.Resize(context.Background(), glesys.EditBlockStorageParams{
+		VolumeID:  "bsv-ab123a",
+		SizeInGIB: 800,
+	})
+
+	fmt.Printf("%#v\n", detail)
+}
+
+func ExampleBlockStorageService_Attach() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	serverID := "kvm123456"
+	volumeID := "bsv-ab123a"
+	detail, _ := client.BlockStorageVolumes.Attach(context.Background(), volumeID, serverID)
+
+	fmt.Printf("%#v\n", detail)
+}
+
+func ExampleBlockStorageService_List() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	list, _ := client.BlockStorageVolumes.List(context.Background(), "cl12345")
+
+	fmt.Printf("%#v\n", list)
+}
+
+func ExampleBlockStorageService_Details() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	detail, _ := client.BlockStorageVolumes.Details(context.Background(), "bsv-ab123a")
+
+	fmt.Printf("%#v\n", detail)
+}
+
+func ExampleBlockStorageService_ListTiers() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	tiers, _ := client.BlockStorageVolumes.ListTiers(context.Background())
+
+	fmt.Printf("%#v\n", tiers)
+}
+
+func ExampleBlockStorageService_EstimatedCost() {
+	client := glesys.NewClient("CL12345", "your-api-key", "my-application/0.0.1")
+
+	billing, _ := client.BlockStorageVolumes.EstimatedCost(context.Background(), glesys.EstimateCostBlockStorageParams{
+		VolumeID:  "bsv-ab123a",
+		SizeInGIB: 200,
+	})
+
+	fmt.Printf("%#v\n", billing)
+}
