@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -128,4 +129,27 @@ func TestPost(t *testing.T) {
 
 	assert.Equal(t, "POST", mockClient.lastRequest.Method, "method used is correct")
 	assert.Equal(t, "bar", params.Foo, "params are correct")
+}
+
+func TestSetHTTPClient(t *testing.T) {
+	custom := &http.Client{}
+	client := NewClient("project-id", "api-key", "test")
+	client.SetHTTPClient(custom)
+	assert.Same(t, custom, client.httpClient)
+}
+
+func TestDefaultClientDoesNotFollowRedirects(t *testing.T) {
+	reached := false
+	other := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { reached = true }))
+	defer other.Close()
+	source := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, other.URL, http.StatusTemporaryRedirect)
+	}))
+	defer source.Close()
+
+	client := NewClient("project-id", "api-key", "test")
+	assert.NoError(t, client.SetBaseURL(source.URL))
+	err := client.get(context.Background(), "email/costs", nil)
+	assert.Error(t, err)
+	assert.False(t, reached)
 }
