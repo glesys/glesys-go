@@ -52,7 +52,7 @@ func NewClient(project, apiKey, userAgent string) *Client {
 	c := &Client{
 		apiKey:     apiKey,
 		BaseURL:    BaseURL,
-		httpClient: http.DefaultClient,
+		httpClient: &http.Client{CheckRedirect: func(_ *http.Request, _ []*http.Request) error { return http.ErrUseLastResponse }},
 		project:    project,
 		userAgent:  userAgent,
 	}
@@ -97,6 +97,14 @@ func (c *Client) post(ctx context.Context, path string, v interface{}, params in
 		return err
 	}
 	return c.do(request, v)
+}
+
+// SetHTTPClient sets the HTTP client used for requests. It does not affect
+// http.DefaultClient. The default client does not follow redirects, so that
+// credentials are never sent to another host; callers supplying their own
+// client should configure a redirect policy with that in mind.
+func (c *Client) SetHTTPClient(client *http.Client) {
+	c.httpClient = client
 }
 
 func (c *Client) newRequest(ctx context.Context, method, path string, params interface{}) (*http.Request, error) {
