@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
+### Fixed
+- Escape the `Filter` parameter in `EmailDomains.Overview`.
 
 ## [8.5.0] - 2025-09-01
 ### Added
