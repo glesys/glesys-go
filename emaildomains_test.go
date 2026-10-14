@@ -260,3 +260,17 @@ func TestResetPassword(t *testing.T) {
 	assert.Equal(t, "email/resetpassword", c.lastPath, "path used is correct")
 	assert.Equal(t, "S3cr3t}pw!", newPw, "password is correct")
 }
+
+func TestEmailDomainsOverviewEscapesFilter(t *testing.T) {
+	c := &mockHTTPClient{body: `{"response":{"overview":{}}}`, statusCode: 200}
+	client := NewClient("project-id", "api-key", "test")
+	client.httpClient = c
+
+	_, err := client.EmailDomains.Overview(context.Background(), OverviewParams{Filter: "a/b?c#d", Page: 1})
+	assert.NoError(t, err)
+	assert.Equal(t, "/email/overview/filter/a%2Fb%3Fc%23d/page/1", c.lastRequest.URL.EscapedPath())
+
+	_, err = client.EmailDomains.Overview(context.Background(), OverviewParams{Filter: ".."})
+	assert.NoError(t, err)
+	assert.Equal(t, "/email/overview/filter/%2E%2E", c.lastRequest.URL.EscapedPath())
+}

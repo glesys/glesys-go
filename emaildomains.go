@@ -2,6 +2,7 @@ package glesys
 
 import (
 	"context"
+	"net/url"
 	"strconv"
 	"strings"
 )
@@ -170,7 +171,11 @@ func (em *EmailDomainService) Overview(context context.Context, params OverviewP
 
 	// Only add suffix paths to the builder if the struct fields does not contain the default value.
 	if params.Filter != "" {
-		suffixbuilder.WriteString("/filter/" + params.Filter)
+		filter := url.PathEscape(params.Filter)
+		if params.Filter == "." || params.Filter == ".." {
+			filter = strings.ReplaceAll(filter, ".", "%2E")
+		}
+		suffixbuilder.WriteString("/filter/" + filter)
 	}
 
 	if params.Page != 0 {
