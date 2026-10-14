@@ -127,6 +127,10 @@ func TestBlockStorageDetails(t *testing.T) {
 		"id": "bsv-ab123ba",
 		"name": "volumeone",
 		"sizeingib": 101,
+		"datacenterkey": "dc-fbg1",
+		"wwn": "3ebadbeef999abc",
+		"createdat": "2026-06-15T12:35:09+00:00",
+		"updatedat": "2026-06-15T12:40:34+00:00",
 		"tier": {
 		  "slug": "capacity",
 		  "name": "Capacity",
@@ -144,8 +148,16 @@ func TestBlockStorageDetails(t *testing.T) {
 	assert.Equal(t, "POST", c.lastMethod, "method is used correct")
 	assert.Equal(t, "blockstorage/details", c.lastPath, "path used is correct")
 	assert.Equal(t, "volumeone", volume.Name, "Blockstorage name is correct")
+	assert.Equal(t, "dc-fbg1", volume.Datacenterkey, "Blockstorage dckey is correct")
 	assert.Equal(t, "bsv-ab123ba", volume.VolumeID, "Blockstorage id is correct")
+	assert.Equal(t, "3ebadbeef999abc", volume.WWN, "Blockstorage wwn is correct")
 	assert.Equal(t, 101, volume.SizeInGIB, "Size is correct")
+	assert.Equal(t, "capacity", volume.Tier.Slug, "Attribute is correct")
+	assert.Equal(t, "Capacity", volume.Tier.Name, "Attribute is correct")
+	assert.Equal(t, 1, volume.Tier.MinsizeInGIB, "Attribute is correct")
+	assert.Equal(t, 2048, volume.Tier.MaxsizeInGIB, "Attribute is correct")
+	assert.Equal(t, 1200, volume.Tier.Iopsread, "Attribute is correct")
+	assert.Equal(t, 1200, volume.Tier.Iopswrite, "Attribute is correct")
 }
 
 func TestBlockStorageTiers(t *testing.T) {
