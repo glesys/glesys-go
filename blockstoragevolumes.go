@@ -23,10 +23,9 @@ type BlockStorageVolumeDetails struct {
 	VolumeID      string                 `json:"id"`
 	Name          string                 `json:"name,omitempty"`
 	SizeInGIB     int                    `json:"sizeingib"`
-	WWN           int                    `json:"WWN,omitempty"`
+	WWN           string                 `json:"WWN,omitempty"`
 	Status        string                 `json:"status"`
 	Datacenterkey string                 `json:"datacenterkey,omitempty"`
-	Wwn           string                 `json:"wwn,omitempty"`
 	Createdat     time.Time              `json:"createdat,omitempty"`
 	Updatedat     time.Time              `json:"updatedat,omitempty"`
 	Tier          BlockStorageVolumeTier `json:"tier,omitempty"`
