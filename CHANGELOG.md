@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
+### Fixed
+- Return an error when the API reports a failure status (code >= 400) in an HTTP 200 response.
+- Reject empty or malformed JSON responses.
+- Always close response bodies and limit response size to 16 MiB.
 
 ## [8.5.0] - 2025-09-01
 ### Added
