@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -128,4 +129,51 @@ func TestPost(t *testing.T) {
 
 	assert.Equal(t, "POST", mockClient.lastRequest.Method, "method used is correct")
 	assert.Equal(t, "bar", params.Foo, "params are correct")
+}
+
+func TestClientRequest(t *testing.T) {
+	var paths []string
+	var bodies []map[string]interface{}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		paths = append(paths, r.URL.EscapedPath())
+		var body map[string]interface{}
+		_ = json.NewDecoder(r.Body).Decode(&body)
+		bodies = append(bodies, body)
+		_, _ = io.WriteString(w, `{"response":{"status":{"code":200},"id":9007199254740993123,"future":{"a":true}}}`)
+	}))
+	defer server.Close()
+
+	client := NewClient("project-id", "api-key", "test")
+	assert.NoError(t, client.SetBaseURL(server.URL))
+	client.httpClient = server.Client()
+
+	raw, err := client.Request(context.Background(), "post", "email/quota", map[string]interface{}{"emailaccount": "a@example.com"})
+	assert.NoError(t, err)
+	assert.Contains(t, string(raw), "9007199254740993123")
+	assert.Contains(t, string(raw), "future")
+	assert.Equal(t, "a@example.com", bodies[0]["emailaccount"])
+
+	_, err = client.Request(context.Background(), "GET", "email/list", map[string]interface{}{"filter": "a/b@c", "domainname": "example.com"})
+	assert.NoError(t, err)
+	assert.Equal(t, "/email/list/domainname/example.com/filter/a%2Fb@c", paths[1])
+}
+
+func TestClientRequestValidation(t *testing.T) {
+	c := &mockHTTPClient{body: `{"response":{}}`, statusCode: 200}
+	client := NewClient("project-id", "api-key", "test")
+	client.httpClient = c
+
+	for _, endpoint := range []string{"https://evil.test/x", "//evil.test/x", "../email/quota", "email/../quota", "email/quota?x=y", "email/%2e%2e", "email\\quota", ""} {
+		_, err := client.Request(context.Background(), "POST", endpoint, nil)
+		assert.Error(t, err, endpoint)
+	}
+	_, err := client.Request(context.Background(), "GET", "email/list", map[string]interface{}{"bad/name": "x"})
+	assert.Error(t, err)
+	_, err = client.Request(context.Background(), "GET", "email/list", map[string]interface{}{"x": ".."})
+	assert.Error(t, err)
+	_, err = client.Request(context.Background(), "GET", "email/list", map[string]interface{}{"x": []string{"a"}})
+	assert.Error(t, err)
+	_, err = client.Request(context.Background(), "DELETE", "email/list", nil)
+	assert.Error(t, err)
+	assert.Nil(t, c.lastRequest, "invalid requests must not reach the network")
 }
