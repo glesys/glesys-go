@@ -165,7 +165,7 @@ func (p CreateServerParams) WithDefaults() CreateServerParams {
 		Memory:     2048,
 		Platform:   "KVM",
 		Storage:    50,
-		Template:   "Debian 11 (Bullseye)",
+		Template:   "debian-stable",
 	}
 	mergo.Merge(&p, defaults)
 	return p
