@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
+### Added
+- Implemented `database/listengines` endpoint.
 ### Changed
 - Servers `WithDefaults()` now uses the `debian-stable` template tag instead of the obsolete `Debian 11 (Bullseye)`.
 
