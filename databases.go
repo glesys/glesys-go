@@ -42,6 +42,12 @@ type DatabasePlan struct {
 	StorageInGib int    `json:"storageingib"`
 }
 
+// DatabaseEngine is an engine with the versions that can be used to create a database
+type DatabaseEngine struct {
+	Engine   string   `json:"engine"`
+	Versions []string `json:"versions"`
+}
+
 type Billing struct {
 	Currency string `json:"currency"`
 	Current  struct {
@@ -61,7 +67,8 @@ type Billing struct {
 	} `json:"diff"`
 }
 
-// CreateDatabaseParams is used when creating a new database
+// CreateDatabaseParams is used when creating a new database.
+// Use ListEngines to get the valid values for Engine and EngineVersion.
 type CreateDatabaseParams struct {
 	PlanKey       string   `json:"plankey"`
 	Engine        string   `json:"engine"`
@@ -158,6 +165,17 @@ func (db *DatabaseService) ListPlans(context context.Context) (*[]DatabasePlan, 
 	}{}
 	err := db.client.get(context, "database/listplans", &data)
 	return &data.Response.Plans, err
+}
+
+// ListEngines Get a list of database engines and the versions that can be used to create a database.
+func (db *DatabaseService) ListEngines(context context.Context) (*[]DatabaseEngine, error) {
+	data := struct {
+		Response struct {
+			Engines []DatabaseEngine
+		}
+	}{}
+	err := db.client.get(context, "database/listengines", &data)
+	return &data.Response.Engines, err
 }
 
 // EstimatedCost Estimate cost for a database instance, new or existing.

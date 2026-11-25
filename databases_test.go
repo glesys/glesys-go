@@ -143,6 +143,28 @@ func TestDatabasePlans(t *testing.T) {
 
 }
 
+func TestDatabaseEngines(t *testing.T) {
+	c := &mockClient{body: `{"response": {"engines": [
+      {
+        "engine": "mysql",
+        "versions": ["8.4"]
+      },
+      {
+        "engine": "postgresql",
+        "versions": ["18"]
+      }]}}`}
+	d := DatabaseService{client: c}
+
+	engines, _ := d.ListEngines(context.Background())
+
+	assert.Equal(t, "GET", c.lastMethod, "method is used correct")
+	assert.Equal(t, "database/listengines", c.lastPath, "path used is correct")
+	assert.Equal(t, []DatabaseEngine{
+		{Engine: "mysql", Versions: []string{"8.4"}},
+		{Engine: "postgresql", Versions: []string{"18"}},
+	}, *engines, "Engines are correct")
+}
+
 func TestEstimatedCost(t *testing.T) {
 	c := &mockClient{body: `{"response": {"billing": {
       "currency": "SEK",
