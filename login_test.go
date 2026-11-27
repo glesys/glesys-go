@@ -3,6 +3,8 @@ package glesys
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -101,4 +103,30 @@ func TestCustomerListProjects(t *testing.T) {
 	assert.Equal(t, "dev", (*projects)[1].Name, "project name is correct")
 	assert.Equal(t, "silver", (*projects)[0].Color, "project color is correct")
 	assert.Equal(t, 1337, (*projects)[0].Customernumber, "project customernumber is correct")
+}
+
+func TestLoginSetHTTPClient(t *testing.T) {
+	custom := &http.Client{}
+	l := NewLogin("test")
+	l.SetHTTPClient(custom)
+	assert.Same(t, custom, l.httpClient)
+
+	l.SetHTTPClient(nil)
+	assert.NotNil(t, l.httpClient.(*http.Client).CheckRedirect, "nil restores the default client")
+}
+
+func TestLoginDefaultClientDoesNotFollowRedirects(t *testing.T) {
+	reached := false
+	other := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { reached = true }))
+	defer other.Close()
+	source := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, other.URL, http.StatusTemporaryRedirect)
+	}))
+	defer source.Close()
+
+	l := NewLogin("test")
+	assert.NoError(t, l.SetBaseURL(source.URL))
+	err := l.get(context.Background(), "user/details", nil)
+	assert.Error(t, err)
+	assert.False(t, reached)
 }
