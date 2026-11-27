@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Changed
 - Servers `WithDefaults()` now uses the `debian-stable` template tag instead of the obsolete `Debian 11 (Bullseye)`.
+### Fixed
+- `EmailQuotaPricelist.Amount` is now `float64`, like the other cost amounts. The API returns a JSON number, which made `EmailDomains.Costs()` fail to decode.
 
 ## [8.6.0] - 2026-11-04
 ### Added

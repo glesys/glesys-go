@@ -130,7 +130,7 @@ type EmailCostsEntry struct {
 
 // EmailQuotaPricelist is the pricelist for quota options
 type EmailQuotaPricelist struct {
-	Amount     string  `json:"amount"`
+	Amount     float64 `json:"amount"`
 	Currency   string  `json:"currency"`
 	Unit       string  `json:"unit"`
 	FreeAmount float64 `json:"freeamount"`
