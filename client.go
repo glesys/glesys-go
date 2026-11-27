@@ -147,7 +147,11 @@ func (c *Client) do(request *http.Request, v interface{}) error {
 	return parseResponseBody(response, v)
 }
 
+const maxResponseBytes = 16 << 20
+
 func handleResponseError(response *http.Response) error {
+	defer response.Body.Close()
+	body, _ := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes))
 	data := struct {
 		Response struct {
 			Status struct {
@@ -155,24 +159,25 @@ func handleResponseError(response *http.Response) error {
 			} `json:"status"`
 		} `json:"response"`
 	}{}
-
-	err := parseResponseBody(response, &data)
-	if err != nil {
-		return err
-	}
+	_ = json.Unmarshal(body, &data)
 
 	return fmt.Errorf("request failed with HTTP error: %v (%v)", response.StatusCode, strings.TrimSpace(data.Response.Status.Text))
 }
 
 func parseResponseBody(response *http.Response, v interface{}) error {
-	if v == nil {
-		return nil
-	}
-
 	defer response.Body.Close()
-	body, err := io.ReadAll(response.Body)
+	body, err := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes+1))
 	if err != nil {
 		return err
+	}
+	if len(body) > maxResponseBytes {
+		return fmt.Errorf("API response exceeds %d bytes", maxResponseBytes)
+	}
+	if v == nil {
+		if !json.Valid(body) {
+			return fmt.Errorf("API returned invalid or empty JSON")
+		}
+		return nil
 	}
 
 	return json.Unmarshal(body, v)
